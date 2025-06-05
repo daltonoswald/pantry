@@ -1,2 +1,3 @@
 # pantry
-A recipe website
+
+This is a work in progress recipe website.
