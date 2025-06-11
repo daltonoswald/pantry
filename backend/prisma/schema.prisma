@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String           @id @default(uuid())
+  name             String
+  username         String
+  password         String
+  bio              String?
+  followed_by      Follows[]        @relation("following")
+  following        Follows[]        @relation("followed_by")
+  recipes          Recipe[]
+  recipe_favorites RecipeFavorite[]
+  comments         Comment[]
+  comment_likes    CommentLike[]
+}
+
+model Recipe {
+  id         String           @id @default(uuid())
+  userId     String
+  user       User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  favorites  RecipeFavorite[]
+  created_at DateTime         @default(now())
+  updated_at DateTime         @default(now())
+  comments   Comment[]
+
+  /**
+   * NEEDS TO BE COMPLETED TO INCLUDE:
+   * Ingredients, quantities, content/body/text, cook time, image, tags
+   */
+}
+
+model Comment {
+  id         String        @default(uuid())
+  content    String
+  userId     String
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  recipeId   String
+  recipe     Recipe        @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  likes      CommentLike[]
+  created_at DateTime      @default(now())
+  updated_at DateTime      @default(now())
+}
