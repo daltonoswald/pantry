@@ -26,6 +26,14 @@ model User {
   recipe_favorites RecipeFavorite[]
   comments         Comment[]
   comment_likes    CommentLike[]
+  pantry           PantryItem[]
+}
+
+model PantryItem {
+  id     String @id @default(uuid())
+  name   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String
 }
 
 model Follows {
