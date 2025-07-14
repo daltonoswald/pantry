@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Homepage from './components/Homepage';
-import Error from './components/Error';
+import Homepage from './pages/Homepage';
+import Error from './pages/Error';
 
 export default function Router() {
     const router = createBrowserRouter([
