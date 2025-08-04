@@ -6,7 +6,7 @@ export default function Homepage() {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <div className='app'>
       <Header />
       <h1>Test</h1>
       <button onClick={() => navigate('zerrdz')}>To the error page!</button>
