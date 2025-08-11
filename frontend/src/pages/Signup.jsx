@@ -36,7 +36,6 @@ export default function Signup() {
             }
         } catch (error) {
             console.error('Error requesting authentication:', error)
-            console.log('39, ', error)
         }
     }
 
