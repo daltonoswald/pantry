@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function Header() {
     const token = localStorage.getItem('pantryToken');
-    console.log(token)
 
     return (
         <Navbar expand='lg' className='bg-body-tertiary mb-3' data-bs-theme='dark'>
