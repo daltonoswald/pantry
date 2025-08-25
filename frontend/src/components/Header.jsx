@@ -1,16 +1,25 @@
-import { Col, Container, Nav, Navbar, Row } from 'react-bootstrap'
-import { Link, useLocation } from 'react-router-dom'
+import { Col, Container, Nav, Navbar, NavDropdown, Row } from 'react-bootstrap'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function Header() {
-    const token = localStorage.getItem('pantryToken');
+    const navigate = useNavigate();
+    const token = localStorage.getItem('pantryAuthToken');
+    const username = localStorage.getItem('pantryUsername');
+
+    function logout() {
+        localStorage.removeItem('pantryAuthToken');
+        localStorage.removeItem('pantryUsername');
+        navigate('/');
+    }
 
     return (
         <Navbar expand='lg' className='bg-body-tertiary mb-3' data-bs-theme='dark'>
             <Container>
                 <Navbar.Brand as={Link} to='/'>Pantry</Navbar.Brand>
+                <Row className='text-light'>
                 {!token && (
-                    <Row className='text-light'>
+                    <>
                         <Col>
                             <Nav.Item>
                                 <Nav.Link as={Link} to='/login'>Log in</Nav.Link>
@@ -21,8 +30,14 @@ export default function Header() {
                                 <Nav.Link as={Link} to='/sign-up'>Sign up</Nav.Link>
                             </Nav.Item>
                         </Col>
-                    </Row>
+                    </>
                 )}
+                {token && (
+                    <NavDropdown title={username}>
+                        <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                    </NavDropdown>
+                )}
+                </Row>
             </Container>
         </Navbar>
     )

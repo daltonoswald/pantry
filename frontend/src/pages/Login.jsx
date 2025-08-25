@@ -1,12 +1,19 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
 import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Login() {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
+    const token = localStorage.getItem('pantryAuthToken')
+
+    useEffect(() => {
+        if (token) {
+            navigate('/')
+        }
+    })
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -28,9 +35,9 @@ export default function Login() {
 
             if (response.ok) {
                 console.log(data);
-                localStorage.setItem('authenticationToken', data.token);
-                localStorage.setItem('username', data.user.username);
-                navigate('/home')
+                localStorage.setItem('pantryAuthToken', data.token);
+                localStorage.setItem('pantryUsername', data.user.username);
+                navigate('/')
             } else {
                 console.error("Error requesting authentication:", data.message);
                 setMessage(data.message)
@@ -73,6 +80,9 @@ export default function Login() {
                             </Col>
                         </Row>
                 </Form>
+                {message && (
+                    <Alert className='w-25 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
+                )}
             </Container>
         </div>
     )

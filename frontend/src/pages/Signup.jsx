@@ -1,10 +1,17 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup } from 'react-bootstrap';
+import { Container, Row, Col, Form, FloatingLabel, Button, Alert } from 'react-bootstrap';
 import Header from '../components/Header';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 export default function Signup() {
+    const navigate = useNavigate();
     const [message, setMessage] = useState();
+
+    useEffect(() => {
+        if (localStorage.getItem('pantryAuthToken')) {
+            navigate('/')
+        }
+    })
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -29,13 +36,15 @@ export default function Signup() {
 
             if (response.ok) {
                 console.log(data);
+                setMessage(data.message);
+                navigate('/login')
             } else {
                 console.error("Error requesting authentication:", data.message);
-                console.log('34, ', data.message);
                 setMessage(data.message);
             }
         } catch (error) {
             console.error('Error requesting authentication:', error)
+            setMessage(error)
         }
     }
 
@@ -48,28 +57,28 @@ export default function Signup() {
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formUsername' label='Username'>
-                                    <Form.Control name='username' type='text' placeholder='Username' />
+                                    <Form.Control name='username' type='text' placeholder='Username' required />
                                 </FloatingLabel>
                             </Col>
                         </Row>
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formName' label='Name'>
-                                    <Form.Control name='name' type='text' placeholder='Name' />
+                                    <Form.Control name='name' type='text' placeholder='Name' required />
                                 </FloatingLabel>
                             </Col>
                         </Row>
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formPassword' label='Password'>
-                                    <Form.Control name='password' type='password' placeholder='password' />
+                                    <Form.Control name='password' type='password' placeholder='password' required minLength={8} maxLength={50} />
                                 </FloatingLabel>
                             </Col>
                         </Row>
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formConfirmPassword' label='Confirm Password'>
-                                    <Form.Control name='confirm_password' type='password' placeholder='password' />
+                                    <Form.Control name='confirm_password' type='password' placeholder='password' required minLength={8} maxLength={50} />
                                 </FloatingLabel>
                             </Col>
                         </Row>
@@ -91,6 +100,9 @@ export default function Signup() {
                             </Col>
                         </Row>
                 </Form>
+                {message && (
+                    <Alert className='w-25 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
+                )}
             </Container>
         </div>
     )

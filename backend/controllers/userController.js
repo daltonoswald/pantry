@@ -45,7 +45,7 @@ exports.sign_up = [
         .trim()
         .isLength({ min: 1, max: 50 })
         .escape(),
-    body('password', 'Password must not be empty.')
+    body('password', 'Password must be between 8 and 50 characters.')
         .trim()
         .isLength({ min: 8, max: 50 })
         .escape(),
@@ -78,7 +78,7 @@ exports.sign_up = [
             });
             if (!errors.isEmpty()) {
                 const errorsMessages = errors.array().map((error) => error.msg);
-                res.json({ error: errorsMessages });
+                res.json({ message: errorsMessages });
             } else {
                 if (usernameTaken.length > 0) {
                     res.status(409).json({ message: "Username is already in use." })
