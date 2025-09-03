@@ -3,6 +3,7 @@ import Homepage from './pages/Homepage';
 import Error from './pages/Error';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Profile from './pages/Profile';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -14,6 +15,10 @@ export default function Router() {
         {
             path: '/login',
             element: <Login />,
+        },
+        {
+            path: '/user/:username',
+            element: <Profile />
         },
         {
             path: '/sign-up',

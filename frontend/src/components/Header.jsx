@@ -34,6 +34,7 @@ export default function Header() {
                 )}
                 {token && (
                     <NavDropdown title={username}>
+                        <NavDropdown.Item as={Link} to={`/user/${username}`}>{username}</NavDropdown.Item>
                         <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                     </NavDropdown>
                 )}

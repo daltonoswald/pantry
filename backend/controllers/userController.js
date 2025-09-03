@@ -101,3 +101,48 @@ exports.sign_up = [
         }
     }
 ]
+
+exports.profile = asyncHandler(async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const authorizedUser = verifyToken(token);
+        const userToFind = req.body.userToFind;
+        const userProfile = await prisma.user.findFirst({
+            where: {
+                username: userToFind
+            },
+            select: {
+                id: true,
+                name: true,
+                username: true,
+                bio: true,
+                followed_by: {
+                    selefct: {
+                        followed_by: {
+                            select: {
+                                id: true,
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {followed_by: true, following: true }
+                },
+                recipes: {
+                    select: {
+                        id: true,
+                        description: true,
+                        title: true,
+                    }
+                }
+            }
+        })
+        if (!userProfile) {
+            res.status(404).json({error: 'User not found.'})
+        } else {
+            res.json({ profile: userProfile, user: authorizedUser });
+        }
+    } catch (err) {
+        res.status(400).json({error: err})
+    }
+})
