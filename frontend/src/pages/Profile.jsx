@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner } from 'react-bootstrap';
 import Header from '../components/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,7 @@ export default function Profile() {
             // if (!token) {
             //     navigate('/')
             // }
+            console.log(params.username);
             const userToFind = {
                 userToFind: params.username
             }
@@ -39,7 +40,8 @@ export default function Profile() {
                 }
                 if (response.ok) {
                     const profileData = await response.json();
-                    setProfileData(profileData.user);
+                    console.log(profileData.user.user);
+                    setProfileData(profileData.user.user);
                     setMessage(null);
                     setIsLoading(false)
                 }
@@ -49,12 +51,13 @@ export default function Profile() {
             }
         }
         getProfile();
-    }, [params.username, navigate, token]);
+    }, [params.username, navigate]);
 
     if (isLoading) {
         return (
             <div className='app'>
                 <Header />
+                <Spinner />
                 <p>Loading...</p>
             </div>
         )

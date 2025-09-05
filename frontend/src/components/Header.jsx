@@ -14,10 +14,10 @@ export default function Header() {
     }
 
     return (
-        <Navbar expand='lg' className='bg-body-tertiary mb-3' data-bs-theme='dark'>
-            <Container>
+        <Navbar expand='lg' className='pantry-primary mb-3' data-bs-theme='dark'>
+            <Container className='pantry-primary'>
                 <Navbar.Brand as={Link} to='/'>Pantry</Navbar.Brand>
-                <Row className='text-light'>
+                <Row className='text-light pantry-primary'>
                 {!token && (
                     <>
                         <Col>
@@ -33,9 +33,9 @@ export default function Header() {
                     </>
                 )}
                 {token && (
-                    <NavDropdown title={username}>
-                        <NavDropdown.Item as={Link} to={`/user/${username}`}>{username}</NavDropdown.Item>
-                        <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                    <NavDropdown title={username} className='pantry-primary'>
+                        <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-primary'>{username}</NavDropdown.Item>
+                        <NavDropdown.Item onClick={logout} className='pantry-primary'>Logout</NavDropdown.Item>
                     </NavDropdown>
                 )}
                 </Row>

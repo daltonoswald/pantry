@@ -4,6 +4,7 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { generateToken, verifyToken } = require('../middleware/middleware');
 
 
 exports.log_in = asyncHandler(async (req, res, next) => {
@@ -103,6 +104,7 @@ exports.sign_up = [
 ]
 
 exports.profile = asyncHandler(async (req, res, next) => {
+    console.log('test');
     try {
         const token = req.headers.authorization.split(' ')[1];
         const authorizedUser = verifyToken(token);
@@ -117,7 +119,7 @@ exports.profile = asyncHandler(async (req, res, next) => {
                 username: true,
                 bio: true,
                 followed_by: {
-                    selefct: {
+                    select: {
                         followed_by: {
                             select: {
                                 id: true,
@@ -140,9 +142,11 @@ exports.profile = asyncHandler(async (req, res, next) => {
         if (!userProfile) {
             res.status(404).json({error: 'User not found.'})
         } else {
+            console.log(userProfile);
             res.json({ profile: userProfile, user: authorizedUser });
         }
     } catch (err) {
+        console.log(err);
         res.status(400).json({error: err})
     }
 })

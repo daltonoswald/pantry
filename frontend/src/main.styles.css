@@ -2,6 +2,28 @@
     min-height: 100vh;
 }
 
+.pantry-primary,
+.dropdown-menu.show {
+    color: white;
+    background-color: #5F6F52;
+}
+
+.dropdown-item:hover {
+    background-color: #404d36;
+}
+
+.pantry-primary-subtle {
+    background-color: #A9B388;
+}
+
+.pantry-secondary {
+    background-color: #FEFAE0;
+}
+
+.pantry-tertiary {
+    background-color: #B99470;
+}
+
 p {
     margin-bottom: 0 !important;
 }

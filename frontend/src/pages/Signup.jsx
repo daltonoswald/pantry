@@ -21,7 +21,7 @@ export default function Signup() {
             username: event.target.username.value,
             password: event.target.password.value,
             confirm_password: event.target.confirm_password.value,
-            bio: event.target.password.value,
+            bio: event.target.bio.value,
         }
         try {
             const response = await fetch(url, {
@@ -91,7 +91,7 @@ export default function Signup() {
                         </Row>
                         <Row className='justify-content-md-center'>
                             {/* <Col className='m-2'> */}
-                                <Button className='w-50 m-2' type='submit'>Log in</Button>
+                                <Button className='w-50 m-2' type='submit'>Sign up</Button>
                             {/* </Col> */}
                         </Row>
                         <Row>
