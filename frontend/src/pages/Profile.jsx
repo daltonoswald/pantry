@@ -8,7 +8,7 @@ export default function Profile() {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
     const [isLoading, setIsLoading] = useState(true);
-    const [profisleData, setProfileData] = useState();
+    const [profileData, setProfileData] = useState();
     const token = localStorage.getItem('pantryAuthToken');
     const params = useParams();
 
@@ -68,6 +68,20 @@ export default function Profile() {
         return (
             <div className='app'>
                 <Header />
+                <Row>
+                    <Col>
+                        <h1>{profileData.username}</h1>
+                        <p>{profileData.bio}</p>
+                    </Col>
+                    <Col>
+                        <Row>
+                            <h1>{profileData.username}'s Recipes</h1>
+                            <Container>
+                                
+                            </Container>
+                        </Row>
+                    </Col>
+                </Row>
             </div>
         )
     }

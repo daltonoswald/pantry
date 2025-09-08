@@ -12,7 +12,10 @@ exports.log_in = asyncHandler(async (req, res, next) => {
     console.log(req.body.username)
     const user = await prisma.user.findFirst({
         where: {
-            username: req.body.username
+            username: {
+                equals: req.body.username,
+                mode: 'insensitive'
+            }
         }
     });
     if (!user) {
@@ -111,7 +114,10 @@ exports.profile = asyncHandler(async (req, res, next) => {
         const userToFind = req.body.userToFind;
         const userProfile = await prisma.user.findFirst({
             where: {
-                username: userToFind
+                username: {
+                    equals: userToFind,
+                    mode: 'insensitive'
+                }
             },
             select: {
                 id: true,
@@ -135,6 +141,16 @@ exports.profile = asyncHandler(async (req, res, next) => {
                         id: true,
                         description: true,
                         title: true,
+                    }
+                },
+                recipe_favorites: {
+                    select: {
+                        recipe: {
+                            select: {
+                                id: true,
+                                title: true,
+                            }
+                        }
                     }
                 }
             }
