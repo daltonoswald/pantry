@@ -4,6 +4,7 @@ import Error from './pages/Error';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
+import NewRecipe from './pages/NewRecipe';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -23,7 +24,11 @@ export default function Router() {
         {
             path: '/sign-up',
             element: <Signup />
-        }
+        },
+        {
+            path: '/new-recipe',
+            element: <NewRecipe />
+        },
     ])
     return <RouterProvider router={router} />
 }
