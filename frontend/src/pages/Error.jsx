@@ -1,8 +1,9 @@
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate, useRouteError } from 'react-router-dom';
 import Header from '../components/Header';
 
 export default function Error() {
-    const navigate = useNavigate()
+    const error = useRouteError();
+    const navigate = useNavigate();
 
     return (
         <div className='app'>

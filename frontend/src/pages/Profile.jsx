@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import ErrorModal from '../components/ErrorModal';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -36,6 +37,7 @@ export default function Profile() {
                     const errorData = await response.json();
                     setIsLoading(false);
                     console.error(`Error Data: `, errorData.error);
+                    console.log('errorData41', errorData.error)
                     setMessage(errorData);
                 }
                 if (response.ok) {
@@ -63,8 +65,18 @@ export default function Profile() {
         )
     }
 
+    if (!isLoading && message) {
+        console.log(message.error.message)
+        return (
+            <div className='app'>
+                <Header />
+                <ErrorModal error={message} />
+            </div>
+        )
+    }
 
-    if (!isLoading) {
+
+    if (!isLoading && !message) {
         return (
             <div className='app'>
                 <Header />

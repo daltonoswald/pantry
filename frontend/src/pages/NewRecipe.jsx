@@ -3,6 +3,8 @@ import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { Trash } from 'react-bootstrap-icons';
+import deleteIcon from '../assets/icons/delete.svg'
 
 export default function NewRecipe() {
     const navigate = useNavigate();
@@ -41,8 +43,8 @@ export default function NewRecipe() {
     return (
         <div className='app'>
             <Header />
-            <Container className='my-auto' fluid>
-                <Form className='w-75 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
+            <Container className='my-auto pb-3' fluid>
+                <Form className='w-50 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
                     <h3 className='text-center m-2'>Create a new Recipe</h3>
                         <Row>
                             <Col className='m-2'>
@@ -84,7 +86,10 @@ export default function NewRecipe() {
                                     </FloatingLabel>
                                 </Col>
                                 <Col className='m-2'>
-                                    <Button className='w-25 m-2' variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>Remove</Button>
+                                    <Button className='m-2' variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>
+                                        {/* <img className='' src={deleteIcon} /> */}
+                                        <Trash color='black' />
+                                    </Button>
                                 </Col>
                             </Row>
                         ))}
@@ -102,6 +107,13 @@ export default function NewRecipe() {
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formDirections' label='Directions'>
                                     <Form.Control as="textarea" name='directions' type='text' placeholder='Directions' style={{ height: '16em' }} />
+                                </FloatingLabel>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className='m-2'>
+                                <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
+                                <Form.Control name='tags' type='text' placeholder='Tags (separate with commas)' />
                                 </FloatingLabel>
                             </Col>
                         </Row>
