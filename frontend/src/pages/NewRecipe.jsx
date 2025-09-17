@@ -36,6 +36,8 @@ export default function NewRecipe() {
         e.preventDefault();
         console.log('submitted')
         console.log(ingredientList);
+        const tagList = e.target.tags.value.split(' ');
+        console.log(tagList);
 
         setMessage('Error Test')
     }
@@ -112,8 +114,8 @@ export default function NewRecipe() {
                         </Row>
                         <Row>
                             <Col className='m-2'>
-                                <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
-                                <Form.Control name='tags' type='text' placeholder='Tags (separate with commas)' />
+                                <FloatingLabel controlId='formTags' label='Tags (separate with spaces)'>
+                                <Form.Control name='tags' type='text' placeholder='Tags (separate with spaces)' />
                                 </FloatingLabel>
                             </Col>
                         </Row>

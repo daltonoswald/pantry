@@ -7,7 +7,7 @@ import ErrorModal from '../components/ErrorModal';
 
 export default function Profile() {
     const navigate = useNavigate();
-    const [message, setMessage] = useState();
+    const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState();
     const token = localStorage.getItem('pantryAuthToken');
@@ -37,10 +37,9 @@ export default function Profile() {
                     const errorData = await response.json();
                     setIsLoading(false);
                     console.error(`Error Data: `, errorData.error);
-                    console.log('errorData41', errorData.error)
-                    setMessage(errorData);
-                }
-                if (response.ok) {
+                    console.log('errorData41', errorData.error.message)
+                    setMessage(errorData.error.message);
+                } else {
                     const profileData = await response.json();
                     console.log(profileData.user.user);
                     setProfileData(profileData.user.user);
@@ -48,7 +47,8 @@ export default function Profile() {
                     setIsLoading(false)
                 }
             } catch (error) {
-                console.error(`Errors: ${error}`);
+                console.error(`Errors: ${error.error.message}`);
+                console.log('catch');
                 setMessage(error);
             }
         }
@@ -66,7 +66,7 @@ export default function Profile() {
     }
 
     if (!isLoading && message) {
-        console.log(message.error.message)
+        console.log(message)
         return (
             <div className='app'>
                 <Header />
