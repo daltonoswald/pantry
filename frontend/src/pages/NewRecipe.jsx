@@ -12,6 +12,11 @@ export default function NewRecipe() {
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken');
 
+    const cookingUnits = [
+        "tsp", "tbsp", "fl oz", "cup", "pt", "qt", "gal", "ml", "l",
+        "oz", "lb", "g", "kg"
+      ]
+
     const handleIngredientChange = (e, index) => {
         const {name, value} = e.target;
         const list = [...ingredientList];
@@ -75,8 +80,22 @@ export default function NewRecipe() {
                             </Col>
                         </Row>
                         {ingredientList.map((ingredient, index) => (
-                            <Row key={index}>
-                                <Col className='m-2'>
+                            <Form.Group as={Row} className='align-items-center mt-2 mb-2'>
+                                <Col xs={2} className='ms-2'>
+                                    <FloatingLabel controlId='formIngredientUnitAmount' label='Amount'>
+                                        <Form.Control name='unitAmount' type='number' placeholder='amount' min={1} defaultValue={0} />
+                                    </FloatingLabel>
+                                </Col>
+                                <Col xs={2}>
+                                    <FloatingLabel controlId='formIngredientUnit' label='Unit'>
+                                        <Form.Select aria-label='Unit'>
+                                            {cookingUnits.map((unit) =>
+                                                <option key={unit} value={unit}>{unit}</option>
+                                            )}
+                                        </Form.Select>
+                                    </FloatingLabel>
+                                </Col>
+                                <Col>
                                     <FloatingLabel controlId='formIngredient' label='Ingredient'>
                                         <Form.Control 
                                             name='ingredient' 
@@ -84,16 +103,16 @@ export default function NewRecipe() {
                                             placeholder='Ingredient' 
                                             value={ingredient.ingredient} 
                                             onChange={(e) => handleIngredientChange(e, index)} 
+                                            size='lg'
                                             />
                                     </FloatingLabel>
                                 </Col>
-                                <Col className='m-2'>
-                                    <Button className='m-2' variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>
-                                        {/* <img className='' src={deleteIcon} /> */}
+                                <Col xs={1} className='me-2'>
+                                    <Button variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>
                                         <Trash color='black' />
                                     </Button>
                                 </Col>
-                            </Row>
+                            </Form.Group>
                         ))}
                         <Row className='justify-content-md-center'>
                             <Button className='w-25 m-2' type='button' onClick={handleAddIngredient}>Add Ingredient</Button>
