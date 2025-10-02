@@ -19,6 +19,7 @@ export default function Signup() {
         const signupData = {
             name: event.target.name.value,
             username: event.target.username.value,
+            email: event.target.email.value,
             password: event.target.password.value,
             confirm_password: event.target.confirm_password.value,
             bio: event.target.bio.value,
@@ -58,6 +59,13 @@ export default function Signup() {
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formUsername' label='Username'>
                                     <Form.Control name='username' type='text' placeholder='Username' required />
+                                </FloatingLabel>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className='m-2'>
+                                <FloatingLabel controlId='formEmail' label='E-Mail'>
+                                    <Form.Control name='email' type='email' placeholder='email' required />
                                 </FloatingLabel>
                             </Col>
                         </Row>

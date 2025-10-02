@@ -49,6 +49,10 @@ exports.sign_up = [
         .trim()
         .isLength({ min: 1, max: 50 })
         .escape(),
+    body('email', 'E-mail must not be empty.')
+        .trim()
+        .isLength({ min: 1, max: 100 })
+        .escape(),
     body('password', 'Password must be between 8 and 50 characters.')
         .trim()
         .isLength({ min: 8, max: 50 })
@@ -80,18 +84,27 @@ exports.sign_up = [
                     }
                 }
             });
+            const emailTaken = await prisma.user.findMany({
+                where: {
+                    email: {
+                        equals: req.body.email,
+                        mode: 'insensitive',
+                    }
+                }
+            });
             if (!errors.isEmpty()) {
                 const errorsMessages = errors.array().map((error) => error.msg);
                 res.json({ message: errorsMessages });
             } else {
-                if (usernameTaken.length > 0) {
-                    res.status(409).json({ message: "Username is already in use." })
+                if (usernameTaken.length > 0 || emailTaken.length > 0) {
+                    res.status(409).json({ message: "Username or E-mail is already in use." })
                     return;
                 } else {
                     await prisma.user.create({
                         data: {
                             name: req.body.name,
                             username: req.body.username,
+                            email: req.body.email,
                             password: await bcryptjs.hash(req.body.password, 10),
                             bio: req.body.bio,
                         }
