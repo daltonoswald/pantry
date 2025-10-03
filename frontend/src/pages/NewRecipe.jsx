@@ -62,6 +62,13 @@ export default function NewRecipe() {
                         </Row>
                         <Row>
                             <Col className='m-2'>
+                                <FloatingLabel controlId='formDescription' label='Description'>
+                                    <Form.Control name='description' type='text' placeholder='Description' style={{ height: '6em' }} />
+                                </FloatingLabel>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className='m-2'>
                                 <FloatingLabel controlId='formServings' label='Servings'>
                                     <Form.Control name='servings' type='number' placeholder='servings' min={1} defaultValue={4} />
                                 </FloatingLabel>
@@ -117,13 +124,6 @@ export default function NewRecipe() {
                         <Row className='justify-content-md-center'>
                             <Button className='w-25 m-2' type='button' onClick={handleAddIngredient}>Add Ingredient</Button>
                         </Row>
-                        {/* <Row>
-                            <Col className='m-2'>
-                                <FloatingLabel controlId='formIngredient' label='Ingredient'>
-                                    <Form.Control name='ingredient' type='text' placeholder='Ingredient' />
-                                </FloatingLabel>
-                            </Col>
-                        </Row> */}
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formDirections' label='Directions'>

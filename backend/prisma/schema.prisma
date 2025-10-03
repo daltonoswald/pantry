@@ -15,62 +15,72 @@ datasource db {
 }
 
 model User {
-  id               String           @id @default(uuid())
-  name             String
-  username         String           @unique
-  email            String           @unique
-  password         String
-  bio              String?
-  followed_by      Follows[]        @relation("following")
-  following        Follows[]        @relation("followed_by")
-  recipes          Recipe[]
-  recipe_favorites RecipeFavorite[]
-  comments         Comment[]
-  comment_likes    CommentLike[]
-  pantry           PantryItem[]
-}
-
-model PantryItem {
-  id     String @id @default(uuid())
-  name   String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
-}
-
-model Follows {
-  followed_by    User   @relation("followed_by", fields: [followed_by_id], references: [id])
-  followed_by_id String
-  following      User   @relation("following", fields: [following_id], references: [id])
-  following_id   String
-
-  @@id([following_id, followed_by_id])
+  id              String           @id @default(uuid())
+  name            String
+  username        String           @unique
+  email           String           @unique
+  password        String
+  bio             String?
+  followedBy      Follows[]        @relation("following")
+  following       Follows[]        @relation("followedBy")
+  recipes         Recipe[]
+  recipeFavorites RecipeFavorite[]
+  comments        Comment[]
+  commentLikes    CommentLike[]
+  pantryItems     PantryUsers[]
 }
 
 model Recipe {
-  id          String           @id @default(uuid())
+  id          String              @id @default(uuid())
   userId      String
-  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user        User                @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   title       String
   favorites   RecipeFavorite[]
-  created_at  DateTime         @default(now())
-  updated_at  DateTime         @default(now())
-  comments    Comment[]
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @default(now())
   servings    Int
-  cook_time   Int
+  cookTime    Int
+  ingredients RecipeIngredients[]
   description String
-  ingredients Ingredients[]
   directions  String
   tags        Tags[]
+  comments    Comment[]
   image       String?
 }
 
-model Ingredients {
-  id          String @id @default(uuid())
-  name        String
-  quantity    Int
-  measurement String
-  recipeId    String
-  recipe      Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+model IngredientMasterList {
+  id                String              @id @default(uuid())
+  name              String
+  PantryItem        PantryItem[]
+  RecipeIngredients RecipeIngredients[]
+}
+
+model PantryItem {
+  id           String               @id @default(uuid())
+  name         String
+  ingredientId String
+  ingredient   IngredientMasterList @relation(fields: [ingredientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ownedBy      PantryUsers[]
+}
+
+model PantryUsers {
+  id           String     @id @default(uuid())
+  userId       String
+  pantryItemId String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  pantryItem   PantryItem @relation(fields: [pantryItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([userId, pantryItemId])
+}
+
+model RecipeIngredients {
+  recipeIngredientId String               @id @default(uuid())
+  recipe             Recipe               @relation(fields: [recipeIngredientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  ingredientId       String
+  ingredient         IngredientMasterList @relation(fields: [ingredientId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quantity           Int
+  measurement        String
+  preparationNotes   String
 }
 
 model Tags {
@@ -80,16 +90,25 @@ model Tags {
   recipe   Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+model Follows {
+  followedBy   User   @relation("followedBy", fields: [followedById], references: [id])
+  followedById String
+  following    User   @relation("following", fields: [followingId], references: [id])
+  followingId  String
+
+  @@id([followingId, followedById])
+}
+
 model Comment {
-  id         String        @id @default(uuid())
-  content    String
-  userId     String
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  recipeId   String
-  recipe     Recipe        @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  likes      CommentLike[]
-  created_at DateTime      @default(now())
-  updated_at DateTime      @default(now())
+  id        String        @id @default(uuid())
+  content   String
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  recipeId  String
+  recipe    Recipe        @relation(fields: [recipeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  likes     CommentLike[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @default(now())
 }
 
 model RecipeFavorite {
