@@ -8,7 +8,7 @@ import deleteIcon from '../assets/icons/delete.svg'
 
 export default function NewRecipe() {
     const navigate = useNavigate();
-    const [ingredientList, setIngredientList] = useState([{ingredient: '' }])
+    const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: ''}])
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken');
 
@@ -17,7 +17,27 @@ export default function NewRecipe() {
         "oz", "lb", "g", "kg"
       ]
 
+    const handleUnitAmountChange = (e, index) => {
+        const {name, value} = e.target;
+        const list = [...ingredientList];
+        list[index][name] = value;
+        setIngredientList(list);
+    }
+
+    const handleUnitChange = (e, index) => {
+        const {name, value} = e.target;
+        const list = [...ingredientList];
+        list[index][name] = value;
+        setIngredientList(list);
+    }
+
     const handleIngredientChange = (e, index) => {
+        const {name, value} = e.target;
+        const list = [...ingredientList];
+        list[index][name] = value;
+        setIngredientList(list);
+    }
+    const handleIngredientNoteChange = (e, index) => {
         const {name, value} = e.target;
         const list = [...ingredientList];
         list[index][name] = value;
@@ -39,19 +59,26 @@ export default function NewRecipe() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('submitted')
-        console.log(ingredientList);
-        const tagList = e.target.tags.value.split(' ');
+        const tagList = e.target.tags.value.split(',').map(item => item.trim());
         console.log(tagList);
-
-        setMessage('Error Test')
+        console.log(ingredientList);
+        const recipeData = {
+            title: e.target.title.value,
+            description: e.target.description.value,
+            servings: e.target.servings.value,
+            cookTime: e.target.cookTime.value,
+            ingredientList: ingredientList,
+            directions: e.target.directions.value,
+            tags: tagList
+        }
+        console.log(recipeData)
     }
 
     return (
         <div className='app'>
             <Header />
             <Container className='my-auto pb-3' fluid>
-                <Form className='w-50 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
+                <Form className='w-75 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
                     <h3 className='text-center m-2'>Create a new Recipe</h3>
                         <Row>
                             <Col className='m-2'>
@@ -79,27 +106,45 @@ export default function NewRecipe() {
                                 </FloatingLabel>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col className='m-2'>
-                                <FloatingLabel controlId='formDescription' label='A short description'>
-                                    <Form.Control as="textarea" name='description' type='text' placeholder='A short description' style={{ height: '8em' }} />
-                                </FloatingLabel>
-                            </Col>
-                        </Row>
                         {ingredientList.map((ingredient, index) => (
                             <Form.Group as={Row} className='align-items-center mt-2 mb-2'>
                                 <Col xs={2} className='ms-2'>
                                     <FloatingLabel controlId='formIngredientUnitAmount' label='Amount'>
-                                        <Form.Control name='unitAmount' type='number' placeholder='amount' min={1} defaultValue={0} />
+                                        <Form.Control 
+                                            name='unitAmount' 
+                                            type='number' 
+                                            placeholder='amount'
+                                            onChange={(e) => handleUnitAmountChange(e, index)} 
+                                            min={1} 
+                                            defaultValue={0}
+                                            required />
                                     </FloatingLabel>
                                 </Col>
                                 <Col xs={2}>
                                     <FloatingLabel controlId='formIngredientUnit' label='Unit'>
-                                        <Form.Select aria-label='Unit'>
+                                        <Form.Select aria-label='Unit' onChange={(e) => handleUnitChange(e, index)} name='unit'>
                                             {cookingUnits.map((unit) =>
-                                                <option key={unit} value={unit}>{unit}</option>
+                                                <option 
+                                                    key={unit} 
+                                                    name='unit'
+                                                    defaultValue={'tsp'}
+                                                    value={unit}
+                                                    required 
+                                                    >{unit}</option>
                                             )}
                                         </Form.Select>
+                                    </FloatingLabel>
+                                </Col>
+                                <Col xs='auto'>
+                                    <FloatingLabel controlId='formIngredientNote' label='Notes (diced, etc.)'>
+                                        <Form.Control 
+                                            name='ingredientNote' 
+                                            type='text'
+                                            placeholder='Notes (diced, thin-sliced, etc.)' 
+                                            value={ingredient.ingredientNote} 
+                                            onChange={(e) => handleIngredientNoteChange(e, index)} 
+                                            size='auto'
+                                            />
                                     </FloatingLabel>
                                 </Col>
                                 <Col>
@@ -110,11 +155,12 @@ export default function NewRecipe() {
                                             placeholder='Ingredient' 
                                             value={ingredient.ingredient} 
                                             onChange={(e) => handleIngredientChange(e, index)} 
-                                            size='lg'
+                                            size='auto'
+                                            required
                                             />
                                     </FloatingLabel>
                                 </Col>
-                                <Col xs={1} className='me-2'>
+                                <Col xs='auto' className='me-2'>
                                     <Button variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>
                                         <Trash color='black' />
                                     </Button>
@@ -133,8 +179,8 @@ export default function NewRecipe() {
                         </Row>
                         <Row>
                             <Col className='m-2'>
-                                <FloatingLabel controlId='formTags' label='Tags (separate with spaces)'>
-                                <Form.Control name='tags' type='text' placeholder='Tags (separate with spaces)' />
+                                <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
+                                <Form.Control name='tags' type='text' placeholder='Tags (separate with commas)' />
                                 </FloatingLabel>
                             </Col>
                         </Row>
