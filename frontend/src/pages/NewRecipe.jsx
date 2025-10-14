@@ -79,7 +79,7 @@ export default function NewRecipe() {
             <Header />
             <Container className='my-auto pb-3' fluid>
                 <Form className='w-75 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
-                    <h3 className='text-center m-2'>Create a new Recipe</h3>
+                    <h3 className='text-center m-2'>Create a New Recipe</h3>
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formTitle' label='Title'>
