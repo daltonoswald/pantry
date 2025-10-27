@@ -137,9 +137,9 @@ exports.profile = asyncHandler(async (req, res, next) => {
                 name: true,
                 username: true,
                 bio: true,
-                followed_by: {
+                followedBy: {
                     select: {
-                        followed_by: {
+                        followedBy: {
                             select: {
                                 id: true,
                             }
@@ -147,7 +147,7 @@ exports.profile = asyncHandler(async (req, res, next) => {
                     }
                 },
                 _count: {
-                    select: {followed_by: true, following: true }
+                    select: {followedBy: true, following: true }
                 },
                 recipes: {
                     select: {
@@ -156,7 +156,7 @@ exports.profile = asyncHandler(async (req, res, next) => {
                         title: true,
                     }
                 },
-                recipe_favorites: {
+                recipeFavorites: {
                     select: {
                         recipe: {
                             select: {
