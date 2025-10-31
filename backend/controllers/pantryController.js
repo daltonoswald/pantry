@@ -19,8 +19,6 @@ exports.new_item = [
             const authorizedUser = verifyToken(token);
             const tokenUserId = authorizedUser.user.id;
             const pantryItemName = req.body.item.toLowerCase();
-            console.log(req.body.item)
-            console.log(pantryItemName)
 
             const pantryItemExists = await prisma.pantryItem.findUnique({
                 where: {
@@ -28,19 +26,65 @@ exports.new_item = [
                 }
             })
 
-            // Need to finish making the pantry item if it doesn't exist and adding the user to the ownedBy if it does exist.
+            console.log('Does it exist?', pantryItemExists)
+
             if (!errors.isEmpty()) {
                 const errorsMessages = errors.array().map((error) => error.msg);
                 res.json({ message: errorsMessages });
             } else {
-                if (pantryItemExists) {
-                    console.log('if', pantryItemName);
-                    res.json({ message: 'If'})
-                } else {
-                    console.log('else', pantryItemName)
-                    res.json({ message: 'Else'})
-                }
-            }
+                    const alreadyExists = await prisma.ingredientMasterList.findFirst({
+                        where: {
+                            name: pantryItemName,
+                        },
+                        include: {
+                            pantryItem: {
+                                include: {
+                                    ownedBy: {
+                                        where: {
+                                            userId: tokenUserId
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    })
+
+                    if (!alreadyExists) {
+                        const newPantryItem = await prisma.ingredientMasterList.create({
+                            data: {
+                                name: pantryItemName,
+                                pantryItem: {
+                                    create: {
+                                        name: pantryItemName,
+                                        ownedBy: {
+                                            create: {
+                                                userId: tokenUserId
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                        res.json({ message: `${pantryItemName} added to your pantry.`, newPantryItem: newPantryItem })
+                    } else if (alreadyExists.pantryItem[0].ownedBy.length >= 1) {
+                        res.json({ message: `${pantryItemName} is already in your pantry.`})
+                    } else {
+                        const addNewPantryUser = await prisma.pantryItem.update({
+                            where: {
+                                name: pantryItemName,
+                            },
+                            data: {
+                                ownedBy: {
+                                    create: {
+                                        userId: tokenUserId
+                                    }
+                                }
+                            }
+                        })
+                        res.json({ message: `${pantryItemName} added to your pantry.`, newPantryItem: addNewPantryUser })
+                    }
+
+                } 
         } catch (err) {
             console.log(err);
             return next(err);

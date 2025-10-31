@@ -28,7 +28,8 @@ export default function NewPantryItem({ openNewPantryItem, setOpenNewPantryItem}
             const data = await response.json();
             if (response.ok) {
                 // window.location.reload();
-                console.log(response);
+                console.log(data.message);
+                setMessage(data.message);
             } else {
                 console.error(data.message)
                 setMessage(data.message)

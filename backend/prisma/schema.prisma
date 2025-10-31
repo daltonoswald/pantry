@@ -51,8 +51,8 @@ model Recipe {
 model IngredientMasterList {
   id                String              @id @default(uuid())
   name              String              @unique
-  PantryItem        PantryItem[]
-  RecipeIngredients RecipeIngredients[]
+  pantryItem        PantryItem[]
+  recipeIngredients RecipeIngredients[]
 }
 
 model PantryItem {
