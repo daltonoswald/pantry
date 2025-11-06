@@ -7,6 +7,7 @@ import ErrorModal from '../components/ErrorModal';
 
 export default function Profile() {
     const navigate = useNavigate();
+    const [myData, setMyData] = useState();
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState();
@@ -41,8 +42,10 @@ export default function Profile() {
                     setMessage(errorData.error.message);
                 } else {
                     const profileData = await response.json();
-                    console.log(profileData.user.user);
-                    setProfileData(profileData.user.user);
+                    // console.log(profileData.user.user);
+                    console.log(profileData.profile);
+                    setProfileData(profileData.profile);
+                    setMyData(profileData.user.user)
                     setMessage(null);
                     setIsLoading(false)
                 }

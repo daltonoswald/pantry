@@ -120,7 +120,6 @@ exports.sign_up = [
 ]
 
 exports.profile = asyncHandler(async (req, res, next) => {
-    console.log('test');
     try {
         const token = req.headers.authorization.split(' ')[1];
         const authorizedUser = verifyToken(token);
@@ -137,6 +136,7 @@ exports.profile = asyncHandler(async (req, res, next) => {
                 name: true,
                 username: true,
                 bio: true,
+                password: false,
                 followedBy: {
                     select: {
                         followedBy: {
@@ -162,6 +162,15 @@ exports.profile = asyncHandler(async (req, res, next) => {
                             select: {
                                 id: true,
                                 title: true,
+                            }
+                        }
+                    }
+                },
+                pantryItems: {
+                    select: {
+                        pantryItem: {
+                            select: {
+                                name: true,
                             }
                         }
                     }
