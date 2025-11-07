@@ -83,18 +83,31 @@ export default function Profile() {
         return (
             <div className='app'>
                 <Header />
-                <Row>
+                <Row className='profile-header'>
                     <Col>
-                        <h1>{profileData.username}</h1>
+                        <Col>
+                            <Row>
+                                <h1>IMG PLACEHOLDER</h1>
+                                <h1>{profileData.username}</h1>
+                                <h2>{profileData.name}</h2>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <p>{profileData._count.following} Following</p>
+                                </Col>
+                                <Col>
+                                    <p>{profileData._count.followedBy} Followers</p>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Col>
+                    <Col>
                         <p>{profileData.bio}</p>
                     </Col>
                     <Col>
-                        <Row>
-                            <h1>{profileData.username}'s Recipes</h1>
-                            <Container>
-                                
-                            </Container>
-                        </Row>
+                        <Col>
+                            <p>{profileData.recipes.length} Recipes</p>
+                        </Col>
                     </Col>
                 </Row>
             </div>
