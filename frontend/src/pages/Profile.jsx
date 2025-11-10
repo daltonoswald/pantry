@@ -1,9 +1,11 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner } from 'react-bootstrap';
+import { Trash } from 'react-bootstrap-icons';
 import Header from '../components/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../components/ErrorModal';
+import { capFirst } from '../utils/utility';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -108,6 +110,29 @@ export default function Profile() {
                         <Col>
                             <p>{profileData.recipes.length} Recipes</p>
                         </Col>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className='profile-pantry'>
+                        <h3>Pantry</h3>
+                        {(profileData.pantryItems.length > 0 && !isLoading) && (
+                            <>
+                                {profileData.pantryItems.map((item) => (
+                                    <Row>
+                                        <Col>
+                                            <p className='pantry-item'>{capFirst(item.pantryItem.name)}</p>
+                                        </Col>
+                                        {(profileData.id === myData.id) && (
+                                        <Col>
+                                            <Button variant='danger' type='button'>
+                                                <Trash color='black' />
+                                            </Button>
+                                        </Col>
+                                        )}
+                                    </Row>
+                                ))}
+                            </>
+                        )}
                     </Col>
                 </Row>
             </div>
