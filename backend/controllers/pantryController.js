@@ -91,3 +91,23 @@ exports.new_item = [
         }
     }
 ]
+
+exports.delete_from_pantry = asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    console.log(req.body.pantryUsersToDelete);
+
+    try {
+        const pantryUsersToDelete = await prisma.pantryUsers.delete({
+            where: {
+                id: req.body.pantryUsersToDelete,
+                userId: authorizedUser.user.id
+            }
+        })
+        res.status(202).json({ message: 'Removed from your pantry'})
+    } catch (err) {
+        console.error(err);
+        res.json({ error: err });
+    }
+})

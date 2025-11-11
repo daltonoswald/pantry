@@ -5,7 +5,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../components/ErrorModal';
-import { capFirst } from '../utils/utility';
+import { capFirst, handleDeleteFromPantry } from '../utils/utility';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -118,14 +118,14 @@ export default function Profile() {
                         {(profileData.pantryItems.length > 0 && !isLoading) && (
                             <>
                                 {profileData.pantryItems.map((item) => (
-                                    <Row>
+                                    <Row key={item.id}>
                                         <Col>
                                             <p className='pantry-item'>{capFirst(item.pantryItem.name)}</p>
                                         </Col>
                                         {(profileData.id === myData.id) && (
                                         <Col>
-                                            <Button variant='danger' type='button'>
-                                                <Trash color='black' />
+                                            <Button variant='danger' type='button' onClick={() => handleDeleteFromPantry(item.id)} >
+                                                <Trash color='black'/>
                                             </Button>
                                         </Col>
                                         )}

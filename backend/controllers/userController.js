@@ -171,8 +171,10 @@ exports.profile = asyncHandler(async (req, res, next) => {
                         pantryItem: {
                             select: {
                                 name: true,
+                                id: true,
                             }
-                        }
+                        },
+                        id: true,
                     }
                 }
             }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FloatingLabel, Form, Modal, Col, Row, Button, Alert } from 'react-bootstrap';
 
 export default function NewPantryItem({ openNewPantryItem, setOpenNewPantryItem}) {
@@ -30,6 +30,11 @@ export default function NewPantryItem({ openNewPantryItem, setOpenNewPantryItem}
                 // window.location.reload();
                 console.log(data.message);
                 setMessage(data.message);
+                const timer = setTimeout(() => {
+                    console.log('goes off after 3 seconds');
+                    handleCloseModal();
+                }, 3000)
+                return () => clearTimeout(timer);
             } else {
                 console.error(data.message)
                 setMessage(data.message)
