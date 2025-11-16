@@ -1,11 +1,13 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner } from 'react-bootstrap';
-import { Trash } from 'react-bootstrap-icons';
+import { Trash, PersonSquare } from 'react-bootstrap-icons';
 import Header from '../components/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../components/ErrorModal';
 import { capFirst, handleDeleteFromPantry } from '../utils/utility';
+import ProfilePantry from '../components/profile/ProfilePantry';
+import ProfileRecipes from '../components/profile/ProfileRecipes';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -19,10 +21,6 @@ export default function Profile() {
     useEffect(() => {
         const getProfile = async () => {
             const url = `http://localhost:3000/user/profile/${params.username}`;
-            // if (!token) {
-            //     navigate('/')
-            // }
-            console.log(params.username);
             const userToFind = {
                 userToFind: params.username
             }
@@ -85,56 +83,47 @@ export default function Profile() {
         return (
             <div className='app'>
                 <Header />
-                <Row className='profile-header'>
-                    <Col>
+                <Container>
+                    <Row className='profile-header'>
                         <Col>
-                            <Row>
-                                <h1>IMG PLACEHOLDER</h1>
-                                <h1>{profileData.username}</h1>
-                                <h2>{profileData.name}</h2>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <p>{profileData._count.following} Following</p>
-                                </Col>
-                                <Col>
-                                    <p>{profileData._count.followedBy} Followers</p>
-                                </Col>
-                            </Row>
+                            <Col className='profile-header-left'>
+                                <Row className='profile-info'>
+                                    <Col className='profile-picture'>
+                                        <PersonSquare />
+                                    </Col>
+                                    <Col className='profile-names'>
+                                        <h1>{profileData.username}</h1>
+                                        <h2>{profileData.name}</h2>
+                                    </Col>
+                                </Row>
+                                <Row className='profile-follows'>
+                                    <Col>
+                                        <p>{profileData._count.following} Following</p>
+                                    </Col>
+                                    <Col>
+                                        <p>{profileData._count.followedBy} Followers</p>
+                                    </Col>
+                                </Row>
+                            </Col>
                         </Col>
-                    </Col>
-                    <Col>
-                        <p>{profileData.bio}</p>
-                    </Col>
-                    <Col>
                         <Col>
-                            <p>{profileData.recipes.length} Recipes</p>
+                            <p>{profileData.bio}</p>
                         </Col>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className='profile-pantry'>
-                        <h3>Pantry</h3>
-                        {(profileData.pantryItems.length > 0 && !isLoading) && (
-                            <>
-                                {profileData.pantryItems.map((item) => (
-                                    <Row key={item.id}>
-                                        <Col>
-                                            <p className='pantry-item'>{capFirst(item.pantryItem.name)}</p>
-                                        </Col>
-                                        {(profileData.id === myData.id) && (
-                                        <Col>
-                                            <Button variant='danger' type='button' onClick={() => handleDeleteFromPantry(item.id)} >
-                                                <Trash color='black'/>
-                                            </Button>
-                                        </Col>
-                                        )}
-                                    </Row>
-                                ))}
-                            </>
-                        )}
-                    </Col>
-                </Row>
+                        <Col>
+                            <Col>
+                                <p>{profileData.recipes.length} Recipes</p>
+                            </Col>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col>
+                            <ProfilePantry myData={myData} profileData={profileData} isLoading={isLoading} />
+                        </Col>
+                        <Col>
+                            <ProfileRecipes myData={myData} profileData={profileData} />
+                        </Col> 
+                    </Row>
+                </Container>
             </div>
         )
     }
