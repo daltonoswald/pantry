@@ -8,7 +8,7 @@ export default function ProfileRecipes({ myData, profileData }) {
             <Col className='profile-recipes border'>
                 <h3 className='text-center'>Recipes By {profileData.username}</h3>
                 {(profileData.recipes.length > 0) && (
-                    <>
+                    <div className='profile-recipes-list'>
                         {profileData.recipes.map((item) => (
                             <Row key={item.id}>
                                 <Col>
@@ -23,7 +23,7 @@ export default function ProfileRecipes({ myData, profileData }) {
                                 )}
                             </Row>
                         ))}
-                    </>
+                    </div>
                 )}
                 {(profileData.recipes.length <= 0) && (
                     <>

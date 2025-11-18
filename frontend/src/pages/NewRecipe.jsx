@@ -57,11 +57,9 @@ export default function NewRecipe() {
         console.log(ingredientList)
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const tagList = e.target.tags.value.split(',').map(item => item.trim());
-        console.log(tagList);
-        console.log(ingredientList);
         const recipeData = {
             title: e.target.title.value,
             description: e.target.description.value,
@@ -71,7 +69,28 @@ export default function NewRecipe() {
             directions: e.target.directions.value,
             tags: tagList
         }
-        console.log(recipeData)
+        console.log(recipeData.ingredientList)
+        const url = `http://localhost:3000/recipe/new-recipe`;
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(recipeData)
+            })
+            const data = await response.json();
+            if (response.ok) {
+                console.log(data.message);
+            } else {
+                console.error(data.message)
+                // setMessage(data.message)
+            }
+        } catch (error) {
+            console.error(`Error requesting:`, error);
+            setMessage(`There was an error adding your recipe. Please try again later.`)
+        }
     }
 
     return (

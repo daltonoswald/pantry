@@ -9,7 +9,7 @@ export default function ProfilePantry({ myData, profileData }) {
         <Col className='profile-pantry border'>
             <h3 className='text-center'>Pantry</h3>
             {(profileData.pantryItems.length > 0) && (
-                <>
+                <div className='profile-recipes-list'>
                     {profileData.pantryItems.map((item) => (
                         <Row className='mb-2 pantry-item' key={item.id}>
                             <Col>
@@ -24,7 +24,7 @@ export default function ProfilePantry({ myData, profileData }) {
                             )}
                         </Row>
                     ))}
-                </>
+                </ div>
             )}
         </Col>
     </Row>
