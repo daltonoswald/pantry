@@ -14,7 +14,7 @@ export default function NewRecipe() {
 
     const cookingUnits = [
         "tsp", "tbsp", "fl oz", "cup", "pt", "qt", "gal", "ml", "l",
-        "oz", "lb", "g", "kg"
+        "oz", "lb", "g", "kg", "count"
       ]
 
     const handleUnitAmountChange = (e, index) => {

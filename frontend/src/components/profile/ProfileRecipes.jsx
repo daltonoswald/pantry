@@ -1,6 +1,7 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Trash,} from 'react-bootstrap-icons';
 import { capFirst, handleDeleteFromPantry } from '../../utils/utility'
+import { Link } from 'react-router-dom';
 
 export default function ProfileRecipes({ myData, profileData }) {
     return (
@@ -12,7 +13,7 @@ export default function ProfileRecipes({ myData, profileData }) {
                         {profileData.recipes.map((item) => (
                             <Row key={item.id}>
                                 <Col>
-                                    <p className='recipe-item'>{item.title}</p>
+                                    <Link to={`/recipe/${item.id}`} className='recipe-item'>{item.title}</Link>
                                 </Col>
                                 {(profileData.id === myData.id) && (
                                 <Col>

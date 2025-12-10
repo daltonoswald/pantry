@@ -38,7 +38,7 @@ export default function Profile() {
                     const errorData = await response.json();
                     setIsLoading(false);
                     console.error(`Error Data: `, errorData.error);
-                    console.log('errorData41', errorData.error.message)
+                    console.log('Error Message: ', errorData.error.message)
                     setMessage(errorData.error.message);
                 } else {
                     const profileData = await response.json();

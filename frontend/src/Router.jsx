@@ -4,6 +4,7 @@ import Error from './pages/Error';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
+import Recipe from './pages/Recipe';
 import NewRecipe from './pages/NewRecipe';
 
 export default function Router() {
@@ -24,6 +25,10 @@ export default function Router() {
         {
             path: '/sign-up',
             element: <Signup />
+        },
+        {
+            path: '/recipe/:recipeId',
+            element: <Recipe />
         },
         {
             path: '/new-recipe',

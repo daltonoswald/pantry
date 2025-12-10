@@ -44,8 +44,106 @@ exports.new_item = [
         const token = req.headers.authorization.split(' ')[1];
         const authorizedUser = verifyToken(token);
         const tokenUserId = authorizedUser.user.id;
+        const recipeData = req.body;
 
-        console.log(req.body);
-        console.log(req.body.ingredientList[0].ingredient)
+        try {
+            const newRecipe = await prisma.recipe.create({
+                data: {
+                    title: recipeData.title,
+                    description: recipeData.description,
+                    userId: tokenUserId,
+                    // parseInt to make it a number and not a string
+                    servings: parseInt(recipeData.servings),
+                    cookTime: parseInt(recipeData.cookTime),
+                    directions: recipeData.directions,
+                    ingredients: {
+                        // Create or update all ingredients
+                        create: await Promise.all(
+                            recipeData.ingredientList.map(async (item) => {
+                                // Find or create each ingredient in the master list
+                                const ingredient = await prisma.ingredientMasterList.upsert({
+                                    where: {
+                                        name: item.ingredient.toLowerCase()
+                                    },
+                                    update: {},
+                                    create: {
+                                        name: item.ingredient.toLowerCase()
+                                    }
+                                });
+
+                                return {
+                                    ingredientId: ingredient.id,
+                                    quantity: parseInt(item.unitAmount),
+                                    measurement: item.unit,
+                                    preparationNotes: item.ingredientNote || ''
+                                };
+                            })
+                        )
+                    },
+                    tags: {
+                        create: recipeData.tags.map(tag => ({ name: tag.toLowerCase() }))
+                    }
+                },
+                include: {
+                    ingredients: {
+                        include: {
+                            ingredient: true,
+                        }
+                    },
+                    tags: true,
+                }
+            });
+
+            res.json({ message: 'Recipe created successfully', recipe: newRecipe });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ error: 'Failed to create recipe'})
+        }
     }
 ]
+
+exports.get_recipe = asyncHandler(async (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const authorizedUser = verifyToken(token);
+        const recipeToFind = req.body.recipeToFind;
+        console.log(recipeToFind);
+        const recipeData = await prisma.recipe.findFirst({
+            where: {
+                id: {
+                    equals: recipeToFind,
+                    mode: 'insensitive'
+                }
+            },
+            include: {
+                user: {
+                    select: {
+                        username: true,
+                    }
+                },
+                ingredients: {
+                    select: {
+                        id: true,
+                        quantity: true,
+                        measurement: true,
+                        preparationNotes: true,
+                        ingredient: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                }
+            }
+        })
+        if (!recipeData) {
+            res.status(404).json({error: 'Recipe not found.'})
+        } else {
+            console.log(recipeData);
+            res.json({ recipeData: recipeData, user: authorizedUser });
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({error: err})
+    }
+})
