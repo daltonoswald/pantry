@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner } from 'react-bootstrap';
+import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner, Stack } from 'react-bootstrap';
 import Header from '../components/Header';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -14,9 +14,9 @@ export default function Recipe() {
 
     useEffect(() => {
         const getRecipe = async () => {
-            const url = `http://localhost:3000/recipe/${params.recipe}`
+            const url = `http://localhost:3000/recipe/${params.recipeId}`
             const recipeToFind = {
-                recipeToFind: params.recipe
+                recipeToFind: params.recipeId
             }
             try {
                 const response = await fetch(url, {
@@ -78,6 +78,12 @@ export default function Recipe() {
                     <h1>{recipeData.title}</h1>
                     <h3>A recipe by {recipeData.user.username}</h3>
                     <p>{recipeData.description}</p>
+                    <Stack gap={3}>
+                        <h4>Ingredients</h4>
+                        {recipeData.ingredients.map((item) => (
+                            <p>{item.quantity} {item.measurement} {item.ingredient.name}</p>
+                        ))}
+                    </Stack>
                     <p>{recipeData.directions}</p>
                 </Container>
             </div>
