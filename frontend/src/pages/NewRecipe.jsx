@@ -69,7 +69,6 @@ export default function NewRecipe() {
             directions: e.target.directions.value,
             tags: tagList
         }
-        console.log(recipeData.ingredientList)
         const url = `http://localhost:3000/recipe/new-recipe`;
         try {
             const response = await fetch(url, {
@@ -83,6 +82,7 @@ export default function NewRecipe() {
             const data = await response.json();
             if (response.ok) {
                 console.log(data.message);
+                navigate(`/recipe/${data.recipe.id}`)
             } else {
                 console.error(data.message)
                 // setMessage(data.message)
