@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Trash } from 'react-bootstrap-icons';
-import deleteIcon from '../assets/icons/delete.svg'
+import TinyEditor from '../components/TinyEditor';
 
 export default function NewRecipe() {
     const navigate = useNavigate();
-    const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: ''}])
+    const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: ''}]);
+    const [directions, setDirections] = useState('');
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken');
 
@@ -66,11 +67,14 @@ export default function NewRecipe() {
             servings: e.target.servings.value,
             cookTime: e.target.cookTime.value,
             ingredientList: ingredientList,
-            directions: e.target.directions.value,
+            // directions: e.target.directions.value,
+            directions: directions,
             tags: tagList
         }
         const url = `http://localhost:3000/recipe/new-recipe`;
         try {
+            // console.log(directions);
+            // console.log(recipeData.description);
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -191,9 +195,10 @@ export default function NewRecipe() {
                         </Row>
                         <Row>
                             <Col className='m-2'>
-                                <FloatingLabel controlId='formDirections' label='Directions'>
+                                {/* <FloatingLabel controlId='formDirections' label='Directions' >
                                     <Form.Control as="textarea" name='directions' type='text' placeholder='Directions' style={{ height: '16em' }} />
-                                </FloatingLabel>
+                                </FloatingLabel> */}
+                                <TinyEditor value={directions} onChange={setDirections} />
                             </Col>
                         </Row>
                         <Row>

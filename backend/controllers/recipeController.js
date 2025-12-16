@@ -32,8 +32,8 @@ exports.new_item = [
     body('ingredientList.*.unitAmount').notEmpty().withMessage('Ingredient unit amount is required'),
     body('directions', 'directions must not be empty')
         .trim()
-        .isLength({ min: 1, max: 5000 })
-        .escape(),
+        .isLength({ min: 1, max: 5000 }),
+        // .escape(),
     body('tags', 'tags must not be empty')
         .trim()
         .isLength({ min: 1, max: 250 })

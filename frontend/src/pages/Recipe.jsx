@@ -37,6 +37,7 @@ export default function Recipe() {
                 } else {
                     const recipeData = await response.json();
                     console.log(recipeData.recipeData);
+                    console.log(recipeData.recipeData.directions);
                     setRecipeData(recipeData.recipeData);
                     setMyData(recipeData.user.user)
                     setMessage(null);
@@ -84,7 +85,7 @@ export default function Recipe() {
                             <p>{item.quantity} {item.measurement} {item.ingredient.name}</p>
                         ))}
                     </Stack>
-                    <p>{recipeData.directions}</p>
+                    <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
                 </Container>
             </div>
         )
