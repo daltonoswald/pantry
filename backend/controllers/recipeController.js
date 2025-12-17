@@ -45,6 +45,7 @@ exports.new_item = [
         const authorizedUser = verifyToken(token);
         const tokenUserId = authorizedUser.user.id;
         const recipeData = req.body;
+        console.log(recipeData.tags)
 
         try {
             const newRecipe = await prisma.recipe.create({
@@ -80,9 +81,24 @@ exports.new_item = [
                             })
                         )
                     },
-                    tags: {
-                        create: recipeData.tags.map(tag => ({ name: tag.toLowerCase() }))
+                    recipeTags: {
+                        create: await Promise.all(
+                            recipeData.tags.map(async (tagName) => {
+                                const tag = await prisma.tagMasterList.upsert({
+                                    where: { name: tagName.toLowerCase() },
+                                    update: {},
+                                    create: { name: tagName.toLowerCase() }
+                                });
+
+                                return {
+                                    tagId: tag.id
+                                }
+                            })
+                        )
                     }
+                    // tags: {
+                    //     create: recipeData.tags.map(tag => ({ name: tag.toLowerCase() }))
+                    // }
                 },
                 include: {
                     ingredients: {
@@ -90,7 +106,12 @@ exports.new_item = [
                             ingredient: true,
                         }
                     },
-                    tags: true,
+                    recipeTags: {
+                        include: {
+                            tag: true
+                        }
+                    }
+                    // tags: true,
                 }
             });
 
@@ -128,6 +149,16 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
                         measurement: true,
                         preparationNotes: true,
                         ingredient: {
+                            select: {
+                                name: true
+                            }
+                        }
+                    }
+                },
+                recipeTags: {
+                    select: {
+                        id: true,
+                        tag: {
                             select: {
                                 name: true
                             }
