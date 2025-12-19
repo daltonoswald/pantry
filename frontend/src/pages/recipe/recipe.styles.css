@@ -1,0 +1,12 @@
+:root {
+    --primary: #5F6F52;
+    --primary-subtle: #A9B388;
+    --secondary: #FEFAE0;
+    --tetriary: #B99470;
+}
+
+.ingredient-list {
+    border: 2px solid var(--primary);
+    width: 50%;
+    margin: 0 auto;
+}

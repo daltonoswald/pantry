@@ -4,7 +4,7 @@ import Error from './pages/Error';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
-import Recipe from './pages/Recipe';
+import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/NewRecipe';
 
 export default function Router() {

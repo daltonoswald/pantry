@@ -150,7 +150,8 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
                         preparationNotes: true,
                         ingredient: {
                             select: {
-                                name: true
+                                id: true,
+                                name: true,
                             }
                         }
                     }

@@ -9,6 +9,10 @@
     min-height: 100vh;
 }
 
+.main-content {
+    width: 80%;
+}
+
 .pantry-primary,
 .dropdown-menu.show {
     color: white;

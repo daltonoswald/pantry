@@ -1,7 +1,8 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner, Stack } from 'react-bootstrap';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import './recipe.styles.css';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -75,17 +76,22 @@ export default function Recipe() {
         return (
             <div className='app'>
                 <Header />
-                <Container className='my-auto' fluid>
+                <Container className='my-auto main-content' fluid>
                     <h1>{recipeData.title}</h1>
-                    <h3>A recipe by {recipeData.user.username}</h3>
+                    <h3 id={recipeData.user.id}>By {recipeData.user.username}</h3>
                     <p>{recipeData.description}</p>
-                    <Stack gap={3}>
-                        <h4>Ingredients</h4>
+                    <Stack gap={3} className='ingredient-list p-4'>
+                        <h4 className='text-center'>Ingredients</h4>
                         {recipeData.ingredients.map((item) => (
                             <p>{item.quantity} {item.measurement} {item.ingredient.name}</p>
                         ))}
                     </Stack>
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
+                    <Col className='d-flex flex-row gap-2'>
+                        {recipeData.recipeTags.map((tag) => (
+                            <Link to={`/search=?${tag.tag.name}`}>{tag.tag.name}</Link>
+                        ))}
+                    </Col>
                 </Container>
             </div>
         )
