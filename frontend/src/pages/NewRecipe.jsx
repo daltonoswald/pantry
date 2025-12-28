@@ -137,8 +137,9 @@ export default function NewRecipe() {
                                             name='unitAmount' 
                                             type='number' 
                                             placeholder='amount'
+                                            step='0.25'
                                             onChange={(e) => handleUnitAmountChange(e, index)} 
-                                            min={1} 
+                                            min={0} 
                                             defaultValue={0}
                                             required />
                                     </FloatingLabel>
