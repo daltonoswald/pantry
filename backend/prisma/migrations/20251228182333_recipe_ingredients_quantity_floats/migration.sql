@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "RecipeIngredients" ALTER COLUMN "quantity" SET DEFAULT 0.0,
+ALTER COLUMN "quantity" SET DATA TYPE DOUBLE PRECISION;

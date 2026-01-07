@@ -11,11 +11,7 @@ export default function Header() {
     const username = localStorage.getItem('pantryUsername');
 
     function handleOpenNewPantryItem() {
-        if (!openNewPantryItem) {
-            setOpenNewPantryItem(true)
-        } else {
-            setOpenNewPantryItem(false)
-        }
+        setOpenNewPantryItem(!openNewPantryItem)
     }
 
     function logout() {

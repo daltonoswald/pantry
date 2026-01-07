@@ -1,10 +1,22 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Trash,} from 'react-bootstrap-icons';
-import { capFirst, handleDeleteFromPantry } from '../../utils/utility'
+import { handleDeleteRecipe} from '../../utils/utility'
 import { Link } from 'react-router-dom';
+import ConfirmDelete from '../modals/ConfirmDelete';
+import { useState } from 'react';
 
 export default function ProfileRecipes({ myData, profileData }) {
+    const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+
+    function handleOpenConfirmDelete(id) {
+        setOpenConfirmDelete(!openConfirmDelete)
+        setItemToDelete(id)
+        console.log('13, ', id)
+    }
+
     return (
+        <>
         <Row className='h-100'>
             <Col className='profile-recipes border'>
                 <h3 className='text-center'>Recipes By {profileData.username}</h3>
@@ -17,7 +29,8 @@ export default function ProfileRecipes({ myData, profileData }) {
                                 </Col>
                                 {(profileData.id === myData.id) && (
                                 <Col>
-                                    <Button variant='danger' type='button' onClick={() => console.log('delete recipe')} >
+                                    {/* <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item.id)} > */}
+                                    <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item)} >
                                         <Trash color='black'/>
                                     </Button>
                                 </Col>
@@ -33,5 +46,7 @@ export default function ProfileRecipes({ myData, profileData }) {
                 )}
             </Col>
     </Row>
+    <ConfirmDelete openConfirmDelete={openConfirmDelete} setOpenConfirmDelete={setOpenConfirmDelete} itemToDelete={itemToDelete} />
+    </>
     )
 }

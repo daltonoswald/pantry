@@ -29,4 +29,32 @@ const handleDeleteFromPantry = async (id) => {
     }
 }
 
-export { capFirst, handleDeleteFromPantry }
+const handleDeleteRecipe = async (id) => {
+    console.log('util-id', id);
+    const url = `http://localhost:3000/recipe/delete/${id}`
+    const recipeToDelete = {
+        recipeToDelete: id
+    }
+    try {
+        const token = localStorage.getItem('pantryAuthToken');
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(recipeToDelete),
+            mode: 'cors',
+        });
+        const data = await response.json();
+        if (response.ok) {
+            // console.log('deleted');
+            // console.log(data)
+            return data;
+        }
+    } catch (error) {
+        console.error(`Error requesting: `, error);
+    }
+}
+
+export { capFirst, handleDeleteFromPantry, handleDeleteRecipe }

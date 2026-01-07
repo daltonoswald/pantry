@@ -8,8 +8,6 @@ const { generateToken, verifyToken } = require('../middleware/middleware');
 
 
 exports.log_in = asyncHandler(async (req, res, next) => {
-    console.log('hi')
-    console.log(req.body.username)
     const user = await prisma.user.findFirst({
         where: {
             username: {

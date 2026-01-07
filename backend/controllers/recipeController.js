@@ -74,7 +74,8 @@ exports.new_item = [
 
                                 return {
                                     ingredientId: ingredient.id,
-                                    quantity: parseInt(item.unitAmount),
+                                    // quantity: parseInt(item.unitAmount),
+                                    quantity: parseFloat(item.unitAmount),
                                     measurement: item.unit,
                                     preparationNotes: item.ingredientNote || ''
                                 };
@@ -115,10 +116,10 @@ exports.new_item = [
                 }
             });
 
-            res.json({ message: 'Recipe created successfully', recipe: newRecipe });
+            res.json({ message: 'Recipe created successfully.', recipe: newRecipe });
         } catch (error) {
             console.error(error);
-            res.status(500).json({ error: 'Failed to create recipe'})
+            res.status(500).json({ error: 'Failed to create recipe.'})
         }
     }
 ]
@@ -177,5 +178,51 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
     } catch (err) {
         console.log(err);
         res.status(400).json({error: err})
+    }
+})
+
+exports.delete_recipe = asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const recipeId = req.body.recipeToDelete
+    console.log(req.body.recipeToDelete);
+
+    try {
+        // verify that the recipe exists
+        const recipe = await prisma.recipe.findUnique({
+            where: {
+                id: recipeId
+            },
+            select: {
+                id: true,
+                userId: true,
+                title: true,
+            }
+        });
+
+        // if the recipe doesn't exist, send a 404 error
+        if (!recipe) {
+            return res.status(404).json({ message: 'Recipe not found.' });
+        }
+
+        // if the recipe exists but the author isn't the one attempting to delete (shouldn't happen)
+        if (recipe.userId !== authorizedUser.user.id) {
+            return res.status(403).json({ message: 'You do not have permission to delete this recipe.' });
+        }
+
+        // delete the recipe, cascading on schema should delete related records
+        await prisma.recipe.delete({
+            where: {
+                id: recipeId
+            }
+        });
+
+        res.status(200).json({ message: `Recipe: ${recipe.title} deleted successfully.` });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: 'An error occured while attempting to delete the recipe. Please try again another time.'
+        })
     }
 })
