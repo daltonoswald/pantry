@@ -78,7 +78,7 @@ export default function Recipe() {
                 <Header />
                 <Container className='my-auto main-content' fluid>
                     <h1>{recipeData.title}</h1>
-                    <h3 id={recipeData.user.id}>By {recipeData.user.username}</h3>
+                    <h3>By <Link id={recipeData.user.id} to={`/user/${recipeData.user.id}`}>{recipeData.user.username}</Link></h3>
                     <p>{recipeData.description}</p>
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>
@@ -89,7 +89,7 @@ export default function Recipe() {
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
-                            <Link to={`/search=?${tag.tag.name}`}>{tag.tag.name}</Link>
+                            <Link to={`/search?${tag.tag.name}`}>{tag.tag.name}</Link>
                         ))}
                     </Col>
                 </Container>

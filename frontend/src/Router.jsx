@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/NewRecipe';
+import Search from './pages/Search';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -34,6 +35,10 @@ export default function Router() {
             path: '/new-recipe',
             element: <NewRecipe />
         },
+        {
+            path: '/search',
+            element: <Search />
+        }
     ])
     return <RouterProvider router={router} />
 }
