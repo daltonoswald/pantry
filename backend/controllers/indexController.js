@@ -7,3 +7,7 @@ exports.index = asyncHandler(async (req, res) => {
     const testMessage = 'Successfully connected';
     res.json({testMessage});
 })
+
+exports.search = asyncHandler(async (req, res, next) => {
+    res.json({ message: 'Success!'})
+})
