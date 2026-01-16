@@ -8,14 +8,18 @@ export default function Search() {
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken');
     const [searchParams] = useSearchParams();
-    const searchTerm = searchParams.get('q');
+    const searchQuery = searchParams.get('q');
+    const searchType = searchParams.get('t');
+    console.log(`Query: ${searchQuery}, Type: ${searchType}`)
 
     const handleSearch = async (e) => {
         e.preventDefault();
         const url = `http://localhost:3000/search`
         const formData = {
-            searchValue: e.target.search.value
+            searchQuery: e.target.query.value,
+            searchType: e.target.type.value
         }
+        console.log(formData);
         try {
             const response = await fetch(url, {
                 method: "POST",
@@ -28,6 +32,8 @@ export default function Search() {
             const data = await response.json()
             if (response.ok) {
                 console.log(data);
+                window.history.replaceState(null, '', `/search/?q=${searchQuery}&t=${searchType}`)
+                // navigate(`/search/?q=${searchQuery}&t=${searchType}`)
             }
         } catch (error) {
             console.error(`Error Requesting authentication:`, error);
@@ -42,14 +48,21 @@ export default function Search() {
                 <Form className='p-3' onSubmit={handleSearch}>
                     <Row>
                         <InputGroup className='w-50 mx-auto'>
-                            <FloatingLabel controlId='search' label='Search'>
+                            <FloatingLabel controlId='query' label='Search'>
                                 <Form.Control 
-                                    name='search' 
+                                    name='query' 
                                     type='text' 
                                     placeholder='Search' 
-                                    defaultValue={searchTerm ? searchTerm : ''} 
+                                    defaultValue={searchQuery ? searchQuery: ''} 
                                     />
                             </FloatingLabel>
+                            <Form.Select name='type' aria-label='search-type' defaultValue={searchType ? searchType: 'All'}>
+                                <option value='all'>All</option>
+                                <option value='recipe'>Recipe</option>
+                                <option value='incredient'>Ingredient</option>
+                                <option value='tag'>Tag</option>
+                                <option value='user'>User</option>
+                            </Form.Select>
                             <Button className='m-2' type='submit'>Search</Button>
                         </InputGroup>
                     </Row>

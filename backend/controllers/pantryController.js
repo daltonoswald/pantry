@@ -170,7 +170,6 @@ exports.delete_from_pantry = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
-    console.log(req.body.pantryUsersToDelete);
 
     try {
         const pantryUsersToDelete = await prisma.pantryUsers.delete({

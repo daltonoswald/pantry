@@ -45,7 +45,6 @@ exports.new_item = [
         const authorizedUser = verifyToken(token);
         const tokenUserId = authorizedUser.user.id;
         const recipeData = req.body;
-        console.log(recipeData.tags)
 
         try {
             const newRecipe = await prisma.recipe.create({
@@ -129,7 +128,6 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1];
         const authorizedUser = verifyToken(token);
         const recipeToFind = req.body.recipeToFind;
-        console.log(recipeToFind);
         const recipeData = await prisma.recipe.findFirst({
             where: {
                 id: {
@@ -172,7 +170,6 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
         if (!recipeData) {
             res.status(404).json({error: 'Recipe not found.'})
         } else {
-            console.log(recipeData);
             res.json({ recipeData: recipeData, user: authorizedUser });
         }
     } catch (err) {
@@ -186,7 +183,6 @@ exports.delete_recipe = asyncHandler(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
     const recipeId = req.body.recipeToDelete
-    console.log(req.body.recipeToDelete);
 
     try {
         // verify that the recipe exists

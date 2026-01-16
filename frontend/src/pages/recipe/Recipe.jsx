@@ -17,7 +17,7 @@ export default function Recipe() {
         const getRecipe = async () => {
             const url = `http://localhost:3000/recipe/${params.recipeId}`
             const recipeToFind = {
-                recipeToFind: params.recipeId
+                recipeToFind: params.recipeId,
             }
             try {
                 const response = await fetch(url, {
@@ -89,7 +89,7 @@ export default function Recipe() {
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
-                            <Link to={`/search?q=${tag.tag.name}`}>{tag.tag.name}</Link>
+                            <Link to={`/search?q=${tag.tag.name}&t=tag`}>{tag.tag.name}</Link>
                         ))}
                     </Col>
                 </Container>
