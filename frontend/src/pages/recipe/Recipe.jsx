@@ -89,7 +89,7 @@ export default function Recipe() {
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
-                            <Link to={`/search?q=${tag.tag.name}&t=tag`}>{tag.tag.name}</Link>
+                            <Link to={`/search?q=${tag.tag.name}&t=tags`}>{tag.tag.name}</Link>
                         ))}
                     </Col>
                 </Container>

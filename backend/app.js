@@ -4,7 +4,8 @@ const session = require('express-session');
 const indexRouter = require('./routes/indexRouter');
 const userRouter = require('./routes/userRouter');
 const pantryRouter = require('./routes/pantryRouter');
-const recipeRouter = require('./routes/recipeRouter')
+const recipeRouter = require('./routes/recipeRouter');
+const searchRouter = require('./routes/searchRouter');
 
 const { PrismaClient } = require('@prisma/client');
 const cors = require('cors');
@@ -44,6 +45,7 @@ app.use('/', indexRouter);
 app.use('/user', userRouter);
 app.use('/pantry', pantryRouter);
 app.use('/recipe', recipeRouter);
+app.use('/search', searchRouter);
 
 const assetsPath = path.join(__dirname, 'public');
 app.use(express.static(assetsPath));

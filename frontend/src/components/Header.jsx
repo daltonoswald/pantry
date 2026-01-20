@@ -43,7 +43,7 @@ export default function Header() {
                 {token && (
                     <NavDropdown title={username} className='pantry-primary'>
                         <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-primary'>{username}</NavDropdown.Item>
-                        <NavDropdown.Item as={Link} to={'/search'} className='pantry-primary'>Search</NavDropdown.Item>
+                        <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-primary'>Search</NavDropdown.Item>
                         <NavDropdown.Item as={Link} to={'/new-recipe'} className='pantry-primary'>New Recipe</NavDropdown.Item>
                         <NavDropdown.Item onClick={handleOpenNewPantryItem} className='pantry-primary'>New Pantry Item</NavDropdown.Item>
                         <NavDropdown.Item onClick={logout} className='pantry-primary'>Logout</NavDropdown.Item>

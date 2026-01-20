@@ -180,7 +180,6 @@ exports.profile = asyncHandler(async (req, res, next) => {
         if (!userProfile) {
             res.status(404).json({error: 'User not found.'})
         } else {
-            console.log(userProfile);
             res.json({ profile: userProfile, user: authorizedUser });
         }
     } catch (err) {

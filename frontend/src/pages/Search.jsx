@@ -6,38 +6,41 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 export default function Search() {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
+    const [searchResults, setSearchResults] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
     const token = localStorage.getItem('pantryAuthToken');
     const [searchParams] = useSearchParams();
-    const searchQuery = searchParams.get('q');
-    const searchType = searchParams.get('t');
-    console.log(`Query: ${searchQuery}, Type: ${searchType}`)
+    let searchQuery = searchParams.get('q');
+    let searchType = searchParams.get('t');
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        const url = `http://localhost:3000/search`
-        const formData = {
-            searchQuery: e.target.query.value,
-            searchType: e.target.type.value
-        }
-        console.log(formData);
+        searchQuery = e.target.query.value;
+        searchType = e.target.type.value
+        window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
+        const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
+        // const url = `http://localhost:3000/search?query=meat&type=all`
         try {
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(formData),
                 mode: "cors"
             });
             const data = await response.json()
             if (response.ok) {
+                window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
+                console.log(searchQuery, searchType);
                 console.log(data);
-                window.history.replaceState(null, '', `/search/?q=${searchQuery}&t=${searchType}`)
-                // navigate(`/search/?q=${searchQuery}&t=${searchType}`)
+                setSearchResults(data)
             }
         } catch (error) {
             console.error(`Error Requesting authentication:`, error);
             console.log(error)
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -58,10 +61,10 @@ export default function Search() {
                             </FloatingLabel>
                             <Form.Select name='type' aria-label='search-type' defaultValue={searchType ? searchType: 'All'}>
                                 <option value='all'>All</option>
-                                <option value='recipe'>Recipe</option>
-                                <option value='incredient'>Ingredient</option>
-                                <option value='tag'>Tag</option>
-                                <option value='user'>User</option>
+                                <option value='recipes'>Recipes</option>
+                                <option value='ingredients'>Ingredients</option>
+                                <option value='tags'>Tags</option>
+                                <option value='users'>Users</option>
                             </Form.Select>
                             <Button className='m-2' type='submit'>Search</Button>
                         </InputGroup>
