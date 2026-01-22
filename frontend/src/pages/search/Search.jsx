@@ -1,5 +1,5 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
@@ -14,9 +14,11 @@ export default function Search() {
     let searchType = searchParams.get('t');
 
     const handleSearch = async (e) => {
-        e.preventDefault();
-        searchQuery = e.target.query.value;
-        searchType = e.target.type.value
+        if (e) {
+            e.preventDefault();
+            searchQuery = e.target.query.value;
+            searchType = e.target.type.value
+        }
         window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
         const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
         // const url = `http://localhost:3000/search?query=meat&type=all`
@@ -44,6 +46,12 @@ export default function Search() {
         }
     }
 
+    useEffect(() => {
+        if (searchQuery && searchType) {
+            handleSearch();
+        } else return
+    }, [searchParams])
+
     return (
         <div className='app'>
             <Header />
@@ -56,7 +64,8 @@ export default function Search() {
                                     name='query' 
                                     type='text' 
                                     placeholder='Search' 
-                                    defaultValue={searchQuery ? searchQuery: ''} 
+                                    defaultValue={searchQuery ? searchQuery: ''}
+                                    required
                                     />
                             </FloatingLabel>
                             <Form.Select name='type' aria-label='search-type' defaultValue={searchType ? searchType: 'All'}>
@@ -66,7 +75,7 @@ export default function Search() {
                                 <option value='tags'>Tags</option>
                                 <option value='users'>Users</option>
                             </Form.Select>
-                            <Button className='m-2' type='submit'>Search</Button>
+                            <Button className='' type='submit'>Search</Button>
                         </InputGroup>
                     </Row>
                 </Form>

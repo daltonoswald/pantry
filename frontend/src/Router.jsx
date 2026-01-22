@@ -6,7 +6,7 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/NewRecipe';
-import Search from './pages/Search';
+import Search from './pages/search/Search';
 
 export default function Router() {
     const router = createBrowserRouter([

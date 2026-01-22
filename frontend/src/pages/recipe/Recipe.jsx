@@ -33,21 +33,19 @@ export default function Recipe() {
                     const errorData = await response.json();
                     setIsLoading(false);
                     console.error(`Error Data: `, errorData.error);
-                    console.log('Error Message: ', errorData.error.message)
                     setMessage(errorData.error.message);
                 } else {
                     const recipeData = await response.json();
-                    console.log(recipeData.recipeData);
-                    console.log(recipeData.recipeData.directions);
                     setRecipeData(recipeData.recipeData);
                     setMyData(recipeData.user.user)
                     setMessage(null);
-                    setIsLoading(false)
                 }
             } catch (error) {
                 // console.error(`Errors: ${error.error.message}`);
                 console.log('catch');
                 setMessage(error);
+            } finally {
+                setIsLoading(false)
             }
         }
         getRecipe();
