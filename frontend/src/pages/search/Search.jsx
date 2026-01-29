@@ -2,6 +2,7 @@ import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } f
 import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import SearchIngredients from './searchComponents/SearchIngredients';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -52,7 +53,7 @@ export default function Search() {
         } else return
     }, [searchParams])
 
-    return (
+    if (!isLoading) return (
         <div className='app'>
             <Header />
             <Container className='my-auto' fluid>
@@ -79,6 +80,11 @@ export default function Search() {
                         </InputGroup>
                     </Row>
                 </Form>
+                {(searchResults.results.ingredients) && (
+                    searchResults.results.ingredients.map(ingredient => (
+                        <SearchIngredients ingredient={ingredient} />
+                    ))
+                )}
             </Container>
         </div>
     )
