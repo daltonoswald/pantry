@@ -3,6 +3,8 @@ import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SearchIngredients from './searchComponents/SearchIngredients';
+import SearchRecipes from './searchComponents/SearchRecipes';
+import SearchUsers from './searchComponents/SearchUsers';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -23,6 +25,7 @@ export default function Search() {
         window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
         const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
         // const url = `http://localhost:3000/search?query=meat&type=all`
+        console.log('here');
         try {
             const response = await fetch(url, {
                 method: "POST",
@@ -50,7 +53,10 @@ export default function Search() {
     useEffect(() => {
         if (searchQuery && searchType) {
             handleSearch();
-        } else return
+        } else {
+            setIsLoading(false)
+            return
+        }
     }, [searchParams])
 
     if (!isLoading) return (
@@ -80,11 +86,33 @@ export default function Search() {
                         </InputGroup>
                     </Row>
                 </Form>
-                {(searchResults.results.ingredients) && (
-                    searchResults.results.ingredients.map(ingredient => (
-                        <SearchIngredients ingredient={ingredient} />
-                    ))
-                )}
+                <Row className='mb-4'>
+                    {(searchResults?.results.ingredients) && (
+                        searchResults.results.ingredients.map(ingredient => (
+                            <Col md={4} >
+                                <SearchIngredients key={ingredient.id} ingredient={ingredient} />
+                            </Col>
+                        ))
+                    )}
+                </Row>
+                <Row className='mb-4'>
+                    {(searchResults?.results.recipes) && (
+                        searchResults.results.recipes.map(recipe => (
+                            <Col md={4} >
+                                <SearchRecipes key={recipe.id} recipe={recipe} />
+                            </Col>
+                        ))
+                    )}
+                </Row>
+                <Row className='mb-4'>
+                    {(searchResults?.results.users) && (
+                        searchResults.results.users.map(user => (
+                            <Col md={4} >
+                                <SearchUsers key={user.id} user={user} />
+                            </Col>
+                        ))
+                    )}
+                </Row>
             </Container>
         </div>
     )

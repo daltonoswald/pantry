@@ -50,11 +50,39 @@ exports.search = asyncHandler(async (req, res, next) => {
                     OR: [
                         { title: { contains: searchTerm, mode: 'insensitive' } },
                         { description: { contains: searchTerm, mode: 'insensitive' } },
+                        { user: {
+                            username: { contains: searchTerm, mode: 'insensitive' },
+                        }},
+                        { user: {
+                            name: { contains: searchTerm, mode: 'insensitive' },
+                        }},
                         // Potentially get rid of directions in search ?
                         { directions: { contains: searchTerm, mode: 'insensitive' } },
                     ]
                 },
-                include: {
+                // include: {
+                //     user: {
+                //         select: {
+                //             id: true,
+                //             username: true,
+                //             name: true,
+                //         }
+                //     },
+                //     recipeTags: {
+                //         include: {
+                //             tag: true
+                //         }
+                //     },
+                //     _count: {
+                //         select: {
+                //             favorites: true,
+                //             comments: true
+                //         }
+                //     }
+                // },
+                select: {
+                    id: true,
+                    description: true,
                     user: {
                         select: {
                             id: true,
@@ -63,14 +91,36 @@ exports.search = asyncHandler(async (req, res, next) => {
                         }
                     },
                     recipeTags: {
-                        include: {
-                            tag: true
+                        select: {
+                            tag: {
+                                select: {
+                                    id: true,
+                                    name: true
+                                }
+                            }
                         }
                     },
+                    // comments: {
+                    //     select: {
+                    //         id: true,
+                    //         content: true,
+                    //         createdAt: true,
+                    //         user: {
+                    //             select: {
+                    //                 id: true,
+                    //                 username: true,
+                    //                 name: true,
+                    //             }
+                    //         }
+                    //     },
+                    //     orderBy: {
+                    //         createdAt: 'desc'
+                    //     }
+                    // },
                     _count: {
                         select: {
                             favorites: true,
-                            comments: true
+                            comments: true,
                         }
                     }
                 },
@@ -182,7 +232,7 @@ exports.search = asyncHandler(async (req, res, next) => {
         };
 
         res.json({
-            query: searchTerm,
+            // query: searchTerm,
             totals,
             results
         });
