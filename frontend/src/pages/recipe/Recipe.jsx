@@ -81,13 +81,13 @@ export default function Recipe() {
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>
                         {recipeData.ingredients.map((item) => (
-                            <p>{item.quantity} {item.measurement} {item.ingredient.name}</p>
+                            <p>{item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link></p>
                         ))}
                     </Stack>
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
-                            <Link to={`/search?q=${tag.tag.name}&t=tags`}>{tag.tag.name}</Link>
+                            <Link to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
                         ))}
                     </Col>
                 </Container>

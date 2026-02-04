@@ -89,7 +89,7 @@ export default function Search() {
                 <Row className='mb-4'>
                     {(searchResults?.results.ingredients) && (
                         searchResults.results.ingredients.map(ingredient => (
-                            <Col md={4} >
+                            <Col md={3} className='p-2' >
                                 <SearchIngredients key={ingredient.id} ingredient={ingredient} />
                             </Col>
                         ))
@@ -98,19 +98,26 @@ export default function Search() {
                 <Row className='mb-4'>
                     {(searchResults?.results.recipes) && (
                         searchResults.results.recipes.map(recipe => (
-                            <Col md={4} >
+                            <Col md={4} className='p-2' >
                                 <SearchRecipes key={recipe.id} recipe={recipe} />
                             </Col>
                         ))
                     )}
                 </Row>
-                <Row className='mb-4'>
+                <Row className='mb-4' >
                     {(searchResults?.results.users) && (
                         searchResults.results.users.map(user => (
-                            <Col md={4} >
+                            <Col md={4} className='p-2'  >
                                 <SearchUsers key={user.id} user={user} />
                             </Col>
                         ))
+                    )}
+                </Row>
+                <Row>
+                    {(searchResults?.totals) && (
+                        <Col>
+                            <p className='text-muted'>{searchResults.totals.total} results</p>
+                        </Col>
                     )}
                 </Row>
             </Container>
