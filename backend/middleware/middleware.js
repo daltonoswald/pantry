@@ -6,16 +6,23 @@ const generateToken = (user) => jwt.sign({ id: user.id, username: user.username 
 
 const verifyToken = (token) => jwt.verify(token, secret);
 
-// function verifyToken(token) {
-//     try {
-//         const decoded = jwt.verify(token, secret)
-//         console.log('decoded', decoded)
-//         console.log('in the try mw')
-//     } catch (err) {
-//         console.log('in the catch mw')
-//         console.log(err)
-//         return err
-//     }
-// }
+const optionalAuth = (req, res, next) => {
+    const authHeader = req.headers.authorization;
 
-module.exports = { generateToken, verifyToken };
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+        try {
+            const token = authHeader.split(' ')[1];
+            const authorizedUser = verifyToken(token);
+            req.user = authorizedUser.user; // Attach user to request
+        } catch (error) {
+            // Invalid token, continue without user
+            req.user == null
+        }
+    } else {
+        req.user = null;
+    }
+
+    next();
+}
+
+module.exports = { generateToken, verifyToken, optionalAuth };

@@ -27,7 +27,7 @@ export default function ProfileRecipes({ myData, profileData }) {
                                 <Col>
                                     <Link to={`/recipe/${item.id}`} className='recipe-item'>{item.title}</Link>
                                 </Col>
-                                {(profileData.id === myData.id) && (
+                                {(profileData.id === myData?.id) && (
                                 <Col>
                                     {/* <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item.id)} > */}
                                     <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item)} >

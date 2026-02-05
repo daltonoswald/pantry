@@ -34,25 +34,32 @@ export default function Profile() {
                     body: JSON.stringify(userToFind),
                     mode: 'cors'
                 });
+
+                const data = await response.json();
+
                 if (!response.ok) {
-                    const errorData = await response.json();
                     setIsLoading(false);
-                    console.error(`Error Data: `, errorData.error);
-                    console.log('Error Message: ', errorData.error.message)
-                    setMessage(errorData.error.message);
+                    console.error(`Error Data: `, data.error);
+                    console.log('Error Message: ', data.error.message)
+                    setMessage(data.error.message);
                 } else {
-                    const profileData = await response.json();
-                    // console.log(profileData.user.user);
-                    console.log(profileData.profile);
-                    setProfileData(profileData.profile);
-                    setMyData(profileData.user.user)
+                    console.log(data);
+                    setProfileData(data.userProfile);
+                    if (data.currentUser) {
+                        setMyData(data.currentUser)
+                    }
                     setMessage(null);
-                    setIsLoading(false)
+                    // setProfileData(profileData.profile);
+                    // setMyData(profileData.user.user)
+                    // setMessage(null);
+                    // setIsLoading(false)
                 }
             } catch (error) {
                 console.error(`Errors: ${error.error.message}`);
                 console.log('catch');
                 setMessage(error);
+            } finally {
+                setIsLoading(false);
             }
         }
         getProfile();
@@ -117,11 +124,11 @@ export default function Profile() {
                     </Row>
                     <Row>
                         <Col>
-                            <ProfilePantry myData={myData} profileData={profileData} isLoading={isLoading} />
+                            <ProfilePantry myData={myData || null} profileData={profileData} isLoading={isLoading} />
                         </Col>
-                        <Col>
-                            <ProfileRecipes myData={myData} profileData={profileData} />
-                        </Col> 
+                        {/* <Col>
+                            <ProfileRecipes myData={myData || null} profileData={profileData} />
+                        </Col>  */}
                     </Row>
                 </Container>
             </div>

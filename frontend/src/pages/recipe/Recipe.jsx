@@ -1,5 +1,6 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner, Stack } from 'react-bootstrap';
 import Header from '../../components/Header';
+import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './recipe.styles.css';
@@ -29,19 +30,21 @@ export default function Recipe() {
                     body: JSON.stringify(recipeToFind),
                     mode: 'cors',
                 })
+                const data = await response.json();
                 if (!response.ok) {
                     const errorData = await response.json();
                     setIsLoading(false);
                     console.error(`Error Data: `, errorData.error);
                     setMessage(errorData.error.message);
                 } else {
-                    const recipeData = await response.json();
-                    setRecipeData(recipeData.recipeData);
-                    setMyData(recipeData.user.user)
+                    console.log(data);
+                    setRecipeData(data.recipeData);
+                    if (data.currentUser) {
+                        setMyData(data.currentUser)
+                    }
                     setMessage(null);
                 }
             } catch (error) {
-                // console.error(`Errors: ${error.error.message}`);
                 console.log('catch');
                 setMessage(error);
             } finally {

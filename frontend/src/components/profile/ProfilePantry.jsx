@@ -3,6 +3,7 @@ import { Trash,} from 'react-bootstrap-icons';
 import { capFirst, handleDeleteFromPantry } from '../../utils/utility'
 
 export default function ProfilePantry({ myData, profileData }) {
+    console.log(myData);
     
     return (
         <Row className='h-100'>
@@ -15,7 +16,7 @@ export default function ProfilePantry({ myData, profileData }) {
                             <Col>
                                 <p className='pantry-item-name'>{capFirst(item.pantryItem.name)}</p>
                             </Col>
-                            {(profileData.id === myData.id) && (
+                            {(profileData.id === myData?.id) && (
                             <Col className='col-auto'>
                                 <Button variant='danger' type='button' onClick={() => handleDeleteFromPantry(item.id)} >
                                     <Trash color='black'/>

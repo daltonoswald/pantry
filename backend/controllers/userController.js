@@ -119,8 +119,9 @@ exports.sign_up = [
 
 exports.profile = asyncHandler(async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const authorizedUser = verifyToken(token);
+        // const token = req.headers.authorization.split(' ')[1];
+        // const authorizedUser = verifyToken(token);
+        const currentUser = req.user; // Set by optionalAuth middleware
         const userToFind = req.body.userToFind;
         const userProfile = await prisma.user.findFirst({
             where: {
@@ -131,28 +132,36 @@ exports.profile = asyncHandler(async (req, res, next) => {
             },
             select: {
                 id: true,
-                name: true,
                 username: true,
+                name: true,
                 bio: true,
-                password: false,
-                followedBy: {
-                    select: {
-                        followedBy: {
-                            select: {
-                                id: true,
-                            }
-                        }
-                    }
-                },
-                _count: {
-                    select: {followedBy: true, following: true }
-                },
                 recipes: {
                     select: {
                         id: true,
-                        description: true,
                         title: true,
-                    }
+                        description: true,
+                        createdAt: true,
+                        recipeTags: {
+                            select: {
+                                tag: {
+                                    select: {
+                                        id: true,
+                                        name: true,
+                                    }
+                                }
+                            }
+                        },
+                        _count: {
+                            select: {
+                                favorites: true,
+                                comments: true,
+                            }
+                        }
+                    },
+                    orderBy: {
+                        createdAt: 'desc'
+                    },
+                    take: 10
                 },
                 recipeFavorites: {
                     select: {
@@ -160,30 +169,70 @@ exports.profile = asyncHandler(async (req, res, next) => {
                             select: {
                                 id: true,
                                 title: true,
+                                description: true,
+                                user: {
+                                    select: {
+                                        id: true,
+                                        username: true,
+                                        name: true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    take: 10
+                },
+                pantryItems: {
+                    select: {
+                        id: true,
+                        pantryItem: {
+                            select: {
+                                id: true,
+                                name: true
                             }
                         }
                     }
                 },
-                pantryItems: {
+                _count: {
                     select: {
-                        pantryItem: {
-                            select: {
-                                name: true,
-                                id: true,
-                            }
-                        },
-                        id: true,
+                        recipes: true,
+                        following: true,
+                        followedBy: true,
+                        recipeFavorites: true
                     }
-                }
+                },
+                followedBy: currentUser ? {
+                    where: {
+                        followedById: currentUser.id
+                    }
+                } : false,
+                following: currentUser ? {
+                    where: {
+                        followingId: currentUser.id
+                    }
+                } : false
             }
-        })
+        });
+
         if (!userProfile) {
-            res.status(404).json({error: 'User not found.'})
+            return res.status(404).json({ error: 'User not found.' })
         } else {
-            res.json({ profile: userProfile, user: authorizedUser });
+            // res.json({ profile: userProfile, user: authorizedUser });
+            res.json({
+                userProfile,
+                ...(currentUser && {
+                    currentUser: {
+                        id: currentUser.id,
+                        username: currentUser.username
+                    },
+                    isOwnProfile: userProfile.id === currentUser.id,
+                    isFollowing: userProfile.followedBy?.length > 0,
+                    followsYou: userProfile.following?.length > 0
+                })
+            });
         }
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({error: err})
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'An error occured while fetching the user.' })
     }
 })

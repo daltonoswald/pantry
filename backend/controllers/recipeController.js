@@ -125,8 +125,9 @@ exports.new_item = [
 
 exports.get_recipe = asyncHandler(async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const authorizedUser = verifyToken(token);
+        // const token = req.headers.authorization.split(' ')[1];
+        // const authorizedUser = verifyToken(token);
+        const currentUser = req.user; // Set by optionalAuth middleware
         const recipeToFind = req.body.recipeToFind;
         const recipeData = await prisma.recipe.findFirst({
             where: {
@@ -168,13 +169,24 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
             }
         })
         if (!recipeData) {
-            res.status(404).json({error: 'Recipe not found.'})
+            return res.status(404).json({ error: 'Recipe not found.' })
         } else {
-            res.json({ recipeData: recipeData, user: authorizedUser });
+            // res.json({ recipeData: recipeData, user: authorizedUser });
+            res.json({
+                recipeData,
+                ...(currentUser && {
+                    currentUser: {
+                        id: currentUser.id,
+                        username: currentUser.username
+                    },
+                    isAuthor: recipeData.userId === currentUser.id,
+                    isFavorited: recipeData.favorites?.length > 0
+                })
+            })
         }
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({error: err})
+    } catch (error) {
+        console.error('Error fetching recipe:', error);
+        res.status(500).json({ error: 'An error occured while fetching the recipe.' });
     }
 })
 
