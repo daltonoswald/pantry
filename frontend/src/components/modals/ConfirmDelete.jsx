@@ -5,15 +5,12 @@ import { Modal,Button, Alert } from 'react-bootstrap';
 export default function ConfirmDelete({ openConfirmDelete, setOpenConfirmDelete, itemToDelete }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
-    console.log('cd, ', itemToDelete);
 
     const handleDeleteRecipe = async (itemToDelete) => {
-        console.log('util-id', itemToDelete);
         const url = `http://localhost:3000/recipe/delete/${itemToDelete}`
         const recipeToDelete = {
             recipeToDelete: itemToDelete
         }
-        console.log(itemToDelete);
         try {
             const response = await fetch(url, {
                 method: 'POST',

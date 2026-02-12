@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import ConfirmDelete from '../modals/ConfirmDelete';
 import { useState } from 'react';
 
-export default function ProfileRecipes({ myData, profileData }) {
+export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLoading }) {
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
 
@@ -23,12 +23,12 @@ export default function ProfileRecipes({ myData, profileData }) {
                 {(profileData.recipes.length > 0) && (
                     <div className='profile-recipes-list'>
                         {profileData.recipes.map((item) => (
-                            <Row key={item.id}>
+                            <Row key={item.id} className='mb-2 recipe-item'>
                                 <Col>
                                     <Link to={`/recipe/${item.id}`} className='recipe-item'>{item.title}</Link>
                                 </Col>
                                 {(profileData.id === myData?.id) && (
-                                <Col>
+                                <Col className='col-auto'>
                                     {/* <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item.id)} > */}
                                     <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item)} >
                                         <Trash color='black'/>

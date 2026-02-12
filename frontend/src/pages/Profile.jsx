@@ -15,6 +15,7 @@ export default function Profile() {
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState();
+    const [isOwnProfile, setIsOwnProfile] = useState(false);
     const token = localStorage.getItem('pantryAuthToken');
     const params = useParams();
 
@@ -47,6 +48,9 @@ export default function Profile() {
                     setProfileData(data.userProfile);
                     if (data.currentUser) {
                         setMyData(data.currentUser)
+                    }
+                    if (data.isOwnProfile) {
+                        setIsOwnProfile(data.isOwnProfile)
                     }
                     setMessage(null);
                     // setProfileData(profileData.profile);
@@ -124,11 +128,11 @@ export default function Profile() {
                     </Row>
                     <Row>
                         <Col>
-                            <ProfilePantry myData={myData || null} profileData={profileData} isLoading={isLoading} />
+                            <ProfilePantry myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
                         </Col>
-                        {/* <Col>
-                            <ProfileRecipes myData={myData || null} profileData={profileData} />
-                        </Col>  */}
+                        <Col>
+                            <ProfileRecipes myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
+                        </Col> 
                     </Row>
                 </Container>
             </div>

@@ -79,7 +79,7 @@ export default function Recipe() {
                 <Header />
                 <Container className='my-auto main-content' fluid>
                     <h1>{recipeData.title}</h1>
-                    <h3>By <Link id={recipeData.user.id} to={`/user/${recipeData.user.id}`}>{recipeData.user.username}</Link></h3>
+                    <h3>By <Link id={recipeData.user.username} to={`/user/${recipeData.user.username}`}>{recipeData.user.username}</Link></h3>
                     <p>{recipeData.description}</p>
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>
