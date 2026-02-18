@@ -1,5 +1,5 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner } from 'react-bootstrap';
-import { Trash, PersonSquare } from 'react-bootstrap-icons';
+import { Trash, PersonSquare, PersonFillAdd, PersonFillDash } from 'react-bootstrap-icons';
 import Header from '../components/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,8 @@ export default function Profile() {
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState();
     const [isOwnProfile, setIsOwnProfile] = useState(false);
+    const [isFollowing, setIsFollowing] = useState(null);
+    const [followedBy, setFollowedBy] = useState(null);
     const token = localStorage.getItem('pantryAuthToken');
     const params = useParams();
 
@@ -52,6 +54,8 @@ export default function Profile() {
                     if (data.isOwnProfile) {
                         setIsOwnProfile(data.isOwnProfile)
                     }
+                    setIsFollowing(data.isFollowing)
+                    setFollowedBy(data.followsYou)
                     setMessage(null);
                     // setProfileData(profileData.profile);
                     // setMyData(profileData.user.user)
@@ -68,6 +72,65 @@ export default function Profile() {
         }
         getProfile();
     }, [params.username, navigate]);
+
+    const handleFollow = async (e) => {
+        e.preventDefault();
+        const url = `http://localhost:3000/user/follow-user`
+        const userToFollow = {
+            userToFollow: profileData.username
+        }
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(userToFollow),
+                mode: 'cors',
+            });
+            const data = await response.json();
+            if (response.ok) {
+                console.log(data)
+            }
+            if (!response.ok) {
+                setMessage(data.message);
+            }
+        } catch (error) {
+            console.error(`Error Requesting authentication:`, error);
+            console.log(error)
+        }
+    }
+
+
+    const handleUnFollow = async (e) => {
+        e.preventDefault();
+        const url = `http://localhost:3000/user/unfollow-user`
+        const userToUnfollow = {
+            userToFollow: profileData.username
+        }
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(userToUnfollow),
+                mode: 'cors',
+            });
+            const data = await response.json();
+            if (response.ok) {
+                console.log(data)
+            }
+            if (!response.ok) {
+                setMessage(data.message);
+            }
+        } catch (error) {
+            console.error(`Error Requesting authentication:`, error);
+            console.log(error)
+        }
+    }
 
     if (isLoading) {
         return (
@@ -105,6 +168,14 @@ export default function Profile() {
                                     <Col className='profile-names'>
                                         <h1>{profileData.username}</h1>
                                         <h2>{profileData.name}</h2>
+                                    </Col>
+                                    <Col>
+                                        {(isFollowing && !isOwnProfile) && (
+                                            <PersonFillDash onClick={handleUnFollow} />
+                                        )}
+                                        {(!isFollowing && !isOwnProfile) && (
+                                            <PersonFillAdd onClick={handleFollow} />
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row className='profile-follows'>

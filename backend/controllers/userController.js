@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { generateToken, verifyToken } = require('../middleware/middleware');
+const { authorize } = require('passport');
 
 
 exports.log_in = asyncHandler(async (req, res, next) => {
@@ -234,5 +235,136 @@ exports.profile = asyncHandler(async (req, res, next) => {
     } catch (error) {
         console.error('Error fetching user:', error);
         res.status(500).json({ error: 'An error occured while fetching the user.' })
+    }
+})
+
+exports.follow_user = asyncHandler(async (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const currentUser = authorizedUser.user
+    const usernameToFollow = req.body.userToFollow
+
+    try {
+        const userToFollow = await prisma.user.findFirst({
+            where: {
+                username: usernameToFollow
+            },
+            select: {
+                id: true,
+                username: true,
+                name: true
+            }
+        });
+
+        if (!userToFollow) {
+            return res.status(404).json({
+                messasge: 'User not found.'
+            })
+        }
+
+        // Check to see if trying to follow self
+        if (userToFollow.id === currentUser.id) {
+            return res.status(400).json({
+                message: 'You cannot follow yourself.'
+            });
+        }
+
+        const existingFollow = await prisma.follows.findUnique({
+            where: {
+                followingId_followedById: {
+                    followingId: userToFollow.id,
+                    followedById: currentUser.id
+                }
+            }
+        });
+
+        if (existingFollow) {
+            return res.status(400).json({
+                message: `You are already following ${userToFollow.username}.`
+            });
+        }
+
+        const follow = await prisma.follows.create({
+            data: {
+                followingId: userToFollow.id,   // User being followed
+                followedById: currentUser.id    // Current User
+            }
+        });
+
+        res.status(200).json({
+            message: `You are now following ${userToFollow.username}.`,
+            follow: {
+                followingUser: userToFollow,
+                followedByUser: {
+                    id: currentUser.id,
+                    username: currentUser.username
+                },
+                currentUser: currentUser
+            }
+        });
+    } catch (error) {
+        console.error('Error following user:', error);
+        res.status(500).json({
+            error: 'An error occured while following the user.'
+        })
+    }
+});
+
+exports.unfollow_user = asyncHandler(async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const currentUser = authorizedUser.user
+    const usernameToUnfollow = req.body.userToFollow;
+
+    try {
+        // Find user to unfollow
+        const userToUnfollow = await prisma.user.findFirst({
+            where: {
+                username: usernameToUnfollow
+            },
+            select: {
+                id: true,
+                username: true
+            }
+        });
+
+        if (!userToUnfollow) {
+            return res.status(404).json({
+                message: 'User not found.'
+            });
+        }
+
+        const existingFollow = await prisma.follows.findUnique({
+            where: {
+                followingId_followedById: {
+                    followingId: userToUnfollow.id,
+                    followedById: currentUser.id
+                }
+            }
+        });
+
+        if (!existingFollow) {
+            return res.status(400).json({
+                message: `You are not following ${userToUnfollow.username}.`
+            });
+        }
+
+        await prisma.follows.delete({
+            where: {
+                followingId_followedById: {
+                    followingId: userToUnfollow.id,
+                    followedById: currentUser.id
+                }
+            }
+        });
+
+        res.status(200).json({
+            message: `You have unfollowed ${userToUnfollow.username}.`
+        })
+    } catch (error) {
+        console.error('Error unfollowing user:', error);
+        res.status(500).json({
+            error: 'An error occured while unfollowing user.'
+        })
     }
 })
