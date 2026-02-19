@@ -8,6 +8,7 @@ import ErrorModal from '../components/ErrorModal';
 import { capFirst, handleDeleteFromPantry } from '../utils/utility';
 import ProfilePantry from '../components/profile/ProfilePantry';
 import ProfileRecipes from '../components/profile/ProfileRecipes';
+import EditProfile from '../components/modals/EditProfile';
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function Profile() {
     const [isOwnProfile, setIsOwnProfile] = useState(false);
     const [isFollowing, setIsFollowing] = useState(null);
     const [followedBy, setFollowedBy] = useState(null);
+    const [openEditProfile, setOpenEditProfile] = useState(false);
     const token = localStorage.getItem('pantryAuthToken');
     const params = useParams();
 
@@ -132,6 +134,11 @@ export default function Profile() {
         }
     }
 
+    function handleOpenEditProfile() {
+        console.log(openEditProfile)
+        setOpenEditProfile(!openEditProfile)
+    }
+
     if (isLoading) {
         return (
             <div className='app'>
@@ -176,6 +183,9 @@ export default function Profile() {
                                         {(!isFollowing && !isOwnProfile) && (
                                             <PersonFillAdd onClick={handleFollow} />
                                         )}
+                                        {(isOwnProfile) && (
+                                            <Button onClick={handleOpenEditProfile}>Edit Profile</Button>
+                                        )}
                                     </Col>
                                 </Row>
                                 <Row className='profile-follows'>
@@ -206,6 +216,7 @@ export default function Profile() {
                         </Col> 
                     </Row>
                 </Container>
+                <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} />
             </div>
         )
     }

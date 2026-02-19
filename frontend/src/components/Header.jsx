@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Col, Container, Nav, Navbar, NavDropdown, Row, Form, Button } from 'react-bootstrap'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import NewPantryItem from './NewPantryItem';
+import NewPantryItem from './modals/NewPantryItem';
 import { Search } from 'react-bootstrap-icons';
 
 export default function Header() {

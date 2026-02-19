@@ -9,5 +9,6 @@ router.post('/sign-up', userController.sign_up);
 router.post('/profile/:username', optionalAuth, userController.profile);
 router.post('/follow-user', userController.follow_user);
 router.post('/unfollow-user', userController.unfollow_user);
+router.post('/edit-profile', userController.edit_profile);
 
 module.exports = router;

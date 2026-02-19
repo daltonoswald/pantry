@@ -368,3 +368,71 @@ exports.unfollow_user = asyncHandler(async (req, res) => {
         })
     }
 })
+
+exports.edit_profile =[
+    body('name')
+        .optional()
+        .trim()
+        .isLength({ min: 1, max: 50 })
+        .withMessage('Name must be between 1 and 50 characters.')
+        .escape(),
+    body('bio')
+        .optional()
+        .trim()
+        .isLength({ max: 500 })
+        .withMessage('Bio must be less than 500 characters')
+        .escape(),
+    asyncHandler(async (req, res) => {
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400).json({
+                message: 'Validation errors',
+                errors: errors.array()
+            });
+        }
+
+        const token = req.headers.authorization.split(' ')[1];
+        const authorizedUser = verifyToken(token);
+        const currentUser = authorizedUser.user;
+        const { name, bio } = req.body;
+
+        // Build update data with only provided fields
+        const updateData = {};
+        if (name !== undefined) updateData.name = name;
+        if (bio !== undefined) updateData.bio = bio;
+
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({
+                message: 'No fields proivded to update.'
+            });
+        }
+
+        try {
+            const updatedUser = await prisma.user.update({
+                where: {
+                    id: currentUser.id
+                },
+                data: updateData,
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                    email: true,
+                    bio: true
+                }
+            });
+
+            res.json({
+                message: 'Profile updated successfully.',
+                user: updatedUser,
+                currentUser: currentUser
+            })
+        } catch (error) {
+            console.error('Error updating user:', error);
+            res.status(500).json({
+                error: 'An error occured while updating user.'
+            })
+        }
+    })
+]
