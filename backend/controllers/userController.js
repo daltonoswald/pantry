@@ -396,6 +396,7 @@ exports.edit_profile =[
         const authorizedUser = verifyToken(token);
         const currentUser = authorizedUser.user;
         const { name, bio } = req.body;
+        console.log(req.body.editData);
 
         // Build update data with only provided fields
         const updateData = {};
@@ -404,7 +405,7 @@ exports.edit_profile =[
 
         if (Object.keys(updateData).length === 0) {
             return res.status(400).json({
-                message: 'No fields proivded to update.'
+                message: 'No fields provided to update.'
             });
         }
 

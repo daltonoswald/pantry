@@ -57,4 +57,35 @@ const handleDeleteRecipe = async (id) => {
     }
 }
 
-export { capFirst, handleDeleteFromPantry, handleDeleteRecipe }
+const updateProfile = async (editData) => {
+    const token = localStorage.getItem('pantryAuthToken');
+    const url = `http://localhost:3000/user/edit-profile`
+    console.log('util', editData)
+
+    try {
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(editData),
+            mode: 'cors'
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            console.log(data);
+            return { success: true, message: data.message }
+        } else {
+            console.error('Error:', data.message)
+            return { success: false, message: data.message };
+        }
+    } catch (error) {
+        console.error('Error updating profile', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
+
+export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile }
