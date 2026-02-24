@@ -4,6 +4,8 @@ import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './recipe.styles.css';
+import { Heart, HeartFill } from 'react-bootstrap-icons';
+import { favoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -13,6 +15,8 @@ export default function Recipe() {
     const [myData, setMyData] = useState();
     const [recipeData, setRecipeData] = useState();
     const [message, setMessage] = useState(null);
+    const [isAuthor, setIsAuthor] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false);
 
     useEffect(() => {
         const getRecipe = async () => {
@@ -41,6 +45,8 @@ export default function Recipe() {
                     setRecipeData(data.recipeData);
                     if (data.currentUser) {
                         setMyData(data.currentUser)
+                        setIsAuthor(data.isAuthor)
+                        setIsFavorited(data.isFavorited)
                     }
                     setMessage(null);
                 }
@@ -53,6 +59,40 @@ export default function Recipe() {
         }
         getRecipe();
     }, [params.recipe, navigate])
+
+    const handleFavoriteRecipe = async (e) => {
+        e.preventDefault();
+        setMessage(null);
+        const recipeId = {
+            recipeId: params.recipeId
+        }
+        const result = await favoriteRecipe(recipeId)
+
+        console.log(71, result)
+
+        if (result.success) {
+            // setMessage({ type: 'success', text: result.message });
+            window.location.reload();
+        } else {
+            setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
+        }
+    }
+
+    const handleUnfavoriteRecipe = async (e) => {
+        e.preventDefault();
+        setMessage(null);
+        const recipeId = {
+            recipeId: params.recipeId
+        }
+        const result = await unfavoriteRecipe(recipeId)
+
+        if (result.success) {
+            // setMessage({ type: 'success', text: result.message });
+            window.location.reload();
+        } else {
+            setMessage({ type: 'danger', text: result.message || 'Failed to unfavorite recipe.'})
+        }
+    }
 
     if (isLoading) {
         return (
@@ -81,16 +121,22 @@ export default function Recipe() {
                     <h1>{recipeData.title}</h1>
                     <h3>By <Link id={recipeData.user.username} to={`/user/${recipeData.user.username}`}>{recipeData.user.username}</Link></h3>
                     <p>{recipeData.description}</p>
+                    {(isFavorited && !isAuthor) && (
+                        <HeartFill color='red' onClick={handleUnfavoriteRecipe} />
+                    )}
+                    {(!isFavorited && !isAuthor) && (
+                        <Heart onClick={handleFavoriteRecipe} />
+                    )}
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>
                         {recipeData.ingredients.map((item) => (
-                            <p>{item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link></p>
+                            <p key={item.id}>{item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link></p>
                         ))}
                     </Stack>
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
-                            <Link to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
+                            <Link key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
                         ))}
                     </Col>
                 </Container>

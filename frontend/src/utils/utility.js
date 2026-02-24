@@ -88,4 +88,64 @@ const updateProfile = async (editData) => {
     }
 }
 
-export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile }
+const favoriteRecipe = async (recipeToFavorite) => {
+    const token = localStorage.getItem('pantryAuthToken');
+    const url = `http://localhost:3000/recipe/favorite/${recipeToFavorite}`
+    console.log('util', recipeToFavorite)
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(recipeToFavorite),
+            mode: 'cors'
+        })
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log(data);
+            return { success: true, message: data.message }
+        } else {
+            console.error('Error:', data.message)
+            return { success: false, message: data.message };
+        }
+    } catch (error) {
+        console.error('Error favoriting recipe', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
+
+const unfavoriteRecipe = async (recipeToUnfavorite) => {
+    const token = localStorage.getItem('pantryAuthToken');
+    const url = `http://localhost:3000/recipe/unfavorite/${recipeToUnfavorite}`
+    console.log('util', recipeToUnfavorite)
+
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify(recipeToUnfavorite),
+            mode: 'cors'
+        })
+
+        const data = await response.json();
+        if (response.ok) {
+            console.log(data);
+            return { success: true, message: data.message }
+        } else {
+            console.error('Error:', data.message)
+            return { success: false, message: data.message };
+        }
+    } catch (error) {
+        console.error('Error favoriting recipe', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
+
+export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe }

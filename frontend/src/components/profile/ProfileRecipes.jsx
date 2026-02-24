@@ -12,7 +12,6 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
     function handleOpenConfirmDelete(id) {
         setOpenConfirmDelete(!openConfirmDelete)
         setItemToDelete(id)
-        console.log('13, ', id)
     }
 
     return (
