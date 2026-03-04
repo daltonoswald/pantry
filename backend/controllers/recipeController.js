@@ -392,3 +392,220 @@ exports.unfavorite_recipe = asyncHandler(async (req, res, next) => {
         })
     }
 })
+
+exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const limit = parseInt(req.query.limit) || 5;
+    const minMatchPercent = parseInt(req.query.minMatch) || 0; // Minimum match percentage, considering 5-10
+
+    try {
+        // Get user's pantry items
+        const userPantry = await prisma.pantryUsers.findMany({
+            where: {
+                userId: authorizedUser.user.id
+            },
+            include: {
+                pantryItem: {
+                    include: {
+                        ingredient: true
+                    }
+                }
+            }
+        });
+
+        if (userPantry.length === 0) {
+            return res.json({
+                message: 'Your pantry is empty. Add some items to your pantry to get recommendations.',
+                recipes: []
+            });
+        }
+
+        // Get ingredient IDs from user's pantry
+        const userIngredientIds = userPantry.map(p => p.pantryItem.ingredientId);
+
+        // Get all recipes with their ingredients
+        const allRecipes = await prisma.recipe.findMany({
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        name: true
+                    }
+                },
+                ingredients: {
+                    include: {
+                        ingredient: true
+                    }
+                },
+                recipeTags: {
+                    select: {
+                        tag: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        favorites: true,
+                        comments: true
+                    }
+                }
+            }
+        });
+
+        // Calculate match percentage for each recipe
+        const recipesWithMatch = allRecipes.map(recipe => {
+            const recipeIngredientIds = recipe.ingredients.map(ing => ing.ingredientId);
+            const totalIngredients = recipeIngredientIds.length;
+
+            // Count matching ingredients
+            const matchingIngredients = recipeIngredientIds.filter(id => 
+                userIngredientIds.includes(id)
+            );
+            const matchCount = matchingIngredients.length;
+
+            // Calculate percentage
+            const matchPercentage = totalIngredients > 0 ? Math.round((matchCount / totalIngredients) * 100) : 0;
+
+            // Get missing ingredients
+            const missingIngredients = recipe.ingredients.filter(ing => !userIngredientIds.includes(ing.ingredientId)).map(ing => ({
+                id: ing.ingredient.id,
+                name: ing.ingredient.name,
+                quantity: ing.quantity,
+                measurement: ing.measurement
+            }));
+
+            // Get matching ingredient details
+            const matchingIngredientsDetails = recipe.ingredients.filter(ing => userIngredientIds.includes(ing.ingredientId)).map(ing => ({
+                id: ing.ingredient.id,
+                name: ing.ingredient.name,
+                quantity: ing.quantity,
+                measurement: ing.measurement
+            }));
+
+            return {
+                id: recipe.id,
+                title: recipe.title,
+                description: recipe.description,
+                user: recipe.user,
+                tags: recipe.recipeTags.map(rt => rt.tag),
+                totalIngredients,
+                matchCount,
+                matchPercentage,
+                matchingIngredients: matchingIngredientsDetails,
+                missingIngredients,
+                _count: recipe._count
+            };
+        });
+
+        // Filter by minimum match percentage and sort by match percentage (highest first)
+        const filteredRecipes = recipesWithMatch.filter(recipe => recipe.matchPercentage >= minMatchPercent).sort((a,b) => {
+            // Primary sort: match percentage (descending)
+            if (b.matchPercentage !== a.matchPercentage) {
+                return b.matchPercentage - a.matchPercentage;
+            }
+            // Secondary sort: fewer missing ingredients
+            return a.missingIngredients.length - b.missingIngredients.length;
+        })
+        .slice(0,limit)
+
+        res.json({
+            pantryItemCount: userPantry.length,
+            recipeCount: filteredRecipes.length,
+            recipes: filteredRecipes
+        });
+    } catch (error) {
+        console.error('Error finding recipes by pantry:', error);
+        res.status(500).json({ error: 'An error occured' });
+    }
+});
+
+exports.get_makeable_recipes = asyncHandler(async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const limit = parseInt(req.query.limit) || 5;
+
+    try {
+        // get user's pantry ingredient IDs
+        const userPantry = await prisma.pantryUsers.findMany({
+            where: {
+                userId: authorizedUser.user.id
+            },
+            include: {
+                pantryItem: true,
+            }
+        });
+
+        if (userPantry.length === 0) {
+            return res.json({
+                message: 'Your pantry is empty, add items to get makeable recipes.',
+                recipes: []
+            });
+        }
+
+        const userIngredientIds = userPantry.map(p => p.pantryItem.ingredientId);
+
+        // Find recipes where ALL ingredients are in user's pantry
+        const allRecipes = await prisma.recipe.findMany({
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        name: true
+                    }
+                },
+                ingredients: {
+                    include: {
+                        ingredient: true
+                    }
+                },
+                recipeTags: {
+                    select: {
+                        tag: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        favorite: true,
+                        comments: true
+                    }
+                }
+            }
+        });
+
+        const makeableRecipes = allRecipes.filter(recipe => {
+            const recipeIngredientIds = recipe.ingredients.map(ing => ing.ingredientId);
+            return recipeIngredientIds.every(id => userIngredientIds.includes(id));
+        }).slice(0, limit)
+        .map(recipe => ({
+            id: recipe.id,
+            description: recipe.description,
+            user: recipe.user,
+            tags: recipe.recipeTags.map(rt => rt.tag),
+            totalIngredients: recipe.ingredients.length,
+            matchPercentage: 100,
+            ingredients: recipe.ingredients.map(ing => ({
+                id: ing.ingredient.id,
+                name: ing. ingredient.name,
+                quantity: ing.quantity,
+                measurement: ing.measurement
+            })),
+            _count: recipe._count
+        }));
+
+    } catch (error) {
+        console.error('Error finding makeable recipes:', error);
+        res.status(500).json({ error: 'An error occured.' });
+    }
+});
