@@ -577,7 +577,7 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
                 },
                 _count: {
                     select: {
-                        favorite: true,
+                        favorites: true,
                         comments: true
                     }
                 }
@@ -603,6 +603,12 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
             })),
             _count: recipe._count
         }));
+
+        res.json({
+            pantryItemCount: userPantry.length,
+            recipeCount: makeableRecipes.length,
+            recipes: makeableRecipes
+        })
 
     } catch (error) {
         console.error('Error finding makeable recipes:', error);

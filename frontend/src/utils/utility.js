@@ -76,7 +76,7 @@ const updateProfile = async (editData) => {
         const data = await response.json();
 
         if (response.ok) {
-            console.log(data);
+            // console.log(data);
             return { success: true, message: data.message }
         } else {
             console.error('Error:', data.message)
@@ -106,7 +106,7 @@ const favoriteRecipe = async (recipeToFavorite) => {
 
         const data = await response.json();
         if (response.ok) {
-            console.log(data);
+            // console.log(data);
             return { success: true, message: data.message }
         } else {
             console.error('Error:', data.message)
@@ -136,7 +136,7 @@ const unfavoriteRecipe = async (recipeToUnfavorite) => {
 
         const data = await response.json();
         if (response.ok) {
-            console.log(data);
+            // console.log(data);
             return { success: true, message: data.message }
         } else {
             console.error('Error:', data.message)
@@ -148,4 +148,47 @@ const unfavoriteRecipe = async (recipeToUnfavorite) => {
     }
 }
 
-export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe }
+const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
+    const token = localStorage.getItem('pantryAuthToken');
+    const url = `http://localhost:3000/recipe/by-pantry?limit=${limit}&minMatch=${minMatch}`
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // console.log(data);
+            return { success: true, data: data }
+        }
+    } catch (error) {
+        console.error('Error', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
+
+const getMakeableRecipes = async () => {
+    const token = localStorage.getItem('pantryAuthToken');
+    const url = `http://localhost:3000/recipe/makeable`
+    try {
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const  data = await response.json();
+        if (response.ok) {
+            // console.log(data);
+            return { success: true, data: data }
+        }
+    } catch (error) {
+        console.error('Error', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
+
+export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe, getRecipesByPantry, getMakeableRecipes }

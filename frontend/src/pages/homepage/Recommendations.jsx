@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { getMakeableRecipes, getRecipesByPantry } from '../../utils/utility';
 
 export default function Recommendations() {
     const [recipes, setRecipes] = useState([]);
@@ -6,31 +7,30 @@ export default function Recommendations() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchRecipes = async () => {
-            const token = localStorage.getItem('pantryAuthToken');
-            const limit = 5
-            const url = `http://localhost:3000/recipe/by-pantry?limit=${limit}`
-            try {
-                const response = await fetch(url, {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+        const handleFetchRecipesByPantry = async () => {
+            // setMessage(null)
+            const result = await getRecipesByPantry();
 
-                const data = await response.json();
-
-                if (response.ok) {
-                    setRecipes(data.recipes);
-                    setPantryCount(data.pantryItemCount);
-                    console.log(data);
-                }
-            } catch (error) {
-                console.error('Error', error);
-            } finally {
-                setIsLoading(false);
+            if (result.success) {
+                console.log('by pantry', result.data);
+            } else {
+                // setMessage({ type: 'danger', text: result.message || 'Faled to retrieve recipes.' })
             }
-        };
+        }
+        handleFetchRecipesByPantry();
+    }, [])
 
-        fetchRecipes();
+    useEffect(() => {
+        const handleFetchMakeableRecipes = async () => {
+            // setMessage(null)
+            const result = await getMakeableRecipes();
+
+            if (result.success) {
+                console.log('makeable', result.data);
+            } else {
+                // setMessage({ type: 'danger', text: result.message || 'Faled to retrieve recipes.' })
+            }
+        }
+        handleFetchMakeableRecipes();
     }, [])
 }

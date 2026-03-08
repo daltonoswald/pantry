@@ -15,7 +15,7 @@ export default function SearchRecipes({ recipe }) {
                 <Card.Title>{recipe.title}</Card.Title>
                 <Card.Subtitle className='mb-2'>
                     <Link to={`/user/${recipe.user.username}`}>
-                        {recipe.user.name}
+                        By {recipe.user.name}
                     </Link>
                     </Card.Subtitle>
                 <Card.Text>{recipe.description}</Card.Text>

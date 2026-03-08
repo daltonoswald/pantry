@@ -82,6 +82,7 @@ exports.search = asyncHandler(async (req, res, next) => {
                 // },
                 select: {
                     id: true,
+                    title: true,
                     description: true,
                     user: {
                         select: {
