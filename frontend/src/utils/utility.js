@@ -1,3 +1,5 @@
+const token = localStorage.getItem('pantryAuthToken');
+
 const capFirst = (item) => {
     return item.charAt(0).toUpperCase() + item.slice(1)
 }
@@ -153,9 +155,12 @@ const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
     const url = `http://localhost:3000/recipe/by-pantry?limit=${limit}&minMatch=${minMatch}`
     try {
         const response = await fetch(url, {
+            method: 'GET',
             headers: {
+                'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
-            }
+            },
+            mode: 'cors'
         });
 
         const data = await response.json();
@@ -170,25 +175,4 @@ const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
     }
 }
 
-const getMakeableRecipes = async () => {
-    const token = localStorage.getItem('pantryAuthToken');
-    const url = `http://localhost:3000/recipe/makeable`
-    try {
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        const  data = await response.json();
-        if (response.ok) {
-            // console.log(data);
-            return { success: true, data: data }
-        }
-    } catch (error) {
-        console.error('Error', error);
-        return { success: false, message: 'An error occured.' };
-    }
-}
-
-export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe, getRecipesByPantry, getMakeableRecipes }
+export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe, getRecipesByPantry }

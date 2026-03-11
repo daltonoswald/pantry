@@ -238,6 +238,57 @@ exports.profile = asyncHandler(async (req, res, next) => {
     }
 })
 
+exports.get_user_stats = asyncHandler(async (req, res, next) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const currentUser = authorizedUser.user
+    try {
+        const stats = await prisma.user.findFirst({
+            where: {
+                username: {
+                    equals: currentUser.username,
+                    mode: 'insensitive'
+                }
+            },
+            select: {
+                id: true,
+                username: true,
+                pantryItems: {
+                    select: {
+                        id: true,
+                        pantryItem: {
+                            select: {
+                                id: true,
+                                name: true
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        recipes: true,
+                        following: true,
+                        followedBy: true,
+                        recipeFavorites: true
+                    }
+                },
+            }
+        });
+
+        if (!stats) {
+            return res.status(404).json({ error: 'User not found.' })
+        } else {
+            res.json({
+                stats,
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching user:', error);
+        res.status(500).json({ error: 'An error occured while fetching the user.' })
+    }
+})
+
+
 exports.follow_user = asyncHandler(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);

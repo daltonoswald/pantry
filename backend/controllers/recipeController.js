@@ -615,3 +615,81 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
         res.status(500).json({ error: 'An error occured.' });
     }
 });
+
+exports.get_trending_recipes = asyncHandler(async (req, res) => {
+    const limit = parseInt(req.query.limit) || 5;
+
+    const recipes = await prisma.recipe.findMany({
+        orderBy: {
+            favorites: {
+                _count: 'desc'
+            }
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    username: true,
+                    name: true,
+                }
+            },
+            recipeTags: {
+                select: {
+                    tag: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
+                }
+            },
+            _count: {
+                select: {
+                    favorites: true,
+                    comments: true
+                }
+            }
+        },
+        take: limit
+    });
+
+    res.json({ recipes });
+});
+
+exports.get_recent_recipes = asyncHandler(async (req, res) => {
+    const limit = parseInt(req.query.limit) || 5;
+
+    const recipes = await prisma.recipe.findMany({
+        orderBy: {
+            createdAt: 'desc'
+        },
+        include: {
+            user: {
+                select: {
+                    id: true,
+                    username: true,
+                    name: true
+                }
+            },
+            recipeTags: {
+                select: {
+                    tag: {
+                        select: {
+                            id: true,
+                            name: true
+                        }
+                    }
+                }
+            },
+            _count: {
+                select: {
+                    favorites: true,
+                    comments: true
+                }
+            }
+        },
+        take: limit
+    });
+
+    res.json({ recipes });
+});

@@ -11,5 +11,7 @@ router.post('/favorite/:recipeId', recipeController.favorite_recipe);
 router.delete('/unfavorite/:recipeId', recipeController.unfavorite_recipe);
 router.get('/by-pantry', recipeController.get_recipes_by_pantry);
 router.get('/makeable', recipeController.get_makeable_recipes);
+router.get('/recent', recipeController.get_recent_recipes);
+router.get('/trending', recipeController.get_trending_recipes);
 
 module.exports = router;

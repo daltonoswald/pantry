@@ -10,5 +10,6 @@ router.post('/profile/:username', optionalAuth, userController.profile);
 router.post('/follow-user', userController.follow_user);
 router.delete('/unfollow-user', userController.unfollow_user);
 router.put('/edit-profile', userController.edit_profile);
+router.get('/stats', userController.get_user_stats);
 
 module.exports = router;

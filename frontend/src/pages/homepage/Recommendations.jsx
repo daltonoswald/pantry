@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getMakeableRecipes, getRecipesByPantry } from '../../utils/utility';
+import { getRecipesByPantry } from '../../utils/utility';
 
 export default function Recommendations() {
     const [recipes, setRecipes] = useState([]);
@@ -18,19 +18,5 @@ export default function Recommendations() {
             }
         }
         handleFetchRecipesByPantry();
-    }, [])
-
-    useEffect(() => {
-        const handleFetchMakeableRecipes = async () => {
-            // setMessage(null)
-            const result = await getMakeableRecipes();
-
-            if (result.success) {
-                console.log('makeable', result.data);
-            } else {
-                // setMessage({ type: 'danger', text: result.message || 'Faled to retrieve recipes.' })
-            }
-        }
-        handleFetchMakeableRecipes();
     }, [])
 }

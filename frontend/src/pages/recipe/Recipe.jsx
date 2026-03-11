@@ -130,7 +130,9 @@ export default function Recipe() {
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>
                         {recipeData.ingredients.map((item) => (
-                            <p key={item.id}>{item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link></p>
+                            <p key={item.id}>
+                                {item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link> {item.preparationNotes}
+                            </p>
                         ))}
                     </Stack>
                     <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
