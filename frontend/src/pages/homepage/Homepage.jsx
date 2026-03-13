@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import Header from '../../components/Header';
 import Recommendations from './Recommendations';
 import { useState, useEffect } from 'react';
+import Recent from './Recent';
+import Trending from './Trending';
 
 export default function Homepage() {
   const navigate = useNavigate();
@@ -9,6 +11,7 @@ export default function Homepage() {
   const username = localStorage.getItem('pantryUsername');
   const [isLoading, setIsLoading] = useState(true);
   const [makeableRecipes, setMakeableRecipes] = useState([]);
+  const [recipesByPantry, setRecipesByPantry] = useState([]);
   const [trendingRecipes, setTrendingRecipes] = useState([]);
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [popularTags, setPopularTags] = useState([]);
@@ -23,14 +26,17 @@ export default function Homepage() {
           // Logged in: fetched personalized data
           await Promise.all([
             fetchMakeableRecipes(),
+            getRecipesByPantry(),
             fetchUserStats(),
             fetchTrendingRecipes(),
+            fetchRecentRecipes(),
             fetchPopularTags()
           ]);
         } else {
           // Not logged in
           await Promise.all([
             fetchTrendingRecipes(),
+            fetchRecentRecipes(),
             fetchRecentRecipes(),
             fetchPopularTags()
           ]);
@@ -68,6 +74,31 @@ export default function Homepage() {
           return { success: false, message: 'An error occured.' };
       }
   }
+
+  const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
+    const url = `http://localhost:3000/recipe/by-pantry?limit=${limit}&minMatch=${minMatch}`
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            mode: 'cors'
+        });
+
+        const data = await response.json();
+        console.log('by pantry: ', data)
+
+        if (response.ok) {
+            // console.log(data);
+            setRecipesByPantry(data.recipes || [])
+        }
+    } catch (error) {
+        console.error('Error', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
   
   const fetchUserStats = async () => {
     const url = `http://localhost:3000/user/stats`
@@ -110,6 +141,7 @@ export default function Homepage() {
 
   const fetchRecentRecipes = async () => {
     const url = `http://localhost:3000/recipe/recent?limit=6`
+    console.log('recent')
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -147,7 +179,17 @@ export default function Homepage() {
       <Header />
       <h1>Test</h1>
       <button onClick={() => navigate('zerrdz')}>To the error page!</button>
-      <Recommendations />
+      <Recommendations 
+        makeableRecipes={makeableRecipes}
+        recipesByPantry={recipesByPantry} 
+      />
+      <Recent 
+        recentRecipes={recentRecipes}
+      />
+      <Trending 
+        trendingRecipes={trendingRecipes}
+        popularTags={popularTags}
+      />
     </div>
   )
 }

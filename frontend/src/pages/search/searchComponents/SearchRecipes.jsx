@@ -18,7 +18,7 @@ export default function SearchRecipes({ recipe }) {
                         By {recipe.user.name}
                     </Link>
                     </Card.Subtitle>
-                <Card.Text>{recipe.description}</Card.Text>
+                <Card.Text className='text-muted small'>{recipe.description}</Card.Text>
             </Card.Body>
         </Card>
     )
