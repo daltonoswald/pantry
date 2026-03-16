@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { ClockHistory } from 'react-bootstrap-icons';
+import { ClockHistory, Stopwatch } from 'react-bootstrap-icons';
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 
 
@@ -19,11 +19,16 @@ export default function Recent({ recentRecipes }) {
                     <Row>
                         {recentRecipes.slice(0, 3).map(recipe => (
                             <Col md={4} key={recipe.id}>
-                                <Card onClick={() => navigate(`/recipe/${recipe.id}`)} style={{cursor: 'pointer'}} className='mb-3 h-100'>
-                                    <Card.Body>
-                                        <Card.Title>{recipe.title}</Card.Title>
+                                <Card className='mb-3 h-100'>
+                                    <Card.Body onClick={() => navigate(`/recipe/${recipe.id}`)} style={{cursor: 'pointer'}} >
+                                        <Card.Title>
+                                            <Row>
+                                                <Col xs={6}>{recipe.title}</Col>
+                                                <Col xs={6} className='text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</Col>
+                                            </Row>
+                                        </Card.Title>
                                         <Card.Subtitle>
-                                            <Link to={`/user/${recipe.user.name}`}>
+                                            <Link to={`/user/${recipe.user.username}`}>
                                                 By {recipe.user.name}
                                             </Link>
                                         </Card.Subtitle>
@@ -31,6 +36,11 @@ export default function Recent({ recentRecipes }) {
                                             {recipe.description}
                                         </Card.Text>
                                     </Card.Body>
+                                    <Card.Footer className='text-muted d-flex flex-row gap-2'>
+                                        {recipe.recipeTags.map(tag => (
+                                            <p>{tag.tag.name}</p>
+                                        ))}
+                                    </Card.Footer>
                                 </Card>
                             </Col>
                         ))}

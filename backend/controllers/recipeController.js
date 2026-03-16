@@ -592,6 +592,8 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
             id: recipe.id,
             description: recipe.description,
             user: recipe.user,
+            title: recipe.title,
+            cookTime: recipe.cookTime,
             tags: recipe.recipeTags.map(rt => rt.tag),
             totalIngredients: recipe.ingredients.length,
             matchPercentage: 100,

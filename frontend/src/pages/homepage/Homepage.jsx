@@ -4,6 +4,7 @@ import Recommendations from './Recommendations';
 import { useState, useEffect } from 'react';
 import Recent from './Recent';
 import Trending from './Trending';
+import { Spinner, Container } from 'react-bootstrap';
 
 export default function Homepage() {
   const navigate = useNavigate();
@@ -64,7 +65,7 @@ export default function Homepage() {
           });
   
           const data = await response.json();
-          console.log('makeable: ', data)
+          // console.log('makeable: ', data)
           if (response.ok) {
               // console.log(data);
               setMakeableRecipes(data.recipes || []);
@@ -88,7 +89,7 @@ export default function Homepage() {
         });
 
         const data = await response.json();
-        console.log('by pantry: ', data)
+        // console.log('by pantry: ', data)
 
         if (response.ok) {
             // console.log(data);
@@ -133,7 +134,7 @@ export default function Homepage() {
       mode: 'cors'
     });
     const data = await response.json();
-    console.log('trending: ', data)
+    // console.log('trending: ', data)
     if (response.ok) {
       setTrendingRecipes(data.recipes || []);
     }
@@ -141,7 +142,6 @@ export default function Homepage() {
 
   const fetchRecentRecipes = async () => {
     const url = `http://localhost:3000/recipe/recent?limit=6`
-    console.log('recent')
     const response = await fetch(url, {
       method: 'GET',
       headers: {
@@ -151,7 +151,7 @@ export default function Homepage() {
       mode: 'cors'
     });
     const data = await response.json();
-    console.log('recent: ', data)
+    // console.log('recent: ', data)
     if (response.ok) {
       setRecentRecipes(data.recipes || []);
     }
@@ -168,28 +168,39 @@ export default function Homepage() {
       mode: 'cors'
     });
     const data = await response.json();
-    console.log('popular: ', data)
+    console.log('popular tags: ', data)
     if (response.ok) {
       setPopularTags(data.tags || []);
     }
   }
 
-  return (
+  if (isLoading) return (
     <div className='app'>
       <Header />
-      <h1>Test</h1>
-      <button onClick={() => navigate('zerrdz')}>To the error page!</button>
-      <Recommendations 
-        makeableRecipes={makeableRecipes}
-        recipesByPantry={recipesByPantry} 
-      />
-      <Recent 
-        recentRecipes={recentRecipes}
-      />
-      <Trending 
-        trendingRecipes={trendingRecipes}
-        popularTags={popularTags}
-      />
+      <Container className='my-5 text-center'>
+        <Spinner animation='border' role='status'>
+          <span className='visually-hidden'>Loading...</span>
+        </Spinner>
+      </Container>
+    </div>
+  )
+
+  if (!isLoading) return (
+    <div className='app'>
+      <Header />
+      <Container>
+        <Recommendations 
+          makeableRecipes={makeableRecipes}
+          recipesByPantry={recipesByPantry} 
+        />
+        <Recent 
+          recentRecipes={recentRecipes}
+        />
+        <Trending 
+          trendingRecipes={trendingRecipes}
+          popularTags={popularTags}
+        />
+      </Container>
     </div>
   )
 }
