@@ -457,6 +457,7 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
                 }
             }
         });
+        console.log('AR', allRecipes[0])
 
         // Calculate match percentage for each recipe
         const recipesWithMatch = allRecipes.map(recipe => {
@@ -493,6 +494,7 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
                 title: recipe.title,
                 description: recipe.description,
                 user: recipe.user,
+                cookTime: recipe.cookTime,
                 tags: recipe.recipeTags.map(rt => rt.tag),
                 totalIngredients,
                 matchCount,

@@ -54,3 +54,8 @@ p {
     height: 0;
 }
 
+.secondary-link {
+    position: relative;
+    z-index: 1;
+}
+

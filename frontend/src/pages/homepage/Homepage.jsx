@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import Header from '../../components/Header';
-import Recommendations from './Recommendations';
+import MakeableRecipes from './MakeableRecipes';
 import { useState, useEffect } from 'react';
 import Recent from './Recent';
 import Trending from './Trending';
@@ -189,7 +189,7 @@ export default function Homepage() {
     <div className='app'>
       <Header />
       <Container>
-        <Recommendations 
+        <MakeableRecipes 
           makeableRecipes={makeableRecipes}
           recipesByPantry={recipesByPantry} 
         />
