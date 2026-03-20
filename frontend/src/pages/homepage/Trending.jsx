@@ -5,7 +5,7 @@ import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 
 export default function Trending({trendingRecipes, popularTags }) {
     const navigate = useNavigate();
-    console.log('trending:', trendingRecipes);
+    // console.log('trending:', trendingRecipes);
 
     return (
         <>

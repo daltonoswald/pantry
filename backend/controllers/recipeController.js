@@ -290,8 +290,6 @@ exports.favorite_recipe = asyncHandler(async (req, res, next) => {
             })
         }
 
-        console.log(recipeToFavorite)
-
         // Check to see if trying to favorite own recipe
         if (currentUser.id === recipeToFavorite.userId) {
             return res.status(400).json({
@@ -457,7 +455,6 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
                 }
             }
         });
-        console.log('AR', allRecipes[0])
 
         // Calculate match percentage for each recipe
         const recipesWithMatch = allRecipes.map(recipe => {
@@ -661,6 +658,7 @@ exports.get_trending_recipes = asyncHandler(async (req, res) => {
 });
 
 exports.get_recent_recipes = asyncHandler(async (req, res) => {
+    console.log('recent');
     const limit = parseInt(req.query.limit) || 5;
 
     const recipes = await prisma.recipe.findMany({
@@ -696,4 +694,43 @@ exports.get_recent_recipes = asyncHandler(async (req, res) => {
     });
 
     res.json({ recipes });
+});
+
+exports.batch_check_favorites = asyncHandler(async (req, res) => {
+    console.log('batch')
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+    const { recipeIds } = req.body;
+    console.log('batch check favorites');
+    console.log('ids:', recipeIds);
+
+    if (!recipeIds || !Array.isArray(recipeIds)) {
+        return res.status(400).json({ message: 'recipeIds must be an array' });
+    }
+
+    try {
+        const favorites = await prisma.recipeFavorite.findMany({
+            where: {
+                userId: authorizedUser.user.id,
+                recipeId: {
+                    in: recipeIds
+                }
+            },
+            select: {
+                recipeId: true,
+            }
+        });
+
+        // Convert to object for easy lookup
+        const favoriteStatus = {};
+        recipeIds.forEach(id => {
+            favoriteStatus[id] = favorites.some(fav => fav.recipeId === id);
+        });
+
+        console.log('status', favoriteStatus);
+        res.json({ favoriteStatus });
+    } catch (error) {
+        console.error('Error checking favorite status:', error);
+        res.status(500).json({ error: 'An error occured.' });
+    }
 });
