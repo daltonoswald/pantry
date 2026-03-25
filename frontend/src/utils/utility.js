@@ -93,7 +93,7 @@ const updateProfile = async (editData) => {
 const favoriteRecipe = async (recipeToFavorite) => {
     const token = localStorage.getItem('pantryAuthToken');
     const url = `http://localhost:3000/recipe/favorite/${recipeToFavorite}`
-    console.log('util', recipeToFavorite)
+    console.log('util', token, recipeToFavorite)
 
     try {
         const response = await fetch(url, {

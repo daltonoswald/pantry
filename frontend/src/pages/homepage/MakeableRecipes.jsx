@@ -1,12 +1,41 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
-import { Clipboard, Clipboard2Check, Stopwatch } from 'react-bootstrap-icons';
+import { Clipboard, Clipboard2Check, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
+import { favoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 
-export default function MakeableRecipes({ makeableRecipes, recipesByPantry }) {
-    const navigate = useNavigate();
-    // console.log('makeable', makeableRecipes)
-    // console.log('byPantry', recipesByPantry)
+export default function MakeableRecipes({ makeableRecipes, recipesByPantry, userStats, favoriteStatus }) {
+
+    const handleFavoriteRecipe = async (id) => {
+        // setMessage(null);
+        const recipeId = { 
+            recipeId: id
+         }
+        console.log('favoriting: ', recipeId)
+        const result = await favoriteRecipe(recipeId)
+
+        if (result.success) {
+            // setMessage({ type: 'success', text: result.message });
+            window.location.reload();
+        } else {
+            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
+        }
+    }
+
+    const handleUnfavoriteRecipe = async (id) => {
+        // setMessage(null);
+        const recipeId = { 
+            recipeId: id
+         }
+        const result = await unfavoriteRecipe(recipeId)
+
+        if (result.success) {
+            // setMessage({ type: 'success', text: result.message });
+            window.location.reload();
+        } else {
+            // setMessage({ type: 'danger', text: result.message || 'Failed to unfavorite recipe.'})
+        }
+    }
 
     return (
         <>
@@ -29,6 +58,18 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry }) {
                                                 <Link className='stretched-link' to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
                                             </Col>
                                                 <Col xs={6}>
+                                                    <Row>
+                                                        <p className='d-flex align-items-center justify-content-end text-end mb-0'>
+                                                            {(favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                                <HeartFill className='secondary-link' color='red' onClick={() => handleUnfavoriteRecipe(recipe.id)} />
+                                                            ) : (!favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                                <Heart className='secondary-link' onClick={() => handleFavoriteRecipe(recipe.id)} />
+                                                            ) : (
+                                                                <></>
+                                                            )
+                                                            }
+                                                        </p>
+                                                    </Row>
                                                     <Row>
                                                         {/* <Col xs={6} className='text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</Col> */}
                                                         <p className='d-flex align-items-center justify-content-end text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</p>
@@ -108,6 +149,18 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry }) {
                                                 <Col xs={6}>
                                                 <Link className='stretched-link' to={`/recipe/${recipe.id}`}>{recipe.title}</Link></Col>
                                                 <Col xs={6}>
+                                                    <Row>
+                                                        <p className='d-flex align-items-center justify-content-end text-end mb-0'>
+                                                            {(favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                                <HeartFill className='secondary-link' color='red' onClick={() => handleUnfavoriteRecipe(recipe.id)} />
+                                                            ) : (!favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                                <Heart className='secondary-link' onClick={() => handleFavoriteRecipe(recipe.id)} />
+                                                            ) : (
+                                                                <></>
+                                                            )
+                                                            }
+                                                        </p>
+                                                    </Row>
                                                     <Row>
                                                         <p className='d-flex align-items-center justify-content-end text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</p>
                                                     </Row>

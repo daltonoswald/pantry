@@ -265,6 +265,8 @@ exports.favorite_recipe = asyncHandler(async (req, res, next) => {
     const authorizedUser = verifyToken(token);
     const currentUser = authorizedUser.user;
     const recipeId = req.body.recipeId;
+    console.log('token', token)
+    console.log(recipeId);
 
     try {
         const recipeToFavorite = await prisma.recipe.findFirst({

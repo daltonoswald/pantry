@@ -233,14 +233,20 @@ export default function Homepage() {
       <Container>
         <MakeableRecipes 
           makeableRecipes={makeableRecipes}
-          recipesByPantry={recipesByPantry} 
+          recipesByPantry={recipesByPantry}
+          userStats={userStats}
+          favoriteStatus={favoriteStatus} 
         />
         <Recent 
           recentRecipes={recentRecipes}
+          userStats={userStats}
+          favoriteStatus={favoriteStatus}
         />
         <Trending 
           trendingRecipes={trendingRecipes}
           popularTags={popularTags}
+          userStats={userStats}
+          favoriteStatus={favoriteStatus}
         />
       </Container>
     </div>
