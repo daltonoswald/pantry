@@ -5,6 +5,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import SearchIngredients from './searchComponents/SearchIngredients';
 import SearchRecipes from './searchComponents/SearchRecipes';
 import SearchUsers from './searchComponents/SearchUsers';
+import SearchTags from './searchComponents/SearchTags';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -101,6 +102,20 @@ export default function Search() {
                             <Col md={4} className='p-2' >
                                 <SearchRecipes key={recipe.id} recipe={recipe} />
                             </Col>
+                        ))
+                    )}
+                </Row>
+                <Row className='mb-4'>
+                    {(searchResults?.results.tags) && (
+                        searchResults?.results.tags.map(tag => (
+                            <>
+                            <h1>{tag.name}</h1>
+                            {tag.recipes.map(recipe => (
+                                <Col md={4} className='p-2'  >
+                                    <SearchTags key={recipe.id} recipe={recipe} />
+                                </Col>
+                            ))}
+                            </>
                         ))
                     )}
                 </Row>

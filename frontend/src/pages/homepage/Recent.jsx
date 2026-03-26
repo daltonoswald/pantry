@@ -57,7 +57,7 @@ export default function Recent({ recentRecipes, userStats, favoriteStatus }) {
                                     </Card.Body>
                                     <Card.Footer className='text-muted d-flex flex-row gap-2'>
                                         {recipe.recipeTags.map(tag => (
-                                            <p>{tag.tag.name}</p>
+                                            <Link className='text-muted secondary-link' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
                                         ))}
                                     </Card.Footer>
                                 </Card>

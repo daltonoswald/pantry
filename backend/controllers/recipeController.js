@@ -505,7 +505,8 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
         });
 
         // Filter by minimum match percentage and sort by match percentage (highest first)
-        const filteredRecipes = recipesWithMatch.filter(recipe => recipe.matchPercentage >= minMatchPercent).sort((a,b) => {
+        // Added check to remove anything at 100% which is shown in Makeable - maybe delete ?
+        const filteredRecipes = recipesWithMatch.filter(recipe => recipe.matchPercentage >= minMatchPercent && recipe.matchPercentage < 100).sort((a,b) => {
             // Primary sort: match percentage (descending)
             if (b.matchPercentage !== a.matchPercentage) {
                 return b.matchPercentage - a.matchPercentage;

@@ -94,7 +94,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                     </Card.Body>
                                     <Card.Footer className='text-muted d-flex flex-row gap-2'>
                                         {recipe.tags.map(tag => (
-                                            <p key={tag.id}>{tag.name}</p>
+                                            <Link className='text-muted secondary-link' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
                                         ))}
                                     </Card.Footer>
                                 </Card>
@@ -181,7 +181,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                     </Card.Body>
                                     <Card.Footer className='text-muted d-flex flex-row gap-2'>
                                         {recipe.tags.map(tag => (
-                                            <p key={tag.id}>{tag.name}</p>
+                                            <Link className='text-muted secondary-link' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
                                         ))}
                                     </Card.Footer>
                                 </Card>

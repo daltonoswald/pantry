@@ -56,8 +56,16 @@ exports.search = asyncHandler(async (req, res, next) => {
                         { user: {
                             name: { contains: searchTerm, mode: 'insensitive' },
                         }},
+                        { ingredients: {
+                            some: {
+                                ingredient: {
+                                    name: { contains: searchTerm, mode: 'insensitive' }
+                                }
+                            }
+                        }},
                         // Potentially get rid of directions in search ?
-                        { directions: { contains: searchTerm, mode: 'insensitive' } },
+                        // { directions: { contains: searchTerm, mode: 'insensitive' } },
+                        
                     ]
                 },
                 // include: {
