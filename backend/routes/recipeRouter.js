@@ -15,5 +15,6 @@ router.post('/:recipeId', optionalAuth, recipeController.get_recipe);
 router.post('/delete/:recipeId', recipeController.delete_recipe);
 router.post('/favorite/:recipeId', recipeController.favorite_recipe);
 router.delete('/unfavorite/:recipeId', recipeController.unfavorite_recipe);
+router.post('/toggle-favorite/:recipeId', recipeController.toggle_favorite);
 
 module.exports = router;

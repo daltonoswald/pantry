@@ -73,7 +73,7 @@ export default function Homepage() {
               if (data.recipes) {
                 // console.log('data.recipes', data.recipes)
                 // console.log('checking favorites...')
-                // checkFavoriteStatus(data.recipes);
+                checkFavoriteStatus(data.recipes);
               }
           }
       } catch (error) {
@@ -231,12 +231,14 @@ export default function Homepage() {
     <div className='app'>
       <Header />
       <Container>
-        <MakeableRecipes 
+        {userStats && (
+          <MakeableRecipes 
           makeableRecipes={makeableRecipes}
           recipesByPantry={recipesByPantry}
           userStats={userStats}
           favoriteStatus={favoriteStatus} 
-        />
+          />
+        )}
         <Recent 
           recentRecipes={recentRecipes}
           userStats={userStats}

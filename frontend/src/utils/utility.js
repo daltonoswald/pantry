@@ -145,7 +145,38 @@ const unfavoriteRecipe = async (recipeToUnfavorite) => {
             return { success: false, message: data.message };
         }
     } catch (error) {
-        console.error('Error favoriting recipe', error);
+        console.error('Error favoriting recipe:', error);
+        return { success: false, message: 'An error occured.' };
+    }
+}
+
+const toggleFavoriteRecipe = async (recipeId) => {
+    const token = localStorage.getItem('pantryAuthToken');
+    const url = `http://localhost:3000/recipe/toggle-favorite/${recipeId}`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            mode: 'cors'
+        });
+
+        const data = await response.json();;
+
+        if (response.ok) {
+            return {
+                success: true,
+                isFavorited: data.isFavorited,
+                message: data.message
+            };
+        } else {
+            return { success: false, message: data.message };
+        }
+    } catch (error) {
+        console.error('Error toggling favorite:', error);
         return { success: false, message: 'An error occured.' };
     }
 }
@@ -175,4 +206,4 @@ const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
     }
 }
 
-export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe, getRecipesByPantry }
+export { capFirst, handleDeleteFromPantry, handleDeleteRecipe, updateProfile, favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe, getRecipesByPantry }

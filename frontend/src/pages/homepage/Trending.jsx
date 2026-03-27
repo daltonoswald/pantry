@@ -2,10 +2,24 @@ import { useNavigate, Link } from 'react-router-dom';
 import { GraphUp, Stopwatch } from 'react-bootstrap-icons';
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
-import { favoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
+import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe} from '../../utils/utility';
 
 
 export default function Trending({trendingRecipes, popularTags, userStats, favoriteStatus }) {
+
+    const handleToggleFavoriteRecipe = async (recipeId) => {
+        // setMessage(null);
+
+        console.log('toggling: ', recipeId)
+        const result = await toggleFavoriteRecipe(recipeId)
+
+        if (result.success) {
+            // setMessage({ type: 'success', text: result.message });
+            window.location.reload();
+        } else {
+            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
+        }
+    }
 
     return (
         <>
@@ -31,12 +45,12 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
                                                 <Col xs={6}>
                                                     <Row>
                                                         <p className='d-flex align-items-center justify-content-end text-end mb-0'>
-                                                            {(favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                                                                <HeartFill color='red' onClick={() => favoriteRecipe(recipe.id)} />
-                                                            ) : (!favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                                                                <Heart onClick={() => unfavoriteRecipe(recipe.id)} />
+                                                            {(userStats != null && favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                                <HeartFill className='secondary-link' color='red' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                            ) : (userStats != null && !favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                                <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                             ) : (
-                                                                <></>
+                                                                <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />   
                                                             )
                                                             }
                                                         </p>
