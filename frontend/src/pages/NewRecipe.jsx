@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Trash } from 'react-bootstrap-icons';
-import TinyEditor from '../components/TinyEditor';
+import TinyEditor from '../components/tinyEditor/TinyEditor';
 
 export default function NewRecipe() {
     const navigate = useNavigate();
@@ -192,7 +192,7 @@ export default function NewRecipe() {
                             </Form.Group>
                         ))}
                         <Row className='justify-content-md-center'>
-                            <Button className='w-25 m-2' type='button' onClick={handleAddIngredient}>Add Ingredient</Button>
+                            <Button className='w-25 m-2 pantry-secondary' type='button' onClick={handleAddIngredient}>Add Ingredient</Button>
                         </Row>
                         <Row>
                             <Col className='m-2'>
@@ -210,7 +210,7 @@ export default function NewRecipe() {
                             </Col>
                         </Row>
                         <Row className='justify-content-md-center'>
-                            <Button className='w-50 m-2' type='submit'>Create Recipe</Button>
+                            <Button className='w-50 m-2 pantry-secondary' type='submit'>Create Recipe</Button>
                         </Row>
                 </Form>
                 {message && (

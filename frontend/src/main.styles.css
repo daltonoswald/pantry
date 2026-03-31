@@ -1,12 +1,21 @@
-:root {
+/* :root {
     --primary: #5F6F52;
     --primary-subtle: #A9B388;
     --secondary: #FEFAE0;
     --tetriary: #B99470;
+} */
+
+:root {
+    --primary: #C0563E;
+    --primary-subtle: #FFDAD2;
+    --secondary: #76885B;
+    --tetriary: #E8DED1;
+    --neutral: #4D463F;
 }
 
 .app {
     min-height: 100vh;
+    background-color: var(--tetriary);
 }
 
 .main-content {
@@ -16,23 +25,28 @@
 .pantry-primary,
 .dropdown-menu.show {
     color: white;
-    background-color: #5F6F52;
+    background-color: #C0563E;
 }
 
 .dropdown-item:hover {
-    background-color: #404d36;
+    background-color: #A03F29;
+    color: white;
 }
 
 .pantry-primary-subtle {
-    background-color: #A9B388;
+    background-color: #FFDAD2;
 }
 
 .pantry-secondary {
-    background-color: #FEFAE0;
+    background-color: #76885B;
+}
+
+.pantry-secondary:hover {
+    background-color: #6B7D51;
 }
 
 .pantry-tertiary {
-    background-color: #B99470;
+    background-color: #E8DED1;
 }
 
 p {
@@ -58,4 +72,26 @@ p {
     position: relative;
     z-index: 1;
 }
+
+.btn {
+    border: 1px solid var(--neutral) !important;
+}
+
+.card,
+form {
+    background-color: #f8ece8;
+}
+
+.form-control,
+.form-select {
+    background-color: var(--tetriary);
+    border: 1px solid var(--neutral) !important;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: none !important;
+    background-color: var(--tetriary) !important;
+}
+
 

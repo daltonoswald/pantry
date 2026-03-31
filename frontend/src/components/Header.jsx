@@ -37,7 +37,7 @@ export default function Header() {
                 </Row>
                 <Row>
                     <Col>
-                        <Form className='d-flex' onSubmit={handleNavSearch}>
+                        <Form className='d-flex pantry-primary' onSubmit={handleNavSearch}>
                             <Form.Control
                                 type='search'
                                 name='query'
@@ -46,7 +46,7 @@ export default function Header() {
                                 defaultValue={query || ''}
                                 aria-label='Search'
                             />
-                            <Button type='submit'>
+                            <Button type='submit' className='pantry-secondary'>
                                 <Search color='white' />
                             </Button>
                         </Form>

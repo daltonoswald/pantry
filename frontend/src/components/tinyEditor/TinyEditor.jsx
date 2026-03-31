@@ -10,8 +10,11 @@ export default function TinyEditor({ value, onChange }) {
       // initialValue='<p>Directions</p>'
       value={value}
       init={{
+        content_css: 'src/components/tinyEditor/tinymcecontent.css',
         height: 400,
         menubar: false,
+        statusbar: false,
+        highlight_on_focus: false,
         plugins: [
           'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount'
         ],

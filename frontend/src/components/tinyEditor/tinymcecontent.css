@@ -1,0 +1,12 @@
+:root {
+    --primary: #C0563E;
+    --primary-subtle: #FFDAD2;
+    --secondary: #76885B;
+    --tetriary: #E8DED1;
+    --neutral: #4D463F;
+}
+
+body {
+    background-color: var(--tetriary) !important;
+    background-image: none;
+}
