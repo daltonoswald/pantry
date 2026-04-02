@@ -30,18 +30,18 @@ export default function Header() {
 
     return (
         <>
-        <Navbar sticky='top' expand='lg' className='pantry-primary mb-3 d-flex justify-content-around' >
+        <Navbar sticky='top' expand='lg' className='pantry-heading mb-3 d-flex justify-content-around' >
             {/* <Container fluid className='pantry-primary mx-2'> */}
                 <Row>
-                    <Navbar.Brand className='pantry-primary' as={Link} to='/'>Pantry</Navbar.Brand>
+                    <Navbar.Brand as={Link} to='/'>Pantry</Navbar.Brand>
                 </Row>
                 <Row>
                     <Col>
-                        <Form className='d-flex pantry-primary' onSubmit={handleNavSearch}>
+                        <Form className='d-flex' onSubmit={handleNavSearch}>
                             <Form.Control
                                 type='search'
                                 name='query'
-                                placeholder='Search'
+                                placeholder='Search...'
                                 className='me-2'
                                 defaultValue={query || ''}
                                 aria-label='Search'
@@ -52,7 +52,7 @@ export default function Header() {
                         </Form>
                     </Col>
                 </Row>
-                <Row className='text-light pantry-primary'>
+                <Row className='text-light pantry-heading'>
                     {!token && (
                         <Col>
                             <Col>
@@ -69,12 +69,12 @@ export default function Header() {
                     )}
                     {token && (
                         <Col md='auto' className='d-flex align-items-center'>
-                            <NavDropdown title={username} className='pantry-primary' >
-                                <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-primary'>{username}</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-primary'>Search</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/new-recipe'} className='pantry-primary'>New Recipe</NavDropdown.Item>
-                                <NavDropdown.Item onClick={handleOpenNewPantryItem} className='pantry-primary'>New Pantry Item</NavDropdown.Item>
-                                <NavDropdown.Item onClick={logout} className='pantry-primary'>Logout</NavDropdown.Item>
+                            <NavDropdown title={username} className='pantry-heading' >
+                                <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-heading'>{username}</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-heading'>Search</NavDropdown.Item>
+                                <NavDropdown.Item as={Link} to={'/new-recipe'} className='pantry-heading'>New Recipe</NavDropdown.Item>
+                                <NavDropdown.Item onClick={handleOpenNewPantryItem} className='pantry-heading'>New Pantry Item</NavDropdown.Item>
+                                <NavDropdown.Item onClick={logout} className='pantry-heading'>Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Col>
                     )}

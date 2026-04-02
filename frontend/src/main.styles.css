@@ -11,26 +11,31 @@
     --secondary: #76885B;
     --tetriary: #E8DED1;
     --neutral: #4D463F;
+    --background: #fff8f4;
+    --background-deeper: #fdf2e8;
+    --card: rgba(253, 242, 232, 0.95);
 }
 
 .app {
     min-height: 100vh;
-    background-color: var(--tetriary);
+    background-color: var(--background);
 }
 
 .main-content {
     width: 80%;
 }
 
-.pantry-primary,
+.pantry-primary {
+    background-color: var(--primary);
+}
+
+
 .dropdown-menu.show {
-    color: white;
-    background-color: #C0563E;
+    background-color: var(--background-deeper);
 }
 
 .dropdown-item:hover {
-    background-color: #A03F29;
-    color: white;
+    background-color: rgba(240, 229, 219, 0.95);
 }
 
 .pantry-primary-subtle {
@@ -47,6 +52,20 @@
 
 .pantry-tertiary {
     background-color: #E8DED1;
+}
+
+.pantry-heading {
+    background-color: rgba(255, 248, 244, 0.7);
+    color: var(--primary) !important;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: 20px;
+}
+
+.navbar-brand {
+    color: var(--primary) !important;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 700;
+    font-size: 1.75rem;
 }
 
 p {
@@ -79,7 +98,7 @@ p {
 
 .card,
 form {
-    background-color: #f8ece8;
+    background-color: var(--card);
 }
 
 .form-control,
