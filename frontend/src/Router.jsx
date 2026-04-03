@@ -6,6 +6,7 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/NewRecipe';
+import NewRecipe2 from './pages/NewRecipe2';
 import Search from './pages/search/Search';
 
 export default function Router() {
@@ -33,7 +34,8 @@ export default function Router() {
         },
         {
             path: '/new-recipe',
-            element: <NewRecipe />
+            // element: <NewRecipe />
+            element: <NewRecipe2 />
         },
         {
             path: '/search',
