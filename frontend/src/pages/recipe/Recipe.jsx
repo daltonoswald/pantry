@@ -135,7 +135,15 @@ export default function Recipe() {
                             </p>
                         ))}
                     </Stack>
-                    <div dangerouslySetInnerHTML={{ __html: recipeData.directions}} />
+                    <Stack gap={3} className='p-4'>
+                        <h4 className='text-center'>Directions</h4>
+                        {recipeData.steps.map((step) => (
+                            <Row key={step.id}>
+                                <Col xs='auto'><strong>{step.order}</strong></Col>
+                                <Col><p>{step.step}</p></Col>
+                            </Row>
+                        ))}
+                    </Stack>
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
                             <Link key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>

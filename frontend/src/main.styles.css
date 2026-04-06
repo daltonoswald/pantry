@@ -113,4 +113,13 @@ form {
     background-color: var(--tetriary) !important;
 }
 
+.add-step {
+    color: var(--primary)
+}
+
+.add-step:hover,
+.add-ingredient:hover {
+    cursor: pointer;
+}
+
 

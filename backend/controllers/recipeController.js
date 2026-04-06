@@ -30,10 +30,7 @@ exports.new_item = [
     body('ingredientList.*.ingredientNote'),
     body('ingredientList.*.unit').notEmpty().withMessage('Ingredient unit is required'),
     body('ingredientList.*.unitAmount').notEmpty().withMessage('Ingredient unit amount is required'),
-    body('directions', 'directions must not be empty')
-        .trim()
-        .isLength({ min: 1, max: 5000 }),
-        // .escape(),
+    body('steps.*').notEmpty().withMessage('Steps must not be empty'),
     body('tags', 'tags must not be empty')
         .trim()
         .isLength({ min: 1, max: 250 })
@@ -45,6 +42,8 @@ exports.new_item = [
         const authorizedUser = verifyToken(token);
         const tokenUserId = authorizedUser.user.id;
         const recipeData = req.body;
+        console.log('all', recipeData)
+        console.log('steps: ', recipeData.steps)
 
         try {
             const newRecipe = await prisma.recipe.create({
@@ -55,7 +54,13 @@ exports.new_item = [
                     // parseInt to make it a number and not a string
                     servings: parseInt(recipeData.servings),
                     cookTime: parseInt(recipeData.cookTime),
-                    directions: recipeData.directions,
+                    steps: {
+                        // Create each Step
+                        create: recipeData.steps.map((step, index) => ({
+                            step: step,
+                            order: index + 1
+                        }))
+                    },
                     ingredients: {
                         // Create or update all ingredients
                         create: await Promise.all(
@@ -96,11 +101,13 @@ exports.new_item = [
                             })
                         )
                     }
-                    // tags: {
-                    //     create: recipeData.tags.map(tag => ({ name: tag.toLowerCase() }))
-                    // }
                 },
                 include: {
+                    steps: {
+                        orderBy: {
+                            order: 'asc'
+                        }
+                    },
                     ingredients: {
                         include: {
                             ingredient: true,
@@ -111,7 +118,6 @@ exports.new_item = [
                             tag: true
                         }
                     }
-                    // tags: true,
                 }
             });
 
@@ -140,6 +146,11 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
                 user: {
                     select: {
                         username: true,
+                    }
+                },
+                steps: {
+                    orderBy: {
+                        order: 'asc'
                     }
                 },
                 ingredients: {

@@ -9,7 +9,7 @@ import TinyEditor from '../components/tinyEditor/TinyEditor';
 export default function NewRecipe2() {
     const navigate = useNavigate();
     const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: ''}]);
-    const [directions, setDirections] = useState('');
+    const [steps, setSteps] = useState(['']);
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken');
 
@@ -58,6 +58,20 @@ export default function NewRecipe2() {
         console.log(ingredientList)
     }
 
+    const handleStepChange = (e, index) => {
+        const list = [...steps];
+        list[index] = e.target.value;
+        setSteps(list);
+    }
+
+    const handleAddStep = () => setSteps([...steps, '']);
+
+    const handleRemoveStep = (index) => {
+        const list = [...steps];
+        list.splice(index, 1);
+        setSteps(list);
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const tagList = e.target.tags.value.split(',').map(item => item.trim());
@@ -68,35 +82,34 @@ export default function NewRecipe2() {
             servings: e.target.servings.value,
             cookTime: e.target.cookTime.value,
             ingredientList: ingredientList,
-            // directions: e.target.directions.value,
-            directions: directions,
+            steps: steps,
             tags: tagList
         }
         console.log(recipeData);
         const url = `http://localhost:3000/recipe/new-recipe`;
-        // try {
-        //     // console.log(directions);
-        //     // console.log(recipeData.description);
-        //     const response = await fetch(url, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //             Authorization: `Bearer ${token}`
-        //         },
-        //         body: JSON.stringify(recipeData)
-        //     })
-        //     const data = await response.json();
-        //     if (response.ok) {
-        //         console.log(data.message);
-        //         navigate(`/recipe/${data.recipe.id}`)
-        //     } else {
-        //         console.error(data.message)
-        //         // setMessage(data.message)
-        //     }
-        // } catch (error) {
-        //     console.error(`Error requesting:`, error);
-        //     setMessage(`There was an error adding your recipe. Please try again later.`)
-        // }
+        try {
+            console.log(steps);
+            console.log(recipeData.steps);
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify(recipeData)
+            })
+            const data = await response.json();
+            if (response.ok) {
+                console.log(data.message);
+                navigate(`/recipe/${data.recipe.id}`)
+            } else {
+                console.error(data.message)
+                // setMessage(data.message)
+            }
+        } catch (error) {
+            console.error(`Error requesting:`, error);
+            setMessage(`There was an error adding your recipe. Please try again later.`)
+        }
     }
 
     return (
@@ -124,8 +137,7 @@ export default function NewRecipe2() {
                         </Row>
                         <Row className='m-2 g-0 justify-content-end align-items-center'>
                             <Col as='h2'>Ingredients</Col>
-                            {/* <Button as={Col} md={2} className='w-25 m-2 pantry-secondary' type='button' onClick={handleAddIngredient}>Add Ingredient</Button> */}
-                            <Col as='p' md={1} className='d-flex justify-content-around align-items-center text-end w-auto' onClick={handleAddIngredient}><PlusCircle className='me-2' /> Add</Col>
+                            <Col as='p' md={1} className='d-flex justify-content-around align-items-center text-end w-auto add-ingredient' onClick={handleAddIngredient}><PlusCircle className='me-2' /> Add Ingredient</Col>
                         </Row>
                         
                         {ingredientList.map((ingredient, index) => (
@@ -182,14 +194,32 @@ export default function NewRecipe2() {
                                 </Col>
                             </Form.Group>
                         ))}
-                        <Row>
-                            <Col className='m-2'>
-                                {/* <FloatingLabel controlId='formDirections' label='Directions' >
-                                    <Form.Control as="textarea" name='directions' type='text' placeholder='Directions' style={{ height: '16em' }} />
-                                </FloatingLabel> */}
-                                <TinyEditor value={directions} onChange={setDirections} />
-                            </Col>
-                        </Row>
+                            <Row className='m-2 g-0 justify-content-end align-items-center'>
+                                <Col as='h2'>Method</Col>
+                                <Col as='p' md={1} className='d-flex justify-content-around align-items-center text-end w-auto add-step' onClick={handleAddIngredient}><PlusCircle className='me-2' /> Add Step</Col>
+                            </Row>
+                            {steps.map((step, index) => (
+                                <Form.Group as={Row} className='align-items-center mt-2 mb-2' key={index}>
+                                    <Col xs='auto' className='ms-2'>
+                                        <span className='fw-bold'>{index + 1}</span>
+                                    </Col>
+                                    <Col>
+                                        <Form.Control
+                                            as='textarea'
+                                            rows={2}
+                                            value={step}
+                                            onChange={(e) => handleStepChange(e, index)}
+                                            placeholder={`Step ${index + 1}`}
+                                            required
+                                        />
+                                    </Col>
+                                    <Col xs='auto' className='me-2'>
+                                        <Button variant='danger' type='button' onClick={() => handleRemoveStep(index)}>
+                                            <Trash color='black' />
+                                        </Button>
+                                    </Col>
+                                </Form.Group>
+                            ))}
                         <Row>
                             <Col className='m-2'>
                                 <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
