@@ -1,9 +1,4 @@
-/* :root {
-    --primary: #5F6F52;
-    --primary-subtle: #A9B388;
-    --secondary: #FEFAE0;
-    --tetriary: #B99470;
-} */
+@import url('https://googleapis.com');
 
 :root {
     --primary: #C0563E;
@@ -11,10 +6,12 @@
     --secondary: #76885B;
     --tetriary: #E8DED1;
     --neutral: #4D463F;
-    --background: #fff8f4;
+    --background: rgb(255 248 244 / 1);
     --background-deeper: #fdf2e8;
-    --card: rgba(253, 242, 232, 0.95);
+    --card: rgb(253 242 232 / 1);
 }
+
+
 
 .app {
     min-height: 100vh;
@@ -96,9 +93,27 @@ p {
     border: 1px solid var(--neutral) !important;
 }
 
-.card,
-form {
+.card {
     background-color: var(--card);
+}
+
+.form-title {
+    color: var(--neutral);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-family: Noto Serif;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #4d463f3f;
+}
+
+.form-label {
+    color: var(--neutral);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 .form-control,
@@ -113,13 +128,45 @@ form {
     background-color: var(--tetriary) !important;
 }
 
+.add-step,
+.add-ingredient {
+    font-family: Noto Serif;
+}
+
 .add-step {
-    color: var(--primary)
+    color: var(--primary);
 }
 
 .add-step:hover,
 .add-ingredient:hover {
     cursor: pointer;
+}
+
+.new-recipe-block {
+    background-color: var(--card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px;
+    border-radius: 1rem;
+}
+
+.new-recipe-block > input,
+.new-recipe-block > input:focus {
+    border: none !important;
+    background-color: var(--card) !important;
+    text-align: center;
+}
+
+.recipe-step-counter {
+    background-color: var(--primary);
+    display: flex;
+    border-radius: 9999px;
+    width: 2rem;
+    align-items: center;
+    height: 2rem;
+    justify-content: center;
 }
 
 

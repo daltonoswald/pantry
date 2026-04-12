@@ -116,33 +116,33 @@ export default function NewRecipe2() {
         <div className='app'>
             <Header />
             <Container className='my-auto pb-3' fluid>
-                <Form className='w-75 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
-                        <Form.Group className='m-2' controlId='title'>
+                <Form className='w-50 p-3 mx-auto' onSubmit={handleSubmit}>
+                        <Form.Group className='my-4' controlId='title'>
                             <Form.Label>RECIPE TITLE</Form.Label>
                             <Form.Control placeholder='e.g. Sourdough Pizza' />
                         </Form.Group>
-                        <Form.Group className='m-2' controlId='description'>
+                        <Form.Group className='my-4' controlId='description'>
                             <Form.Label>DESCRIPTION</Form.Label>
                             <Form.Control placeholder='Share a quick description of your creation' />
                         </Form.Group>
-                        <Row className='m-2 g-0 justify-content-around'>
-                            <Form.Group as={Col} md={4} controlId='cookTime'>
-                                <Form.Label>COOK TIME</Form.Label>
-                                <Form.Control />
+                        <Row className='my-4 g-0 justify-content-around'>
+                            <Form.Group as={Col} md={4} controlId='cookTime' className='new-recipe-block w-25'>
+                                <Form.Label>COOK (MINS)</Form.Label>
+                                <Form.Control defaultValue={25} />
                             </Form.Group>
-                            <Form.Group as={Col} md={4} controlId='servings'>
+                            <Form.Group as={Col} md={4} controlId='servings' className='new-recipe-block w-25'>
                                 <Form.Label>SERVINGS</Form.Label>
-                                <Form.Control />
+                                <Form.Control defaultValue={4} />
                             </Form.Group>
                         </Row>
-                        <Row className='m-2 g-0 justify-content-end align-items-center'>
-                            <Col as='h2'>Ingredients</Col>
+
+                        <Row className='mt-4 g-0 justify-content-end align-items-center'>
+                            <Col as='h2' className='form-title'>Ingredients</Col>
                             <Col as='p' md={1} className='d-flex justify-content-around align-items-center text-end w-auto add-ingredient' onClick={handleAddIngredient}><PlusCircle className='me-2' /> Add Ingredient</Col>
                         </Row>
-                        
                         {ingredientList.map((ingredient, index) => (
                             <Form.Group as={Row} className='align-items-center mt-2 mb-2'>
-                                <Form.Group as={Col}  className='ms-2 w-auto' controlId='ingredientUnitAmount'>
+                                <Form.Group as={Col}  className='w-auto' controlId='ingredientUnitAmount'>
                                     <Form.Control 
                                         placeholder='Qty' 
                                         name='unitAmount' 
@@ -153,7 +153,7 @@ export default function NewRecipe2() {
                                         defaultValue={0}
                                         required />
                                 </Form.Group>
-                                <Form.Group as={Col} xs={2} className='ms-2 w-auto' controlId='ingredientIngredientUnit'>
+                                <Form.Group as={Col} xs={2} className='w-auto' controlId='ingredientIngredientUnit'>
                                     <Form.Select aria-label='Unit' onChange={(e) => handleUnitChange(e, index)} name='unit' required >
                                         {cookingUnits.map((unit) =>
                                             <option 
@@ -166,7 +166,7 @@ export default function NewRecipe2() {
                                         )}  
                                     </Form.Select>
                                 </Form.Group>
-                                <Form.Group as={Col} xs={3} className='ms-2 flex-grow-1' controlId='formIngredientNote'>
+                                <Form.Group as={Col} xs={3} className='flex-grow-1' controlId='formIngredientNote'>
                                     <Form.Control 
                                         name='ingredientNote'
                                         type='text'
@@ -176,7 +176,7 @@ export default function NewRecipe2() {
                                         size='auto' 
                                         />
                                 </Form.Group>
-                                <Form.Group as={Col} xs='auto' className='ms-2 flex-grow-1' controlId='formIngredient'>
+                                <Form.Group as={Col} xs='auto' className='flex-grow-1' controlId='formIngredient'>
                                     <Form.Control 
                                         name='ingredient' 
                                         type='text'
@@ -194,14 +194,14 @@ export default function NewRecipe2() {
                                 </Col>
                             </Form.Group>
                         ))}
-                            <Row className='m-2 g-0 justify-content-end align-items-center'>
-                                <Col as='h2'>Method</Col>
-                                <Col as='p' md={1} className='d-flex justify-content-around align-items-center text-end w-auto add-step' onClick={handleAddIngredient}><PlusCircle className='me-2' /> Add Step</Col>
+                            <Row className='mt-4 g-0 justify-content-end align-items-center'>
+                                <Col as='h2' className='form-title'>Method</Col>
+                                <Col as='p' md={1} className='d-flex justify-content-around align-items-center text-end w-auto add-step' onClick={handleAddStep}><PlusCircle className='me-2' /> Add Step</Col>
                             </Row>
                             {steps.map((step, index) => (
                                 <Form.Group as={Row} className='align-items-center mt-2 mb-2' key={index}>
                                     <Col xs='auto' className='ms-2'>
-                                        <span className='fw-bold'>{index + 1}</span>
+                                        <span className='fw-bold recipe-step-counter'>{index + 1}</span>
                                     </Col>
                                     <Col>
                                         <Form.Control
@@ -221,13 +221,13 @@ export default function NewRecipe2() {
                                 </Form.Group>
                             ))}
                         <Row>
-                            <Col className='m-2'>
+                            <Col className='my-4'>
                                 <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
                                 <Form.Control name='tags' type='text' placeholder='Tags (separate with commas)' />
                                 </FloatingLabel>
                             </Col>
                         </Row>
-                        <Row className='justify-content-md-center'>
+                        <Row className='my-4 justify-content-md-center'>
                             <Button className='w-50 m-2 pantry-secondary' type='submit'>Create Recipe</Button>
                         </Row>
                 </Form>
