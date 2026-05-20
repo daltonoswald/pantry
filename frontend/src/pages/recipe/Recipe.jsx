@@ -122,10 +122,10 @@ export default function Recipe() {
                     <h3>By <Link id={recipeData.user.username} to={`/user/${recipeData.user.username}`}>{recipeData.user.username}</Link></h3>
                     <p>{recipeData.description}</p>
                     {(isFavorited && !isAuthor) && (
-                        <HeartFill color='red' onClick={handleUnfavoriteRecipe} />
+                        <HeartFill className='not-favorited' color='red' onClick={handleUnfavoriteRecipe} />
                     )}
                     {(!isFavorited && !isAuthor) && (
-                        <Heart onClick={handleFavoriteRecipe} />
+                        <Heart className='favorited' onClick={handleFavoriteRecipe} />
                     )}
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>

@@ -9,6 +9,8 @@
     --background: rgb(255 248 244 / 1);
     --background-deeper: #fdf2e8;
     --card: rgb(253 242 232 / 1);
+    /* --card: rgb(245 230 215); */
+    --on-surface: rgb(86 66 61 / 0.5);
 }
 
 
@@ -49,6 +51,16 @@
 
 .pantry-tertiary {
     background-color: #E8DED1;
+}
+
+.bi-heart:hover {
+    fill: red !important;
+    cursor: pointer;
+}
+
+.bi-heart-fill:hover {
+    fill: gray !important;
+    cursor: pointer;
 }
 
 .pantry-heading {
@@ -118,8 +130,11 @@ p {
 
 .form-control,
 .form-select {
-    background-color: var(--tetriary);
-    border: 1px solid var(--neutral) !important;
+    /* background-color: var(--tetriary); */
+    /* border: 1px solid var(--neutral) !important; */
+    background-color: var(--card);
+    border: 1px solid rgb(238, 227, 217);
+    border-radius: 0.75rem;
 }
 
 .form-control:focus,
@@ -131,6 +146,7 @@ p {
 .add-step,
 .add-ingredient {
     font-family: Noto Serif;
+    font-weight: 700;
 }
 
 .add-step {
@@ -139,6 +155,14 @@ p {
 
 .add-step:hover,
 .add-ingredient:hover {
+    cursor: pointer;
+}
+
+.remove-button {
+    color: var(--on-surface);
+    font-size: 1.5rem;
+    display: flex;
+    padding: 0;
     cursor: pointer;
 }
 

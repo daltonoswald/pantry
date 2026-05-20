@@ -3,7 +3,7 @@ import Header from '../components/Header';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Trash, PlusCircle } from 'react-bootstrap-icons';
+import { Trash, PlusCircle, X } from 'react-bootstrap-icons';
 import TinyEditor from '../components/tinyEditor/TinyEditor';
 
 export default function NewRecipe2() {
@@ -188,9 +188,10 @@ export default function NewRecipe2() {
                                         />
                                 </Form.Group>
                                 <Col xs={1} className='me-2 w-auto'>
-                                    <Button variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>
+                                    {/* <Button variant='danger' type='button' onClick={() => handleRemoveIngredient(index)}>
                                         <Trash color='black' />
-                                    </Button>
+                                    </Button> */}
+                                    <X className='remove-button' onClick={() => handleRemoveIngredient(index)} />
                                 </Col>
                             </Form.Group>
                         ))}
@@ -214,9 +215,10 @@ export default function NewRecipe2() {
                                         />
                                     </Col>
                                     <Col xs='auto' className='me-2'>
-                                        <Button variant='danger' type='button' onClick={() => handleRemoveStep(index)}>
+                                        {/* <Button variant='danger' type='button' onClick={() => handleRemoveStep(index)}>
                                             <Trash color='black' />
-                                        </Button>
+                                        </Button> */}
+                                        <X className='remove-button' onClick={() => handleRemoveStep(index)} />
                                     </Col>
                                 </Form.Group>
                             ))}
