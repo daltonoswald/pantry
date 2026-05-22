@@ -2,6 +2,7 @@
 
 :root {
     --primary: #C0563E;
+    --primary-opaque: rgb(192, 86, 62, .9);
     --primary-subtle: #FFDAD2;
     --secondary: #76885B;
     --tetriary: #E8DED1;
@@ -101,10 +102,6 @@ p {
     z-index: 1;
 }
 
-.btn {
-    border: 1px solid var(--neutral) !important;
-}
-
 .card {
     background-color: var(--card);
 }
@@ -164,6 +161,22 @@ p {
     display: flex;
     padding: 0;
     cursor: pointer;
+}
+
+.submit-button {
+    background-color: var(--primary);
+    color: white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
+    padding-top: 1.125rem;
+    padding-bottom: 1.125rem;
+    border-radius: 9999px;
+    border: 0 !important;
+}
+
+.submit-button:hover {
+    background-color: var(--primary-opaque) !important;
 }
 
 .new-recipe-block {

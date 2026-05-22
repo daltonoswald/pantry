@@ -230,7 +230,7 @@ export default function NewRecipe2() {
                             </Col>
                         </Row>
                         <Row className='my-4 justify-content-md-center'>
-                            <Button className='w-50 m-2 pantry-secondary' type='submit'>Create Recipe</Button>
+                            <Button className='w-75 m-2 submit-button' type='submit'>Create Recipe</Button>
                         </Row>
                 </Form>
                 {message && (
