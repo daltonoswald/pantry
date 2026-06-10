@@ -3,6 +3,8 @@ import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import vegetablesImg from '../../assets/temp-stock-photos/vegetables.jpg'
+import './login-signup.css'
 
 export default function Login() {
     const navigate = useNavigate();
@@ -52,37 +54,36 @@ export default function Login() {
     return (
         <div className='app'>
             <Header />
-            <Container className='my-auto' fluid>
-                <Form className='w-25 p-3 mx-auto border border-primary-subtle rounded' onSubmit={handleSubmit}>
-                    <h3 className='text-center m-2'>Log in to Pantry</h3>
-                        <Row>
-                            <Col className='m-2'>
-                                <FloatingLabel controlId='formUsername' label='Username'>
-                                    <Form.Control name='username' type='text' placeholder='Username' />
-                                </FloatingLabel>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className='m-2'>
-                                <FloatingLabel controlId='formPassword' label='Password'>
-                                    <Form.Control name='password' type='password' placeholder='password' />
-                                </FloatingLabel>
-                            </Col>
-                        </Row>
-                        <Row className='justify-content-md-center'>
-                            {/* <Col className='m-2'> */}
-                                <Button className='w-50 m-2' type='submit'>Log in</Button>
-                            {/* </Col> */}
-                        </Row>
-                        <Row>
-                            <Col className='m-2 text-center'>
-                                <p>New to Pantry? <Link to='/sign-up'>Sign up for free!</Link></p>
-                            </Col>
-                        </Row>
-                </Form>
-                {message && (
-                    <Alert className='w-25 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
-                )}
+            <Container className='my-auto w-75' fluid>
+                <Row className='login-container'>
+                    <Col md={6} className='login-column-left'>
+                        <img className='login-image' src={vegetablesImg} />
+                    </Col>
+                    <Col md={6} className='login-column-right'>
+                        <Form className='mx-4' onSubmit={handleSubmit}>
+                            <h3 className='text-center m-2 login-brand'>Welcome Back</h3>
+                                <Form.Group className='my-4' controlId='formUsername'>
+                                    <Form.Label>USERNAME</Form.Label>
+                                    <Form.Control placeholder='Username'></Form.Control>
+                                </Form.Group>
+                                <Form.Group className='my-4' controlId='formPassword'>
+                                    <Form.Label>PASSWORD</Form.Label>
+                                    <Form.Control name='password' type='password' placeholder='*********'></Form.Control>
+                                </Form.Group>
+                                <Row className='my-4 justify-content-md-center'>
+                                    <Button className='w-75 m-2 submit-button' type='submit'>Create Account</Button>
+                                </Row>
+                                <Row>
+                                    <Col className='m-2 text-center'>
+                                        <p>New to Pantry? <Link to='/login'>Sign Up</Link></p>
+                                    </Col>
+                                </Row>
+                        </Form>
+                        {message && (
+                            <Alert className='w-25 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
+                        )}  
+                    </Col>          
+                </Row>
             </Container>
         </div>
     )

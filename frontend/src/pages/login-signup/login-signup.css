@@ -1,21 +1,26 @@
-.signup-container {
+.signup-container,
+.login-container {
     border-radius: 1.5rem;
     box-shadow: 0 0 0 1px rgba(86, 66, 61, 0.08);
     overflow: hidden;
 }
 
 .signup-column-left,
-.signup-column-right {
+.signup-column-right,
+.login-column-left,
+.login-column-right {
     padding: 0;
 }
 
-.signup-image {
+.signup-image,
+.login-image {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
-.signup-brand {
+.signup-brand,
+.login-brand {
     color: var(--primary) !important;
     /* font-family: 'Times New Roman', Times, serif; */
     font-family: Noto Serif;

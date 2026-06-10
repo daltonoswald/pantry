@@ -8,6 +8,7 @@ import './login-signup.css'
 export default function Signup() {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
+    // document.title = 'Pantry - Sign Up'
 
     useEffect(() => {
         if (localStorage.getItem('pantryAuthToken')) {
@@ -60,54 +61,34 @@ export default function Signup() {
                         <img className='signup-image' src={doughImg} />
                     </Col>
                     <Col md={6} className='signup-column-right'>
-                        <Form className='mx-auto' onSubmit={handleSubmit}>
+                        <Form className='mx-4' onSubmit={handleSubmit}>
                             <h3 className='text-center m-2 signup-brand'>Pantry</h3>
-                                <Row>
-                                    <Col className='m-2'>
-                                        <FloatingLabel controlId='formUsername' label='Username'>
-                                            <Form.Control name='username' type='text' placeholder='Username' required />
-                                        </FloatingLabel>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2'>
-                                        <FloatingLabel controlId='formEmail' label='E-Mail'>
-                                            <Form.Control name='email' type='email' placeholder='email' required />
-                                        </FloatingLabel>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2'>
-                                        <FloatingLabel controlId='formName' label='Name'>
-                                            <Form.Control name='name' type='text' placeholder='Name' required />
-                                        </FloatingLabel>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2'>
-                                        <FloatingLabel controlId='formPassword' label='Password'>
-                                            <Form.Control name='password' type='password' placeholder='password' required minLength={8} maxLength={50} />
-                                        </FloatingLabel>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2'>
-                                        <FloatingLabel controlId='formConfirmPassword' label='Confirm Password'>
-                                            <Form.Control name='confirm_password' type='password' placeholder='password' required minLength={8} maxLength={50} />
-                                        </FloatingLabel>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2'>
-                                        <FloatingLabel controlId='formBio' label='Bio'>
-                                            <Form.Control name='bio' type='text' as='textarea' rows={3} placeholder='Bio' style={{ height: 'unset'}} />
-                                        </FloatingLabel>
-                                    </Col>
-                                </Row>
-                                <Row className='justify-content-md-center'>
-                                    {/* <Col className='m-2'> */}
-                                        <Button className='w-50 m-2' type='submit'>Sign up</Button>
-                                    {/* </Col> */}
+                                <Form.Group className='my-4' controlId='formUsername'>
+                                    <Form.Label>USERNAME</Form.Label>
+                                    <Form.Control placeholder='Username'></Form.Control>
+                                </Form.Group>
+                                <Form.Group className='my-4' controlId='formEmail'>
+                                    <Form.Label>E-Mail</Form.Label>
+                                    <Form.Control placeholder='example@email.com'></Form.Control>
+                                </Form.Group>
+                                <Form.Group className='my-4' controlId='formName'>
+                                    <Form.Label>FULL NAME</Form.Label>
+                                    <Form.Control placeholder='FULL NAME'></Form.Control>
+                                </Form.Group>
+                                <Form.Group className='my-4' controlId='formPassword'>
+                                    <Form.Label>PASSWORD</Form.Label>
+                                    <Form.Control name='password' type='password' placeholder='*********' required minLength={8} maxLength={50} ></Form.Control>
+                                </Form.Group>
+                                <Form.Group className='my-4' controlId='formConfirmPassword'>
+                                    <Form.Label>CONFIRM PASSWORD</Form.Label>
+                                    <Form.Control name='confirm_password' type='password' placeholder='*********' required minLength={8} maxLength={50} ></Form.Control>
+                                </Form.Group>
+                                <Form.Group className='my-4' controlId='formBio'>
+                                    <Form.Label>BIO</Form.Label>
+                                    <Form.Control type='text' as='textarea' rows={3} placeholder='BIO' style={{ height: 'unset'}} ></Form.Control>
+                                </Form.Group>
+                                <Row className='my-4 justify-content-md-center'>
+                                    <Button className='w-75 m-2 submit-button' type='submit'>Create Account</Button>
                                 </Row>
                                 <Row>
                                     <Col className='m-2 text-center'>
