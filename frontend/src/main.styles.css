@@ -18,8 +18,11 @@ a {
     color: var(--primary)
 }
 
+html,
+body,
+#root,
 .app {
-    min-height: 100vh;
+    height: 100%;
     background-color: var(--background);
 }
 

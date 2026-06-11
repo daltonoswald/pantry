@@ -54,8 +54,8 @@ export default function Login() {
     return (
         <div className='app'>
             <Header />
-            <Container className='my-auto w-75' fluid>
-                <Row className='login-container'>
+            <Container className='my-auto w-75 flex-grow-1' fluid>
+                <Row className='login-container my-auto'>
                     <Col md={6} className='login-column-left'>
                         <img className='login-image' src={vegetablesImg} />
                     </Col>
@@ -75,7 +75,7 @@ export default function Login() {
                                 </Row>
                                 <Row>
                                     <Col className='m-2 text-center'>
-                                        <p>New to Pantry? <Link to='/login'>Sign Up</Link></p>
+                                        <p>New to Pantry? <Link to='/sign-up'>Sign Up</Link></p>
                                     </Col>
                                 </Row>
                         </Form>
