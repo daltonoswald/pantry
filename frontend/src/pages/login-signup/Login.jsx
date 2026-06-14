@@ -24,6 +24,7 @@ export default function Login() {
             username: event.target.username.value,
             password: event.target.password.value
         }
+        console.log('data:', loginData)
         try {
             const response = await fetch(url, {
                 method: "POST",
@@ -64,14 +65,14 @@ export default function Login() {
                             <h3 className='text-center m-2 login-brand'>Welcome Back</h3>
                                 <Form.Group className='my-4' controlId='formUsername'>
                                     <Form.Label>USERNAME</Form.Label>
-                                    <Form.Control placeholder='Username'></Form.Control>
+                                    <Form.Control name='username' placeholder='Username'></Form.Control>
                                 </Form.Group>
                                 <Form.Group className='my-4' controlId='formPassword'>
                                     <Form.Label>PASSWORD</Form.Label>
                                     <Form.Control name='password' type='password' placeholder='*********'></Form.Control>
                                 </Form.Group>
                                 <Row className='my-4 justify-content-md-center'>
-                                    <Button className='w-75 m-2 submit-button' type='submit'>Create Account</Button>
+                                    <Button className='w-75 m-2 submit-button' type='submit'>Log in</Button>
                                 </Row>
                                 <Row>
                                     <Col className='m-2 text-center'>
@@ -80,7 +81,7 @@ export default function Login() {
                                 </Row>
                         </Form>
                         {message && (
-                            <Alert className='w-25 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
+                            <Alert className='w-50 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
                         )}  
                     </Col>          
                 </Row>

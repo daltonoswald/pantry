@@ -26,6 +26,12 @@ body,
     background-color: var(--background);
 }
 
+input,
+textarea {
+    font-family: Noto Serif !important;
+    text-transform: none !important;
+}
+
 .main-content {
     width: 80%;
 }

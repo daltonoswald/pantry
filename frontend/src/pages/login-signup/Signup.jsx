@@ -65,15 +65,15 @@ export default function Signup() {
                             <h3 className='text-center m-2 signup-brand'>Pantry</h3>
                                 <Form.Group className='my-4' controlId='formUsername'>
                                     <Form.Label>USERNAME</Form.Label>
-                                    <Form.Control placeholder='Username'></Form.Control>
+                                    <Form.Control name='username' placeholder='Username'></Form.Control>
                                 </Form.Group>
                                 <Form.Group className='my-4' controlId='formEmail'>
                                     <Form.Label>E-Mail</Form.Label>
-                                    <Form.Control placeholder='example@email.com'></Form.Control>
+                                    <Form.Control name='email' placeholder='example@email.com'></Form.Control>
                                 </Form.Group>
                                 <Form.Group className='my-4' controlId='formName'>
                                     <Form.Label>FULL NAME</Form.Label>
-                                    <Form.Control placeholder='FULL NAME'></Form.Control>
+                                    <Form.Control name='name' placeholder='Full Name'></Form.Control>
                                 </Form.Group>
                                 <Form.Group className='my-4' controlId='formPassword'>
                                     <Form.Label>PASSWORD</Form.Label>
@@ -84,8 +84,8 @@ export default function Signup() {
                                     <Form.Control name='confirm_password' type='password' placeholder='*********' required minLength={8} maxLength={50} ></Form.Control>
                                 </Form.Group>
                                 <Form.Group className='my-4' controlId='formBio'>
-                                    <Form.Label>BIO</Form.Label>
-                                    <Form.Control type='text' as='textarea' rows={3} placeholder='BIO' style={{ height: 'unset'}} ></Form.Control>
+                                    <Form.Label>Bio</Form.Label>
+                                    <Form.Control type='text' as='textarea' rows={3} name='bio' placeholder='Bio' style={{ height: 'unset'}} ></Form.Control>
                                 </Form.Group>
                                 <Row className='my-4 justify-content-md-center'>
                                     <Button className='w-75 m-2 submit-button' type='submit'>Create Account</Button>
@@ -97,7 +97,7 @@ export default function Signup() {
                                 </Row>
                         </Form>
                         {message && (
-                            <Alert className='w-25 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
+                            <Alert className='w-50 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
                         )}
                     </Col>
                 </Row>

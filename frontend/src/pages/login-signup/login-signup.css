@@ -3,7 +3,7 @@
     border-radius: 1.5rem;
     box-shadow: 0 0 0 1px rgba(86, 66, 61, 0.08);
     overflow: hidden;
-    max-height: 90vh;
+    height: 90vh;
 }
 
 .signup-column-left,
@@ -13,10 +13,24 @@
     padding: 0;
 }
 
-.login-column-right {
+.login-column-right,
+.signup-column-right {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    align-items: center;
+}
+
+.login-column-left,
+.signup-column-left {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.login-column-right > form,
+.signup-column-right > form {
+    width: 50%
 }
 
 .signup-image,
