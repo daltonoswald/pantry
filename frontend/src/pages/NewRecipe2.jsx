@@ -224,9 +224,13 @@ export default function NewRecipe2() {
                             ))}
                         <Row>
                             <Col className='my-4'>
-                                <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
+                                {/* <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
                                 <Form.Control name='tags' type='text' placeholder='Tags (separate with commas)' />
-                                </FloatingLabel>
+                                </FloatingLabel> */}
+                            <Form.Group className='my-4' controlId='formTags'>
+                                <Form.Label>TAGS (seperate with commas)</Form.Label>
+                            <Form.Control placeholder='breakfast, lunch, dinner' />
+                        </Form.Group>
                             </Col>
                         </Row>
                         <Row className='my-4 justify-content-md-center'>

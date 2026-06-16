@@ -15,7 +15,13 @@
 }
 
 a {
-    color: var(--primary)
+    color: var(--neutral) !important;
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--primary) !important;
+    text-decoration: none;
 }
 
 html,

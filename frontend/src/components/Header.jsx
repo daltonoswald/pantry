@@ -37,6 +37,23 @@ export default function Header() {
                 </Row>
                 <Row>
                     <Col>
+                        <Nav.Item>
+                            <Nav.Link as={Link} to='/'>Recipes</Nav.Link>
+                        </Nav.Item>
+                    </Col>
+                    {/* <Col>
+                        <Nav.Item>
+                            <Nav.Link as={Link} to='/collections'>Collections</Nav.Link>
+                        </Nav.Item>
+                    </Col> */}
+                    <Col>
+                        <Nav.Item>
+                            <Nav.Link as={Link} to='/about'>About</Nav.Link>
+                        </Nav.Item>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
                         <Form className='d-flex' onSubmit={handleNavSearch}>
                             <Form.Control
                                 type='search'
