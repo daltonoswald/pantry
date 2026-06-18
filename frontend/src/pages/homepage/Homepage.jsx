@@ -230,26 +230,26 @@ export default function Homepage() {
   if (!isLoading) return (
     <div className='app'>
       <Header />
-      <Container>
-        {userStats && (
-          <MakeableRecipes 
-          makeableRecipes={makeableRecipes}
-          recipesByPantry={recipesByPantry}
-          userStats={userStats}
-          favoriteStatus={favoriteStatus} 
-          />
-        )}
-        <Recent 
-          recentRecipes={recentRecipes}
-          userStats={userStats}
-          favoriteStatus={favoriteStatus}
-        />
+      <Container className='my-5 homepage-container' fluid>
         <Trending 
-          trendingRecipes={trendingRecipes}
-          popularTags={popularTags}
-          userStats={userStats}
-          favoriteStatus={favoriteStatus}
-        />
+            trendingRecipes={trendingRecipes}
+            popularTags={popularTags}
+            userStats={userStats}
+            favoriteStatus={favoriteStatus}
+          />
+          {userStats && (
+            <MakeableRecipes 
+            makeableRecipes={makeableRecipes}
+            recipesByPantry={recipesByPantry}
+            userStats={userStats}
+            favoriteStatus={favoriteStatus} 
+            />
+          )}
+          <Recent 
+            recentRecipes={recentRecipes}
+            userStats={userStats}
+            favoriteStatus={favoriteStatus}
+          />
       </Container>
     </div>
   )

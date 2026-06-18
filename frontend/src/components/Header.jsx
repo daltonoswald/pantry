@@ -48,6 +48,11 @@ export default function Header() {
                     </Col> */}
                     <Col>
                         <Nav.Item>
+                            <Nav.Link as={Link} to='/search'>Search</Nav.Link>
+                        </Nav.Item>
+                    </Col>
+                    <Col>
+                        <Nav.Item>
                             <Nav.Link as={Link} to='/about'>About</Nav.Link>
                         </Nav.Item>
                     </Col>

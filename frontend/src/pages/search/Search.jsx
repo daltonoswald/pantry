@@ -63,7 +63,7 @@ export default function Search() {
     if (!isLoading) return (
         <div className='app'>
             <Header />
-            <Container className='my-auto' fluid>
+            <Container className='my-auto main-content' fluid>
                 <Form className='p-3' onSubmit={handleSearch}>
                     <Row>
                         <InputGroup className='w-50 mx-auto'>
