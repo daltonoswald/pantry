@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { generateToken, verifyToken } = require('../middleware/middleware');
+const { cloudinary } = require('../config/cloudinary');
 
 exports.new_item = [
     body('title', 'Title must not be empty')
@@ -51,6 +52,7 @@ exports.new_item = [
                     title: recipeData.title,
                     description: recipeData.description,
                     userId: tokenUserId,
+                    image: recipeData.imageUrl || null,
                     // parseInt to make it a number and not a string
                     servings: parseInt(recipeData.servings),
                     cookTime: parseInt(recipeData.cookTime),
@@ -128,6 +130,61 @@ exports.new_item = [
         }
     }
 ]
+
+exports.upload_image = asyncHandler(async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const authorizedUser = verifyToken(token);
+
+    if (!req.file) {
+        return res.status(400).json({ error: 'No file uploaded.' });
+    }
+
+    try {
+        // Optionally attach to a recipe immediately
+        const { recipeId } = req.body;
+
+        if (recipeId) {
+            const recipe = await prisma.recipe.findUnique({
+                where: { id: recipeId },
+                select: { userId: true, image: true }
+            });
+
+            if (!recipe) {
+                return res.status(404).json({ error: 'Recipe not found.' });
+            }
+
+            if (recipe.userId !== authorizedUser.user.id) {
+                return res.status(403).json({ error: 'Unauthorized.' });
+            }
+
+            // Delete old image from cloudinary if it exists
+            if (recipe.image) {
+                const publicId = recipe.image.split('/').pop().split('.')[0];
+                await cloudinary.uploader.destroy(`pantry/recipes/${publicId}`);
+            }
+
+            const updated = await prisma.recipe.update({
+                where: { id: recipeId },
+                data: { image: req.file.path }
+            });
+
+            return res.json({ 
+                message: 'Image uploaded successfully.',
+                imageUrl: req.file.path,
+                recipe: updated 
+            });
+        }
+
+        // Or just return the URL to use later on recipe creation
+        res.json({
+            message: 'Image uploaded succesfully.',
+            imageUrl: req.file.path
+        });
+    } catch (error) {
+        console.error('Error uploading image:', error);
+        res.status(500).json({ error: 'Failed to upload image.' })
+    }
+})
 
 exports.get_recipe = asyncHandler(async (req, res, next) => {
     try {

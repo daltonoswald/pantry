@@ -1,13 +1,15 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Trash, PlusCircle, X } from 'react-bootstrap-icons';
-import TinyEditor from '../components/tinyEditor/TinyEditor';
+import TinyEditor from '../../components/tinyEditor/TinyEditor';
+import ImageUpload from '../../components/ImageUpload';
 
 export default function NewRecipe2() {
     const navigate = useNavigate();
+    const [imageUrl, setImageUrl] = useState(null);
     const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: ''}]);
     const [steps, setSteps] = useState(['']);
     const [message, setMessage] = useState();
@@ -79,6 +81,7 @@ export default function NewRecipe2() {
         const recipeData = {
             title: e.target.title.value,
             description: e.target.description.value,
+            imageUrl: imageUrl,
             servings: e.target.servings.value,
             cookTime: e.target.cookTime.value,
             ingredientList: ingredientList,
@@ -117,6 +120,11 @@ export default function NewRecipe2() {
             <Header />
             <Container className='my-auto pb-3' fluid>
                 <Form className='w-50 p-3 mx-auto' onSubmit={handleSubmit}>
+                    <Row>
+                        <Col className='m-2'>
+                            <ImageUpload onUpload={(url) => setImageUrl(url)} />
+                        </Col>
+                    </Row>
                         <Form.Group className='my-4' controlId='title'>
                             <Form.Label>RECIPE TITLE</Form.Label>
                             <Form.Control placeholder='e.g. Sourdough Pizza' />

@@ -1,10 +1,12 @@
 const express = require('express');
 const recipeController = require('../controllers/recipeController');
 const { optionalAuth } = require('../middleware/middleware');
+const { upload } = require('../config/cloudinary');
 
 const router = express.Router();
 
 router.post('/new-recipe', recipeController.new_item);
+router.post('/upload-image', upload.single('image'), recipeController.upload_image);
 router.post('/batch-check-favorites', recipeController.batch_check_favorites);
 router.get('/by-pantry', recipeController.get_recipes_by_pantry);
 router.get('/makeable', recipeController.get_makeable_recipes);
