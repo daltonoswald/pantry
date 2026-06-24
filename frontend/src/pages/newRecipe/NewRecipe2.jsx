@@ -76,6 +76,7 @@ export default function NewRecipe2() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('file,', imageUrl)
         const tagList = e.target.tags.value.split(',').map(item => item.trim());
         console.log(e.target.title.value);
         const recipeData = {
@@ -91,8 +92,7 @@ export default function NewRecipe2() {
         console.log(recipeData);
         const url = `http://localhost:3000/recipe/new-recipe`;
         try {
-            console.log(steps);
-            console.log(recipeData.steps);
+            console.log(recipeData.imageUrl);
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -235,9 +235,9 @@ export default function NewRecipe2() {
                                 {/* <FloatingLabel controlId='formTags' label='Tags (separate with commas)'>
                                 <Form.Control name='tags' type='text' placeholder='Tags (separate with commas)' />
                                 </FloatingLabel> */}
-                            <Form.Group className='my-4' controlId='formTags'>
+                            <Form.Group className='my-4' controlId='tags'>
                                 <Form.Label>TAGS (seperate with commas)</Form.Label>
-                            <Form.Control placeholder='breakfast, lunch, dinner' />
+                                <Form.Control placeholder='breakfast, lunch, dinner' />
                         </Form.Group>
                             </Col>
                         </Row>

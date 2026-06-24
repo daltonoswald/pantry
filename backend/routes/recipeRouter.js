@@ -13,10 +13,11 @@ router.get('/makeable', recipeController.get_makeable_recipes);
 router.get('/recent', recipeController.get_recent_recipes);
 router.get('/trending', recipeController.get_trending_recipes);
 
-router.post('/:recipeId', optionalAuth, recipeController.get_recipe);
 router.post('/delete/:recipeId', recipeController.delete_recipe);
 router.post('/favorite/:recipeId', recipeController.favorite_recipe);
 router.delete('/unfavorite/:recipeId', recipeController.unfavorite_recipe);
 router.post('/toggle-favorite/:recipeId', recipeController.toggle_favorite);
+
+router.post('/:recipeId', optionalAuth, recipeController.get_recipe);
 
 module.exports = router;

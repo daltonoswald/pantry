@@ -43,8 +43,6 @@ exports.new_item = [
         const authorizedUser = verifyToken(token);
         const tokenUserId = authorizedUser.user.id;
         const recipeData = req.body;
-        console.log('all', recipeData)
-        console.log('steps: ', recipeData.steps)
 
         try {
             const newRecipe = await prisma.recipe.create({
@@ -140,6 +138,23 @@ exports.upload_image = asyncHandler(async (req, res) => {
     }
 
     try {
+        // Upload buffer directly to cloudinary
+        const result = await new Promise((resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream(
+                {
+                    folder: 'pantry',
+                    public_id: `recipe-${Date.now()}`,
+                },
+                (error, result) => {
+                    if (error) {
+                        console.error('Cloudinary stream error full object:', JSON.stringify(error, null, 2));
+                        reject(error)
+                    } else resolve(result);
+                }
+            );
+            uploadStream.end(req.file.buffer);
+        })
+
         // Optionally attach to a recipe immediately
         const { recipeId } = req.body;
 
@@ -175,6 +190,7 @@ exports.upload_image = asyncHandler(async (req, res) => {
             });
         }
 
+        console.log('req.file.path', req.file.path)
         // Or just return the URL to use later on recipe creation
         res.json({
             message: 'Image uploaded succesfully.',
@@ -484,12 +500,9 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
             }
         });
 
-        console.log('existing favorite:', existingFavorite);
-        console.log('recipe:', recipe);
 
         if (existingFavorite) {
             // Unfavorite
-            console.log('unfavoriting')
             await prisma.recipeFavorite.delete({
                 where: {
                     id: existingFavorite.id
@@ -502,7 +515,6 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
             });
         } else {
             // Favorite
-            console.log('favoriting')
             const favorite = await prisma.recipeFavorite.create({
                 data: {
                     userId: authorizedUser.user.id,
