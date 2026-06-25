@@ -122,7 +122,10 @@ export default function NewRecipe2() {
                 <Form className='w-50 p-3 mx-auto' onSubmit={handleSubmit}>
                     <Row>
                         <Col className='m-2'>
-                            <ImageUpload onUpload={(url) => setImageUrl(url)} />
+                            <ImageUpload onUpload={(url) => {
+                                console.log('Setting imageUrl: ', url)
+                                setImageUrl(url)}
+                             } />
                         </Col>
                     </Row>
                         <Form.Group className='my-4' controlId='title'>

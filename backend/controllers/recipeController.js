@@ -143,6 +143,7 @@ exports.upload_image = asyncHandler(async (req, res) => {
             const uploadStream = cloudinary.uploader.upload_stream(
                 {
                     folder: 'pantry',
+                    transformation: [{ width: 1200, height: 800, crop: 'limit' }],
                     public_id: `recipe-${Date.now()}`,
                 },
                 (error, result) => {
@@ -154,6 +155,8 @@ exports.upload_image = asyncHandler(async (req, res) => {
             );
             uploadStream.end(req.file.buffer);
         })
+
+        console.log('secure_url', result.secure_url);
 
         // Optionally attach to a recipe immediately
         const { recipeId } = req.body;
@@ -180,21 +183,21 @@ exports.upload_image = asyncHandler(async (req, res) => {
 
             const updated = await prisma.recipe.update({
                 where: { id: recipeId },
-                data: { image: req.file.path }
+                data: { image: result.secure_url }
             });
 
             return res.json({ 
                 message: 'Image uploaded successfully.',
-                imageUrl: req.file.path,
+                imageUrl: result.secure_url,
                 recipe: updated 
             });
         }
 
-        console.log('req.file.path', req.file.path)
+        console.log('result.secure_url', result.secure_url)
         // Or just return the URL to use later on recipe creation
         res.json({
             message: 'Image uploaded succesfully.',
-            imageUrl: req.file.path
+            imageUrl: result.secure_url
         });
     } catch (error) {
         console.error('Error uploading image:', error);

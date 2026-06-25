@@ -37,7 +37,8 @@ export default function ImageUpload({ onUpload }) {
 
             const data = await response.json();
             if (response.ok) {
-                console.log(data);
+                console.log('data', data)
+                console.log('Image URL from cloudinary:', data.imageUrl);
                 onUpload(data.imageUrl);
             } else {
                 console.error('Upload failed:', data.error);
