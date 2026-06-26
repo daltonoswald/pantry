@@ -6,7 +6,6 @@ const prisma = new PrismaClient();
 
 exports.search = asyncHandler(async (req, res, next) => {
     const { query, type } = req.query;
-    console.log(query, type)
     if (!query || query.trim().length === 0) {
         return res.status(400).json({ message: 'Search query is required.' });
     }

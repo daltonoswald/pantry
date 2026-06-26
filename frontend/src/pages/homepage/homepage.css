@@ -55,6 +55,12 @@
     transform: scale(1.05)
 }
 
+.trending-recipe-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
 .trending-recipe-tags {
     display: flex;
     gap: 4px;

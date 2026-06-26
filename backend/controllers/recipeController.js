@@ -156,8 +156,6 @@ exports.upload_image = asyncHandler(async (req, res) => {
             uploadStream.end(req.file.buffer);
         })
 
-        console.log('secure_url', result.secure_url);
-
         // Optionally attach to a recipe immediately
         const { recipeId } = req.body;
 
@@ -193,7 +191,6 @@ exports.upload_image = asyncHandler(async (req, res) => {
             });
         }
 
-        console.log('result.secure_url', result.secure_url)
         // Or just return the URL to use later on recipe creation
         res.json({
             message: 'Image uploaded succesfully.',

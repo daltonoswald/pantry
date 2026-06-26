@@ -69,7 +69,7 @@ export default function Login() {
                                 </Form.Group>
                                 <Form.Group className='my-4' controlId='formPassword'>
                                     <Form.Label>PASSWORD</Form.Label>
-                                    <Form.Control name='password' type='password' placeholder='*********'></Form.Control>
+                                    <Form.Control name='password' type='password' ></Form.Control>
                                 </Form.Group>
                                 <Row className='my-4 justify-content-md-center'>
                                     <Button className='w-75 m-2 submit-button' type='submit'>Log in</Button>

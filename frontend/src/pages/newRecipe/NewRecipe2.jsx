@@ -130,20 +130,20 @@ export default function NewRecipe2() {
                     </Row>
                         <Form.Group className='my-4' controlId='title'>
                             <Form.Label>RECIPE TITLE</Form.Label>
-                            <Form.Control placeholder='e.g. Sourdough Pizza' />
+                            <Form.Control placeholder='e.g. Sourdough Pizza' required />
                         </Form.Group>
                         <Form.Group className='my-4' controlId='description'>
                             <Form.Label>DESCRIPTION</Form.Label>
-                            <Form.Control placeholder='Share a quick description of your creation' />
+                            <Form.Control placeholder='Share a quick description of your creation' required />
                         </Form.Group>
                         <Row className='my-4 g-0 justify-content-around'>
                             <Form.Group as={Col} md={4} controlId='cookTime' className='new-recipe-block w-25'>
                                 <Form.Label>COOK (MINS)</Form.Label>
-                                <Form.Control defaultValue={25} />
+                                <Form.Control defaultValue={25} required />
                             </Form.Group>
                             <Form.Group as={Col} md={4} controlId='servings' className='new-recipe-block w-25'>
                                 <Form.Label>SERVINGS</Form.Label>
-                                <Form.Control defaultValue={4} />
+                                <Form.Control defaultValue={4} required />
                             </Form.Group>
                         </Row>
 
@@ -240,7 +240,7 @@ export default function NewRecipe2() {
                                 </FloatingLabel> */}
                             <Form.Group className='my-4' controlId='tags'>
                                 <Form.Label>TAGS (seperate with commas)</Form.Label>
-                                <Form.Control placeholder='breakfast, lunch, dinner' />
+                                <Form.Control placeholder='breakfast, lunch, dinner' required />
                         </Form.Group>
                             </Col>
                         </Row>
