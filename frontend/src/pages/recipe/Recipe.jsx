@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './recipe.styles.css';
 import { Heart, HeartFill } from 'react-bootstrap-icons';
 import { favoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
@@ -117,10 +118,18 @@ export default function Recipe() {
         return (
             <div className='app'>
                 <Header />
-                <Container className='my-auto main-content' fluid>
-                    <h1>{recipeData.title}</h1>
-                    <h3>By <Link id={recipeData.user.username} to={`/user/${recipeData.user.username}`}>{recipeData.user.username}</Link></h3>
-                    <p>{recipeData.description}</p>
+                <Container className='my-auto' fluid>
+                    <div className='recipe-image-container'>
+                        <img 
+                            src={ recipeData.image || kitchenImg }
+                            alt='recipe image'
+                            className='recipe-background-image'
+                        />
+                        <div className='recipe-text-overlay'>
+                            <h2>{recipeData.title}</h2>
+                            <p>{recipeData.description}</p>
+                        </div>
+                    </div>
                     {(isFavorited && !isAuthor) && (
                         <HeartFill className='not-favorited' color='red' onClick={handleUnfavoriteRecipe} />
                     )}

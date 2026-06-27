@@ -1,8 +1,58 @@
+@import url('https://googleapis.com');
+
 :root {
-    --primary: #5F6F52;
-    --primary-subtle: #A9B388;
-    --secondary: #FEFAE0;
-    --tetriary: #B99470;
+    --primary: #C0563E;
+    --primary-opaque: rgb(192, 86, 62, .9);
+    --primary-subtle: #FFDAD2;
+    --secondary: #76885B;
+    --tetriary: #E8DED1;
+    --neutral: #4D463F;
+    --background: rgb(255 248 244 / 1);
+    --background-deeper: #fdf2e8;
+    --card: rgb(253 242 232 / 1);
+    /* --card: rgb(245 230 215); */
+    --on-surface: rgb(86 66 61 / 0.5);
+}
+
+.recipe-image-container {
+    position: relative;
+    width: 100%;
+}
+
+.recipe-background-image {
+    width: 100%;
+    object-fit: cover;
+    max-height: 50vh;
+    display: block;
+}
+
+.recipe-text-overlay {
+    font-family: Noto Serif !important;
+    position: absolute;
+    inset: 0px;
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.recipe-text-overlay > h2 {
+    font-size: 4rem;
+    text-align: left;
+    text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.6), 
+    0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.recipe-text-overlay > p {
+    font-size: 2rem;
+    text-align: left;
+    text-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.6), 
+    0 0 12px rgba(0, 0, 0, 0.4);
 }
 
 .ingredient-list {
