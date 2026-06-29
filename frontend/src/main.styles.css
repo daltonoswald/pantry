@@ -71,14 +71,16 @@ textarea {
     background-color: #E8DED1;
 }
 
+.icon-link:hover {
+    cursor: pointer;
+}
+
 .bi-heart:hover {
     fill: red !important;
-    cursor: pointer;
 }
 
 .bi-heart-fill:hover {
     fill: gray !important;
-    cursor: pointer;
 }
 
 .pantry-heading {

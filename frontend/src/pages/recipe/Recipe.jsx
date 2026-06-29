@@ -3,9 +3,10 @@ import Header from '../../components/Header';
 import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './recipe.styles.css';
-import { Heart, HeartFill } from 'react-bootstrap-icons';
+import { Heart, HeartFill, Share } from 'react-bootstrap-icons';
 import { favoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 
 export default function Recipe() {
@@ -118,7 +119,7 @@ export default function Recipe() {
         return (
             <div className='app'>
                 <Header />
-                <Container className='my-auto' fluid>
+                <Container className='my-auto p-0' fluid>
                     <div className='recipe-image-container'>
                         <img 
                             src={ recipeData.image || kitchenImg }
@@ -130,12 +131,49 @@ export default function Recipe() {
                             <p>{recipeData.description}</p>
                         </div>
                     </div>
-                    {(isFavorited && !isAuthor) && (
-                        <HeartFill className='not-favorited' color='red' onClick={handleUnfavoriteRecipe} />
-                    )}
-                    {(!isFavorited && !isAuthor) && (
-                        <Heart className='favorited' onClick={handleFavoriteRecipe} />
-                    )}
+                    <div className='recipe-info-bar'>
+                        <div className='recipe-info-left'>
+                            <div className='recipe-info-col'>
+                                <div className='recipe-cook-time'>
+                                    <p className='recipe-info-label'>COOK TIME</p>
+                                    <p className='recipe-info-data'>{recipeData.cookTime} mins</p>
+                                </div>
+                            </div>
+                            <div className='recipe-info-col'>
+                                <div className='recipe-servings'>
+                                    <p className='recipe-info-label'>SERVINGS</p>
+                                    <p className='recipe-info-data'>{recipeData.servings} portions</p>
+                                </div>
+                            </div>
+                            <div className='recipe-info-col'>
+                                <div className='recipe-date'>
+                                    <p className='recipe-info-label'>POSTED</p>
+                                    <p className='recipe-info-data'>{format(recipeData.createdAt, 'MMMM dd, yyyy')}</p>
+                                </div>
+                            </div>
+                            {(recipeData.createdAt !== recipeData.updatedAt) && (
+                                <div className='recipe-info-col'>
+                                    <div className='recipe-date'>
+                                        <p className='recipe-info-label'>LAST UPDATED</p>
+                                        <p className='recipe-info-data'>{format(recipeData.createdAt, 'MMMM dd, yyyy')}</p>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                        <div className='recipe-info-right'>
+                            <div className='recipe-info-favorite'>
+                                {(isFavorited && !isAuthor) && (
+                                    <HeartFill className='not-favorited icon-link' color='red' onClick={handleUnfavoriteRecipe} />
+                                )}
+                                {(!isFavorited && !isAuthor) && (
+                                    <Heart className='favorited icon-link' onClick={handleFavoriteRecipe} />
+                                )}
+                            </div>
+                            <div className='recipe-info-share'>
+                                <Share className='icon-link' color='black' onClick={() => navigator.clipboard.writeText(window.location.href)} />
+                            </div>
+                        </div>
+                    </div>
                     <Stack gap={3} className='ingredient-list p-4'>
                         <h4 className='text-center'>Ingredients</h4>
                         {recipeData.ingredients.map((item) => (
