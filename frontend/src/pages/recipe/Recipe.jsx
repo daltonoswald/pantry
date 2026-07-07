@@ -142,7 +142,12 @@ export default function Recipe() {
                             <div className='recipe-info-col'>
                                 <div className='recipe-servings'>
                                     <p className='recipe-info-label'>SERVINGS</p>
-                                    <p className='recipe-info-data'>{recipeData.servings} portions</p>
+                                    {recipeData.servings > 1 && (
+                                        <p className='recipe-info-data'>{recipeData.servings} portions</p>
+                                    )}
+                                    {recipeData.servings === 1 && (
+                                        <p className='recipe-info-data'>{recipeData.servings} portion</p>
+                                    )}
                                 </div>
                             </div>
                             <div className='recipe-info-col'>

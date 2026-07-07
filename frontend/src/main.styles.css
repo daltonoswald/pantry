@@ -10,6 +10,7 @@
     --background: rgb(255 248 244 / 1);
     --background-deeper: #fdf2e8;
     --card: rgb(253 242 232 / 1);
+    --card-transparent: rgb(253 242 232 / 0.7);
     /* --card: rgb(245 230 215); */
     --on-surface: rgb(86 66 61 / 0.5);
 }
@@ -83,8 +84,9 @@ textarea {
     fill: gray !important;
 }
 
-.pantry-heading {
-    background-color: rgba(255, 248, 244, 0.7);
+.pantry-nav {
+    background-color: var(--card-transparent) !important;
+    margin: 0 !important;
     color: var(--primary) !important;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: 20px;
@@ -96,6 +98,10 @@ textarea {
     font-family: Noto Serif;
     font-weight: 700;
     font-size: 1.75rem;
+}
+
+.nav-item {
+    background-color: transparent !important;
 }
 
 p {

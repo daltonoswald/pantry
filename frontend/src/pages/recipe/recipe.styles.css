@@ -35,7 +35,7 @@
     flex-direction: column;
     justify-content: center;
     color: #ffffff;
-    padding: 15px;
+    padding-left: 10vw;
     border-radius: 8px;
 }
 
@@ -80,7 +80,6 @@
 
 .recipe-info-data {
     font-family: Noto Serif !important;
-    font-weight: 700;
     font-size: 20px;
 }
 

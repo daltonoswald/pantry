@@ -30,7 +30,7 @@ export default function Header() {
 
     return (
         <>
-        <Navbar sticky='top' expand='lg' className='pantry-heading mb-3 d-flex justify-content-around' >
+        <Navbar sticky='top' expand='lg' className='pantry-nav d-flex justify-content-around' >
             {/* <Container fluid className='pantry-primary mx-2'> */}
                 <Row>
                     <Navbar.Brand as={Link} to='/'>Pantry</Navbar.Brand>
