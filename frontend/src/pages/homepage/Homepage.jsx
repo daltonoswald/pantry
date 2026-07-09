@@ -230,7 +230,7 @@ export default function Homepage() {
   if (!isLoading) return (
     <div className='app'>
       <Header />
-      <Container className='my-5 homepage-container' fluid>
+      <Container className='homepage-container' fluid>
         <Trending 
             trendingRecipes={trendingRecipes}
             popularTags={popularTags}

@@ -14,6 +14,10 @@
     --on-surface: rgb(86 66 61 / 0.5);
 }
 
+/* .recipe-page {
+    
+} */
+
 .recipe-image-container {
     position: relative;
     width: 100%;
@@ -101,8 +105,39 @@
     background-color: rgb(247, 211, 217);
 }
 
-.ingredient-list {
-    border: 2px solid var(--primary);
-    width: 50%;
-    margin: 0 auto;
+.recipe-instructions {
+    display: flex;
+    width: 90vw;
+    margin: auto;
+    justify-content: space-between;
+    padding: 5vh 0;
+}
+
+.recipe-ingredients {
+    width: 25%
+}
+
+.recipe-directions {
+    width: 65%
+}
+
+.recipe-ingredients-title,
+.recipe-directions-title {
+    font-family: Noto Serif !important;
+    border-bottom: 1px solid rgb(221, 192, 186, 0.3);
+}
+
+.recipe-ingredient-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.recipe-ingredient {
+    background-color: white;
+    padding: 1rem;
+}
+
+.recipe-ingredient:hover {
+    border: 1px solid rgb(0, 0, 0, 0.5);
 }
