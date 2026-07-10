@@ -10,7 +10,7 @@
     --background: rgb(255 248 244 / 1);
     --background-deeper: #fdf2e8;
     --card: rgb(253 242 232 / 1);
-    --card-transparent: rgb(253 242 232 / 0.7);
+    --card-transparent: rgb(253 242 232 / 0.9);
     /* --card: rgb(245 230 215); */
     --on-surface: rgb(86 66 61 / 0.5);
 }
@@ -88,8 +88,8 @@ textarea {
     background-color: var(--card-transparent) !important;
     margin: 0 !important;
     color: var(--primary) !important;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: 12px;
 }
 
 .navbar-brand {

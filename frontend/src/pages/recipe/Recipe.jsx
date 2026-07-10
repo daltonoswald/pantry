@@ -189,7 +189,10 @@ export default function Recipe() {
                                     <label className='recipe-ingredient' key={item.id}>
                                         <input type='checkbox' />
                                         <span>
-                                            {item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link> {item.preparationNotes}
+                                            {item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link>
+                                            {(item.preparationNotes !== "") && (
+                                                <span>, {item.preparationNotes}</span>
+                                            )}
                                         </span>
                                     </label>
                                 ))}
