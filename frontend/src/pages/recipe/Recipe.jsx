@@ -96,6 +96,10 @@ export default function Recipe() {
         }
     }
 
+    const handleCompleteStep = (e) => {
+        e.currentTarget.classList.toggle('step-completed');
+    }
+
     if (isLoading) {
         return (
             <div className='app'>
@@ -203,7 +207,7 @@ export default function Recipe() {
                             <div className='recipe-direction-list'>
                                 {recipeData.steps.map((step) => (
                                     <div className='recipe-step' key={step.id}>
-                                        <h3 className='recipe-step-index'>{step.order}</h3>
+                                        <h3 className='recipe-step-index' onClick={handleCompleteStep}>{step.order}</h3>
                                         <p>{step.step}</p>
                                     </div>
                                 ))}

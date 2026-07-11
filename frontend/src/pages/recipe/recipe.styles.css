@@ -153,10 +153,12 @@
 }
 
 .recipe-ingredient > input {
-    border-width: 2px;
+    border: 2px solid var(--secondary);
     border-radius: 0.375rem;
     width: 1.5rem;
     height: 1.5rem;
+    aspect-ratio: 1 / 1;
+    accent-color: var(--secondary);
 }
 
 .recipe-step {
@@ -179,6 +181,10 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.recipe-step-index:hover {
+.step-completed {
+    color: var(--secondary) !important;
+}
+
+.recipe-step:hover .recipe-step-index {
     color: var(--primary);
 }
