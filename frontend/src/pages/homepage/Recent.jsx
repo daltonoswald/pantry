@@ -7,6 +7,8 @@ import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../ut
 
 export default function Recent({ recentRecipes, userStats, favoriteStatus }) {
 
+    console.log(favoriteStatus)
+
     const handleToggleFavoriteRecipe = async (recipeId) => {
         // setMessage(null);
 
@@ -49,10 +51,7 @@ export default function Recent({ recentRecipes, userStats, favoriteStatus }) {
                                                             ) : (userStats != null && !favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
                                                                 <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                             ) : (
-                                                                <>
                                                                  <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />   
-                                                                    
-                                                                </>
                                                             )
                                                             }
                                                         </p>

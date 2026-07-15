@@ -171,13 +171,16 @@ export default function Recipe() {
                         </div>
                         <div className='recipe-info-right'>
                             {(!isAuthor) && (
-                                <div className='recipe-info-favorite'>
-                                    {(isFavorited && !isAuthor) && (
-                                        <HeartFill className='not-favorited icon-link' color='red' onClick={handleUnfavoriteRecipe} />
-                                    )}
-                                    {(!isFavorited && !isAuthor) && (
-                                        <Heart className='favorited icon-link' onClick={handleFavoriteRecipe} />
-                                    )}
+                                <div className='recipe-info-containers'>
+                                    <div className='recipe-info-favorite'>
+                                        {(isFavorited && !isAuthor) && (
+                                            <HeartFill className='not-favorited icon-link' color='red' onClick={handleUnfavoriteRecipe} />
+                                        )}
+                                        {(!isFavorited && !isAuthor) && (
+                                            <Heart className='favorited icon-link' onClick={handleFavoriteRecipe} />
+                                        )}
+                                    </div>
+                                    <p>{recipeData._count.favorites}</p>
                                 </div>
                             )}
                             <div className='recipe-info-share'>

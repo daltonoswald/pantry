@@ -148,6 +148,9 @@ export default function Homepage() {
     // console.log('trending: ', data)
     if (response.ok) {
       setTrendingRecipes(data.recipes || []);
+      if (data.recipes && token) {
+        checkFavoriteStatus(data.recipes);
+      }
     }
   }
 
@@ -165,6 +168,9 @@ export default function Homepage() {
     // console.log('recent: ', data)
     if (response.ok) {
       setRecentRecipes(data.recipes || []);
+      if (data.recipes && token) {
+        checkFavoriteStatus(data.recipes);
+      }
     }
   }
 
