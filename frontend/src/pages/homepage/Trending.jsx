@@ -31,9 +31,9 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
                     <div className='d-flex justify-content-between align-items center mb-3'>
                         <h2 className='d-flex align-items-center'><GraphUp className='m-2' />Trending Recipes</h2>
                     </div>
-                    <Row>
+                    <div className='trending-recipe-card-container'>
                         {trendingRecipes.slice(0, 3).map(recipe => (
-                            <Col md={4} key={recipe.id}>
+                            // <Col md={4} key={recipe.id}>
                                 <div className='trending-recipe-card'>
                                     <div className='trending-recipe-image-container'>
                                         <Link to={`/recipe/${recipe.id}`}> 
@@ -41,13 +41,15 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
                                         </Link>
                                     </div>
                                     <div className='trending-recipe-about'>
-                                        <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
-                                        <div className='trending-recipe-time'>
-                                            <Clock />
-                                            <p>{recipe.cookTime} mins</p>
+                                        <div className='trending-recipe-about-name-time'>
+                                            <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
+                                            <div className='trending-recipe-time'>
+                                                <Clock />
+                                                <p>{recipe.cookTime} mins</p>
+                                            </div>
                                         </div>
                                         <h3 className='trending-recipe-title'>
-                                            <Link to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
+                                            <Link to={`/recipe/${recipe.id}`} className='trending-recipe-title-link'>{recipe.title}</Link>
                                         </h3>
                                         <p>{recipe.description}</p>
                                         <div className='trending-recipe-tags'>
@@ -57,9 +59,9 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
                                         </div>
                                     </div>
                                 </div>
-                            </Col>
+                            // </Col>
                         ))}
-                    </Row>
+                    </div>
                 </section>
             )}
         </>
