@@ -92,6 +92,10 @@ textarea {
     -webkit-backdrop-filter: 12px;
 }
 
+.active {
+    color: var(--primary) !important;
+}
+
 .navbar-brand {
     color: var(--primary) !important;
     /* font-family: 'Times New Roman', Times, serif; */
