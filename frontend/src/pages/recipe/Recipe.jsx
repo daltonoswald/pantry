@@ -1,5 +1,5 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner, Stack } from 'react-bootstrap';
-import Header from '../../components/Header';
+import Header from '../../components/header/Header';
 import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';

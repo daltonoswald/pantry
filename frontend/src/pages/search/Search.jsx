@@ -1,5 +1,5 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
-import Header from '../../components/Header';
+import Header from '../../components/header/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import SearchIngredients from './searchComponents/SearchIngredients';

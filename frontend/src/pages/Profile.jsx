@@ -1,6 +1,6 @@
 import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner } from 'react-bootstrap';
 import { Trash, PersonSquare, PersonFillAdd, PersonFillDash } from 'react-bootstrap-icons';
-import Header from '../components/Header';
+import Header from '../components/header/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';

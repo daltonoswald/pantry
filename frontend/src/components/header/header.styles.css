@@ -1,0 +1,46 @@
+.pantry-nav {
+    background-color: var(--card-transparent) !important;
+    margin: 0 !important;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 10vw;
+    color: var(--primary) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: 12px;
+}
+
+.active {
+    color: var(--primary) !important;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    font-size: 1.125rem;
+    gap: 2rem;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.navbar-brand {
+    color: var(--primary) !important;
+    font-family: Noto Serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.nav-item {
+    background-color: transparent !important;
+}
+
+.pantry-heading-user {
+    gap: 0.5rem;
+}
+
+.pantry-heading-profile-icon:hover {
+    cursor: pointer;
+}

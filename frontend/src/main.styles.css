@@ -84,30 +84,6 @@ textarea {
     fill: gray !important;
 }
 
-.pantry-nav {
-    background-color: var(--card-transparent) !important;
-    margin: 0 !important;
-    color: var(--primary) !important;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: 12px;
-}
-
-.active {
-    color: var(--primary) !important;
-}
-
-.navbar-brand {
-    color: var(--primary) !important;
-    /* font-family: 'Times New Roman', Times, serif; */
-    font-family: Noto Serif;
-    font-weight: 700;
-    font-size: 1.75rem;
-}
-
-.nav-item {
-    background-color: transparent !important;
-}
-
 p {
     margin-bottom: 0 !important;
 }

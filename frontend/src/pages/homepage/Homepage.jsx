@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import Header from '../../components/Header';
+import Header from '../../components/header/Header';
 import MakeableRecipes from './MakeableRecipes';
 import { useState, useEffect } from 'react';
 import Recent from './Recent';
