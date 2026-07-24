@@ -4,6 +4,7 @@ import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.styles.css'
 import NewPantryItem from '../modals/NewPantryItem';
+import { MdAccountCircle } from 'react-icons/md'
 import { Search, PersonCircle } from 'react-bootstrap-icons';
 
 export default function Header() {
@@ -143,7 +144,8 @@ export default function Header() {
                     )}
                     {token && (
                         <Col md='auto' className='d-flex align-items-center pantry-heading-user'>
-                            <PersonCircle color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
+                            {/* <PersonCircle color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} /> */}
+                            <MdAccountCircle size='1.5rem' color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
                             <NavDropdown title={username} className='pantry-heading' >
                                 <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-heading'>{username}</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-heading'>Search</NavDropdown.Item>
