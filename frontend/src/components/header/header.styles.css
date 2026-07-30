@@ -60,6 +60,8 @@
     display: flex;
     align-items: center;
     color: black !important;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 150ms;
 }
 
 .pantry-nav-search input {

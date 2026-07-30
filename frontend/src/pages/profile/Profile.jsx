@@ -96,6 +96,7 @@ export default function Profile() {
             const data = await response.json();
             if (response.ok) {
                 console.log(data)
+                window.location.reload();
             }
             if (!response.ok) {
                 setMessage(data.message);
@@ -107,7 +108,7 @@ export default function Profile() {
     }
 
 
-    const handleUnFollow = async (e) => {
+    const handleUnfollow = async (e) => {
         e.preventDefault();
         const url = `http://localhost:3000/user/unfollow-user`
         const userToUnfollow = {
@@ -126,6 +127,7 @@ export default function Profile() {
             const data = await response.json();
             if (response.ok) {
                 console.log(data)
+                window.location.reload();
             }
             if (!response.ok) {
                 setMessage(data.message);
@@ -253,19 +255,24 @@ export default function Profile() {
                                     <h4>{profileData._count.recipes}</h4>
                                     <p>Recipes</p>
                                 </div>
-                                <div className='profile-heading-follow'>
-                                    {(isFollowing && !isOwnProfile) ? (
-                                        <p>Following!</p>
-                                    ) : (!isFollowing && !isOwnProfile) ? (
-                                        <p>Not Following!</p>
-                                    ) : (isOwnProfile) && (
-                                        <Button onClick={handleOpenEditProfile}>Edit Profile</Button>
-                                    )}
-                                </div>
+                            </div>
+                            <div className='profile-heading-follow'>
+                                {(isFollowing && !isOwnProfile) ? (
+                                    <button className='button-unfollow' onClick={handleUnfollow}>Unfollow</button>
+                                ) : (!isFollowing && !isOwnProfile) ? (
+                                    <button className='button-follow' onClick={handleFollow}>Follow</button>
+                                ) : (isOwnProfile) && (
+                                    <button className='button-edit-profile' onClick={handleOpenEditProfile}>Edit Profile</button>
+                                )}
                             </div>
                         </div>
                     </div>
+                    <div className='profile-body'>
+                        <ProfileRecipes myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
+                        <ProfilePantry myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
+                    </div>
                 </div>
+                <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} />
             </div>
         )
     }
