@@ -1,13 +1,17 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Trash,} from 'react-bootstrap-icons';
-import { handleDeleteRecipe} from '../../utils/utility'
+import { handleDeleteRecipe} from '../../../utils/utility'
 import { Link } from 'react-router-dom';
-import ConfirmDelete from '../modals/ConfirmDelete';
+import ConfirmDelete from '../../../components/modals/ConfirmDelete'
 import { useState } from 'react';
+import { MdArrowRightAlt } from 'react-icons/md';
+import kitchenImg from '../../../assets/temp-stock-photos/kitchen.jpg'
 
 export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLoading }) {
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
+
+    console.log(profileData.recipes)
 
     function handleOpenConfirmDelete(id) {
         setOpenConfirmDelete(!openConfirmDelete)
@@ -16,7 +20,7 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
 
     return (
         <>
-        <Row className='h-100'>
+        {/* <Row className='h-100'>
             <Col className='profile-recipes border'>
                 <h3 className='text-center'>Recipes By {profileData.username}</h3>
                 {(profileData.recipes.length > 0) && (
@@ -28,7 +32,6 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
                                 </Col>
                                 {(profileData.id === myData?.id) && (
                                 <Col className='col-auto'>
-                                    {/* <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item.id)} > */}
                                     <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item)} >
                                         <Trash color='black'/>
                                     </Button>
@@ -44,7 +47,30 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
                     </>
                 )}
             </Col>
-    </Row>
+        </Row> */}
+        <div className='profile-recipes-container'>
+            <div className='profile-recipes-header'>
+                <h3>My Recipes</h3>
+                <Link to={`/user/${profileData.username}/all-recipes`}>View All <MdArrowRightAlt /></Link>
+            </div>
+            {(profileData.recipes.length > 0) && (
+                <div className='profile-recipes-list'>
+                {profileData.recipes.map((item) => (
+                    <div className='profile-recipe-card'>
+                        <div className='profile-recipe-image-container'>
+                            <Link to={`/recipe/${item.id}`}>
+                                <img src={item.image || kitchenImg} className='profile-recipe-image' alt='recipe image' />
+                            </Link>
+                        </div>
+                        <div className='profile-recipe-about'>
+                            <h4 className='profile-recipe-title'><Link to={`/recipe/${item.id}`}>{item.title}</Link></h4>
+                            <p>{item.description}</p>
+                        </div>
+                    </div>
+                ))}
+                </div>
+            )}
+        </div>
     <ConfirmDelete openConfirmDelete={openConfirmDelete} setOpenConfirmDelete={setOpenConfirmDelete} itemToDelete={itemToDelete} />
     </>
     )

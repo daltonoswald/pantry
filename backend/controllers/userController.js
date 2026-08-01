@@ -160,9 +160,11 @@ exports.profile = asyncHandler(async (req, res, next) => {
                         }
                     },
                     orderBy: {
-                        createdAt: 'desc'
+                        favorites: {
+                            _count: 'desc'
+                        }
                     },
-                    take: 10
+                    take: 2
                 },
                 recipeFavorites: {
                     select: {

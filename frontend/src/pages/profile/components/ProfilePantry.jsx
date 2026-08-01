@@ -1,6 +1,6 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Trash,} from 'react-bootstrap-icons';
-import { capFirst, handleDeleteFromPantry } from '../../utils/utility'
+import { capFirst, handleDeleteFromPantry } from '../../../utils/utility'
 
 export default function ProfilePantry({ myData, profileData, isOwnProfile, isLoading }) {
     

@@ -89,7 +89,7 @@ p {
     margin-bottom: 0 !important;
 }
 
-.profile-pantry-list,
+/* .profile-pantry-list,
 .profile-recipes-list {
     height: 25vh;
     overflow-y: auto;
@@ -102,7 +102,7 @@ p {
     display: none;
     width: 0;
     height: 0;
-}
+} */
 
 .secondary-link {
     position: relative;

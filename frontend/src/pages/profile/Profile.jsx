@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../components/ErrorModal';
 import { capFirst, handleDeleteFromPantry } from '../../utils/utility';
-import ProfilePantry from '../../components/profile/ProfilePantry';
-import ProfileRecipes from '../../components/profile/ProfileRecipes';
+import ProfilePantry from './components/ProfilePantry'
+import ProfileRecipes from './components/ProfileRecipes';
 import EditProfile from '../../components/modals/EditProfile';
 import { LuChefHat } from 'react-icons/lu';
 import './profile.styles.css'
