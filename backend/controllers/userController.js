@@ -142,6 +142,8 @@ exports.profile = asyncHandler(async (req, res, next) => {
                         title: true,
                         description: true,
                         createdAt: true,
+                        cookTime: true,
+                        image: true,
                         recipeTags: {
                             select: {
                                 tag: {
@@ -157,7 +159,12 @@ exports.profile = asyncHandler(async (req, res, next) => {
                                 favorites: true,
                                 comments: true,
                             }
-                        }
+                        },
+                        favorites: currentUser ? {
+                            where: {
+                                userId: currentUser.id
+                            }
+                        } : false
                     },
                     orderBy: {
                         favorites: {
@@ -220,9 +227,27 @@ exports.profile = asyncHandler(async (req, res, next) => {
         if (!userProfile) {
             return res.status(404).json({ error: 'User not found.' })
         } else {
-            // res.json({ profile: userProfile, user: authorizedUser });
+            // res.json({
+            //     userProfile,
+            //     ...(currentUser && {
+            //         currentUser: {
+            //             id: currentUser.id,
+            //             username: currentUser.username
+            //         },
+            //         isOwnProfile: userProfile.id === currentUser.id,
+            //         isFollowing: userProfile.followedBy?.length > 0,
+            //         followsYou: userProfile.following?.length > 0
+            //     })
+            // });
             res.json({
-                userProfile,
+                userProfile: {
+                    ...userProfile,
+                    recipes: userProfile.recipes.map(recipe => ({
+                        ...recipe,
+                        isFavorited: recipe.favorites?.length > 0,
+                        favorites: undefined
+                    }))
+                },
                 ...(currentUser && {
                     currentUser: {
                         id: currentUser.id,
@@ -232,7 +257,7 @@ exports.profile = asyncHandler(async (req, res, next) => {
                     isFollowing: userProfile.followedBy?.length > 0,
                     followsYou: userProfile.following?.length > 0
                 })
-            });
+            })
         }
     } catch (error) {
         console.error('Error fetching user:', error);

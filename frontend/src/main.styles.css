@@ -77,12 +77,18 @@ textarea {
     cursor: pointer;
 }
 
-.bi-heart:hover {
+.not-favorited:hover {
     fill: red !important;
+    cursor: pointer;
 }
 
-.bi-heart-fill:hover {
+.favorited {
+    color: red;
+}
+
+.favorited:hover {
     fill: gray !important;
+    cursor: pointer;
 }
 
 p {

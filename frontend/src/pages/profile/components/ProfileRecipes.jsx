@@ -1,10 +1,12 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Trash,} from 'react-bootstrap-icons';
-import { handleDeleteRecipe} from '../../../utils/utility'
+import { handleDeleteRecipe, favoriteRecipe, unfavoriteRecipe } from '../../../utils/utility'
 import { Link } from 'react-router-dom';
 import ConfirmDelete from '../../../components/modals/ConfirmDelete'
 import { useState } from 'react';
 import { MdArrowRightAlt } from 'react-icons/md';
+import { FiClock } from 'react-icons/fi';
+import { GoHeart, GoHeartFill } from 'react-icons/go'
 import kitchenImg from '../../../assets/temp-stock-photos/kitchen.jpg'
 
 export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLoading }) {
@@ -12,6 +14,7 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
     const [itemToDelete, setItemToDelete] = useState(null);
 
     console.log(profileData.recipes)
+    console.log('mydata', myData);
 
     function handleOpenConfirmDelete(id) {
         setOpenConfirmDelete(!openConfirmDelete)
@@ -63,6 +66,24 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
                             </Link>
                         </div>
                         <div className='profile-recipe-about'>
+                            <div className='profile-recipe-about-favorites-time'>
+                                <div className='profile-recipe-favorites'>
+                                    {(item.isFavorited && myData) && (
+                                        <GoHeartFill className='favorited' onClick={() => favoriteRecipe(item.id)} />
+                                    )}
+                                    {(!item.isFavorited && myData) && (
+                                        <GoHeart className='not-favorited' onClick={() => unfavoriteRecipe(item.id)} />
+                                    )}
+                                    {(!item.isFavorited && !myData) && (
+                                        <GoHeart className='not-favorited' />
+                                    )}
+                                    <p>{item._count.favorites}</p>
+                                </div>
+                                <div className='profile-recipe-time'>
+                                    <FiClock />
+                                    <p>{item.cookTime} mins</p>
+                                </div>
+                            </div>
                             <h4 className='profile-recipe-title'><Link to={`/recipe/${item.id}`}>{item.title}</Link></h4>
                             <p>{item.description}</p>
                         </div>
