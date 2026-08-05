@@ -201,11 +201,13 @@ exports.profile = asyncHandler(async (req, res, next) => {
                                 name: true
                             }
                         }
-                    }
+                    },
+                    take: 5
                 },
                 _count: {
                     select: {
                         recipes: true,
+                        pantryItems: true,
                         following: true,
                         followedBy: true,
                         recipeFavorites: true
