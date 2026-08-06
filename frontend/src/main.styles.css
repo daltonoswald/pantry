@@ -30,12 +30,10 @@ html,
 body,
 #root,
 .app {
-    height: 100%;
+    /* height: 100%; */
     background-color: var(--background);
-
-    font-family: 'Plus Jakarta Sans', sans-serf;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     color: #56423d;
-    background-color: #fff8f4;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
@@ -43,9 +41,9 @@ body,
 h1, h2, h3, h4 {
     font-family: 'Noto Serif', serif;
     color: #201b15;
-    font-weight: 700;
+    /* font-weight: 700; */
     line-height: 1.2;
-    letter-spacing: -0.02em;
+    /* letter-spacing: -0.02em; */
 }
 
 h1 {

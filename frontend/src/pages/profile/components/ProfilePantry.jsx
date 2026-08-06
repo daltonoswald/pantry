@@ -43,6 +43,11 @@ export default function ProfilePantry({ myData, profileData, isOwnProfile, isLoa
                     ))}
                 </div>
             ))}
+            {(profileData.pantryItems <= 0 && (
+                <div className='profile-pantry-list'>
+                    <h4>No pantry items found...</h4>
+                </div>
+            ))}
     </div>
     </>
     )

@@ -91,6 +91,9 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
                 ))}
                 </div>
             )}
+            {(profileData.recipes.length <= 0) && (
+                <h4>No recipes found...</h4>
+            )}
         </div>
     <ConfirmDelete openConfirmDelete={openConfirmDelete} setOpenConfirmDelete={setOpenConfirmDelete} itemToDelete={itemToDelete} />
     </>

@@ -1,3 +1,5 @@
+@import url('https://googleapis.com');
+
 .pantry-nav {
     background-color: var(--card-transparent) !important;
     margin: 0 !important;
@@ -19,6 +21,14 @@
     align-items: center;
     font-size: 1.125rem;
     gap: 2rem;
+}
+
+.navbar-left a {
+    text-transform: uppercase;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 0.875rem;
 }
 
 .navbar-right {
