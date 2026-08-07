@@ -135,7 +135,7 @@ export default function Homepage() {
   }
 
   const fetchTrendingRecipes = async () => {
-    const url = `http://localhost:3000/recipe/trending?limit=6`
+    const url = `http://localhost:3000/recipe/trending?limit=3`
     const response = await fetch(url, {
       method: 'GET',
       headers: {

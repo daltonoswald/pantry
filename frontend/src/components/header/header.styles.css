@@ -23,7 +23,7 @@
     gap: 2rem;
 }
 
-.navbar-left a {
+.navbar-link {
     text-transform: uppercase;
     font-family: 'Plus Jakarta Sans', sans-serif;
     letter-spacing: 0.1em;

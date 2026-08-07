@@ -38,13 +38,13 @@ export default function Header() {
                 <NavLink to='/' style={({ isActive }) => isActive ? { color: '#C0563E'} : { color: 'black'}} className='navbar-brand'>
                     Pantry
                 </NavLink>
-                <NavLink to='/' className={({ isActive, isPending }) => isPending ? "pending"  : isActive ? "active" : "" }>
+                <NavLink to='/' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>
                         Recipes
                 </NavLink>
-                <NavLink to='/search' className={({ isActive, isPending }) => isPending ? "pending"  : isActive ? "active" : "" }>
+                <NavLink to='/search' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>
                         Search
                 </NavLink>
-                <NavLink to='/about' className={({ isActive, isPending }) => isPending ? "pending"  : isActive ? "active" : "" }>
+                <NavLink to='/about' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>
                         About
                 </NavLink>
             </div>

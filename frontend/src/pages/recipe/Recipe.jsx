@@ -57,6 +57,7 @@ export default function Recipe() {
                 setMessage(error);
             } finally {
                 setIsLoading(false)
+                console.log('myData: ', myData)
             }
         }
         getRecipe();
@@ -173,12 +174,15 @@ export default function Recipe() {
                             {(!isAuthor) && (
                                 <div className='recipe-info-containers'>
                                     <div className='recipe-info-favorite'>
-                                        {(isFavorited && !isAuthor) && (
+                                        {(isFavorited && myData && !isAuthor) && (
                                             <HeartFill className='not-favorited icon-link' color='red' onClick={handleUnfavoriteRecipe} />
                                         )}
-                                        {(!isFavorited && !isAuthor) && (
+                                        {(!isFavorited && myData && !isAuthor) && (
                                             <Heart className='favorited icon-link' onClick={handleFavoriteRecipe} />
                                         )}
+                                        {(!myData && (
+                                            <Heart className='favorited icon-link' onClick={() => navigate('/login')} />
+                                        ))}
                                     </div>
                                     <p>{recipeData._count.favorites}</p>
                                 </div>
@@ -217,23 +221,6 @@ export default function Recipe() {
                             </div>
                         </div>
                     </div>
-                    {/* <Stack gap={3} className='ingredient-list p-4'>
-                        <h4 className='text-center'>Ingredients</h4>
-                        {recipeData.ingredients.map((item) => (
-                            <p key={item.id}>
-                                {item.quantity} {item.measurement} <Link to={`/search?q=${item.ingredient.name}&t=all`}>{item.ingredient.name}</Link> {item.preparationNotes}
-                            </p>
-                        ))}
-                    </Stack>
-                    <Stack gap={3} className='p-4'>
-                        <h4 className='text-center'>Directions</h4>
-                        {recipeData.steps.map((step) => (
-                            <Row key={step.id}>
-                                <Col xs='auto'><strong>{step.order}</strong></Col>
-                                <Col><p>{step.step}</p></Col>
-                            </Row>
-                        ))}
-                    </Stack> */}
                     <Col className='d-flex flex-row gap-2'>
                         {recipeData.recipeTags.map((tag) => (
                             <Link key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>

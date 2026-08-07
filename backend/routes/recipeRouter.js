@@ -10,8 +10,8 @@ router.post('/upload-image', upload.single('image'), recipeController.upload_ima
 router.post('/batch-check-favorites', recipeController.batch_check_favorites);
 router.get('/by-pantry', recipeController.get_recipes_by_pantry);
 router.get('/makeable', recipeController.get_makeable_recipes);
-router.get('/recent', recipeController.get_recent_recipes);
-router.get('/trending', recipeController.get_trending_recipes);
+router.get('/recent', optionalAuth,recipeController.get_recent_recipes);
+router.get('/trending', optionalAuth, recipeController.get_trending_recipes);
 
 router.post('/delete/:recipeId', recipeController.delete_recipe);
 router.post('/favorite/:recipeId', recipeController.favorite_recipe);

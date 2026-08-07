@@ -123,7 +123,7 @@ const favoriteRecipe = async (recipeToFavorite) => {
 const unfavoriteRecipe = async (recipeToUnfavorite) => {
     const token = localStorage.getItem('pantryAuthToken');
     const url = `http://localhost:3000/recipe/unfavorite/${recipeToUnfavorite}`
-    console.log('util', recipeToUnfavorite)
+    console.log('util', token, recipeToUnfavorite)
 
     try {
         const response = await fetch(url, {

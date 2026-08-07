@@ -347,6 +347,7 @@ exports.delete_recipe = asyncHandler(async (req, res, next) => {
 exports.favorite_recipe = asyncHandler(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
+    console.log('auth-', authorizedUser);
     const currentUser = authorizedUser.user;
     const recipeId = req.body.recipeId;
 
@@ -433,6 +434,7 @@ exports.favorite_recipe = asyncHandler(async (req, res, next) => {
 exports.unfavorite_recipe = asyncHandler(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
+    console.log('auth-', authorizedUser);
     const currentUser = authorizedUser.user;
     const recipeId = req.body.recipeId;
 
@@ -763,6 +765,7 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
 
 exports.get_trending_recipes = asyncHandler(async (req, res) => {
     const limit = parseInt(req.query.limit) || 5;
+    const currentUser = req.user;
 
     const recipes = await prisma.recipe.findMany({
         orderBy: {
@@ -793,12 +796,23 @@ exports.get_trending_recipes = asyncHandler(async (req, res) => {
                     favorites: true,
                     comments: true
                 }
-            }
+            },
+            favorites: currentUser ? {
+                where: {
+                    userId: currentUser.id
+                }
+            } : false
         },
         take: limit
     });
 
-    res.json({ recipes });
+    res.json({ 
+        recipes: recipes.map(recipe => ({
+            ...recipe,
+            isFavorited: recipe.favorites?.length > 0,
+            favorites: undefined
+        }))
+     });
 });
 
 exports.get_recent_recipes = asyncHandler(async (req, res) => {
@@ -831,12 +845,23 @@ exports.get_recent_recipes = asyncHandler(async (req, res) => {
                     favorites: true,
                     comments: true
                 }
-            }
+            },
+            favorites: currentUser ? {
+                where: {
+                    userId: currentUser.id
+                }
+            } : false
         },
         take: limit
     });
 
-    res.json({ recipes });
+    res.json({ 
+        recipes: recipes.map(recipe => ({
+            ...recipe,
+            isFavorited: recipe.favorites?.length > 0,
+            favorites: undefined
+        }))
+     });
 });
 
 exports.batch_check_favorites = asyncHandler(async (req, res) => {

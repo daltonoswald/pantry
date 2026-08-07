@@ -1,6 +1,6 @@
 import { Row, Col, Button } from 'react-bootstrap';
 import { Trash,} from 'react-bootstrap-icons';
-import { handleDeleteRecipe, favoriteRecipe, unfavoriteRecipe } from '../../../utils/utility'
+import { handleDeleteRecipe, favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe} from '../../../utils/utility';
 import { Link } from 'react-router-dom';
 import ConfirmDelete from '../../../components/modals/ConfirmDelete'
 import { useState } from 'react';
@@ -21,36 +21,21 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
         setItemToDelete(id)
     }
 
+    const handleToggleFavoriteRecipe = async (recipeId) => {
+
+        console.log('toggling: ', recipeId)
+        const result = await toggleFavoriteRecipe(recipeId)
+
+        if (result.success) {
+            // setMessage({ type: 'success', text: result.message });
+            window.location.reload();
+        } else {
+            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
+        }
+    }
+
     return (
         <>
-        {/* <Row className='h-100'>
-            <Col className='profile-recipes border'>
-                <h3 className='text-center'>Recipes By {profileData.username}</h3>
-                {(profileData.recipes.length > 0) && (
-                    <div className='profile-recipes-list'>
-                        {profileData.recipes.map((item) => (
-                            <Row key={item.id} className='mb-2 recipe-item'>
-                                <Col>
-                                    <Link to={`/recipe/${item.id}`} className='recipe-item'>{item.title}</Link>
-                                </Col>
-                                {(profileData.id === myData?.id) && (
-                                <Col className='col-auto'>
-                                    <Button variant='danger' type='button' onClick={() => handleOpenConfirmDelete(item)} >
-                                        <Trash color='black'/>
-                                    </Button>
-                                </Col>
-                                )}
-                            </Row>
-                        ))}
-                    </div>
-                )}
-                {(profileData.recipes.length <= 0) && (
-                    <>
-                        <p className='text-center'>No recipes yet...</p>
-                    </>
-                )}
-            </Col>
-        </Row> */}
         <div className='profile-recipes-container'>
             <div className='profile-recipes-header'>
                 <h3>My Recipes</h3>
@@ -69,10 +54,10 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
                             <div className='profile-recipe-about-favorites-time'>
                                 <div className='profile-recipe-favorites'>
                                     {(item.isFavorited && myData) && (
-                                        <GoHeartFill className='favorited' onClick={() => favoriteRecipe(item.id)} />
+                                        <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(item.id)} />
                                     )}
                                     {(!item.isFavorited && myData) && (
-                                        <GoHeart className='not-favorited' onClick={() => unfavoriteRecipe(item.id)} />
+                                        <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(item.id)} />
                                     )}
                                     {(!item.isFavorited && !myData) && (
                                         <GoHeart className='not-favorited' />

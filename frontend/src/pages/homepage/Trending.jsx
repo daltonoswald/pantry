@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { Clock, GraphUp, Heart, HeartFill,  Stopwatch } from 'react-bootstrap-icons';
+import { GoHeart, GoHeartFill } from 'react-icons/go'
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe} from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
@@ -7,11 +8,10 @@ import './homepage.css'
 
 
 export default function Trending({trendingRecipes, popularTags, userStats, favoriteStatus }) {
-
+    const navigate = useNavigate();
     console.log(trendingRecipes);
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
-        // setMessage(null);
 
         console.log('toggling: ', recipeId)
         const result = await toggleFavoriteRecipe(recipeId)
@@ -32,34 +32,46 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
                         <h2 className='d-flex align-items-center'><GraphUp className='m-2' />Trending Recipes</h2>
                     </div>
                     <div className='trending-recipe-card-container'>
-                        {trendingRecipes.slice(0, 3).map(recipe => (
-                            // <Col md={4} key={recipe.id}>
-                                <div className='trending-recipe-card'>
-                                    <div className='trending-recipe-image-container'>
-                                        <Link to={`/recipe/${recipe.id}`}> 
-                                            <img src={recipe.image || kitchenImg} className='trending-recipe-image' alt='recipe image' />
-                                        </Link>
-                                    </div>
-                                    <div className='trending-recipe-about'>
-                                        <div className='trending-recipe-about-name-time'>
-                                            <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
+                        {trendingRecipes.map(recipe => (
+                            <div className='trending-recipe-card'>
+                                <div className='trending-recipe-image-container'>
+                                    <Link to={`/recipe/${recipe.id}`}> 
+                                        <img src={recipe.image || kitchenImg} className='trending-recipe-image' alt='recipe image' />
+                                    </Link>
+                                </div>
+                                <div className='trending-recipe-about'>
+                                    <div className='trending-recipe-about-stats'>
+                                        <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
+                                        <div className='trending-recipe-favorites-time'>
+                                            <div className='trending-recipe-favorites'>
+                                                {(recipe.isFavorited && userStats) && (
+                                                    <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                )}
+                                                {(!recipe.isFavorited && userStats) && (
+                                                    <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                )}
+                                                {(!recipe.isFavorited && !userStats) && (
+                                                    <GoHeart className='not-favorited' onClick={() => navigate('/log-in')} />
+                                                )}
+                                                <p>{recipe._count.favorites}</p>
+                                            </div>
                                             <div className='trending-recipe-time'>
                                                 <Clock />
                                                 <p>{recipe.cookTime} mins</p>
                                             </div>
                                         </div>
-                                        <h3 className='trending-recipe-title'>
-                                            <Link to={`/recipe/${recipe.id}`} className='trending-recipe-title-link'>{recipe.title}</Link>
-                                        </h3>
-                                        <p>{recipe.description}</p>
-                                        <div className='trending-recipe-tags'>
-                                            {recipe.recipeTags.map(tag => (
-                                                <Link className='trending-recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
-                                            ))}
-                                        </div>
+                                    </div>
+                                    <h3 className='trending-recipe-title'>
+                                        <Link to={`/recipe/${recipe.id}`} className='trending-recipe-title-link'>{recipe.title}</Link>
+                                    </h3>
+                                    <p>{recipe.description}</p>
+                                    <div className='trending-recipe-tags'>
+                                        {recipe.recipeTags.map(tag => (
+                                            <Link className='trending-recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
+                                        ))}
                                     </div>
                                 </div>
-                            // </Col>
+                            </div>
                         ))}
                     </div>
                 </section>

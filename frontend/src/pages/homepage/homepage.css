@@ -76,14 +76,20 @@
     align-items: start;
 }
 
-.trending-recipe-about-name-time {
+.trending-recipe-about-stats {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;
     /* font-size: 0.75rem; */
 }
 
-.trending-recipe-time {
+.trending-recipes-favorites-time {
+    display: flex;
+    gap: 8px;
+}
+
+.trending-recipe-time,
+.trending-recipe-favorites {
     display: flex;
     align-items: center;
     gap: 4px;
