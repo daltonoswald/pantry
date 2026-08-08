@@ -83,9 +83,10 @@
     /* font-size: 0.75rem; */
 }
 
-.trending-recipes-favorites-time {
+.trending-recipe-favorites-time {
     display: flex;
-    gap: 8px;
+    align-items: flex-end;
+    gap: 1rem;
 }
 
 .trending-recipe-time,

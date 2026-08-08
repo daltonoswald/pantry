@@ -4,6 +4,8 @@
     box-shadow: 0 0 0 1px rgba(86, 66, 61, 0.08);
     overflow: hidden;
     height: 90vh;
+    margin-top: 4vh;
+    margin-bottom: 4vh;
 }
 
 .signup-column-left,

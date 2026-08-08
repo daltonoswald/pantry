@@ -166,7 +166,15 @@ p {
     border-bottom: 1px solid #4d463f3f;
 }
 
-.form-label,
+.form-label {
+    color: var(--neutral);
+    text-transform: uppercase;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.1em;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
 .form-control {
     color: var(--neutral);
     letter-spacing: 0.05em;
