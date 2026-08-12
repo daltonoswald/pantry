@@ -56,7 +56,7 @@ export default function Login() {
         <div className='app'>
             <Header />
             <Container className='my-auto w-75 flex-grow-1' fluid>
-                <Row className='login-container my-auto'>
+                <Row className='login-container'>
                     <Col md={6} className='login-column-left'>
                         <img className='login-image' src={vegetablesImg} />
                     </Col>

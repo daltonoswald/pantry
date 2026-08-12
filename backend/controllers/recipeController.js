@@ -817,6 +817,7 @@ exports.get_trending_recipes = asyncHandler(async (req, res) => {
 
 exports.get_recent_recipes = asyncHandler(async (req, res) => {
     const limit = parseInt(req.query.limit) || 5;
+    const currentUser = req.user;
 
     const recipes = await prisma.recipe.findMany({
         orderBy: {

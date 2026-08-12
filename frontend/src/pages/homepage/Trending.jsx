@@ -28,8 +28,8 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
         <>
             {trendingRecipes.length > 0 && (
                 <section className='mb-5 trending-container'>
-                    <div className='d-flex justify-content-between align-items center mb-3'>
-                        <h2 className='d-flex align-items-center'><GraphUp className='m-2' />Trending Recipes</h2>
+                    <div className='d-flex justify-content-between align-items center'>
+                        <h2 className='d-flex align-items-center'>Trending Recipes</h2>
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (
