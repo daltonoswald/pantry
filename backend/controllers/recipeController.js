@@ -539,6 +539,7 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
 exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
+    const currentUser = req.user;
     const limit = parseInt(req.query.limit) || 5;
     const minMatchPercent = parseInt(req.query.minMatch) || 0; // Minimum match percentage, considering 5-10
 
@@ -597,7 +598,10 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
                         favorites: true,
                         comments: true
                     }
-                }
+                },
+                favorites: currentUser ? {
+                    where: { userId: currentUser.id }
+                } : false 
             }
         });
 
@@ -637,12 +641,13 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
                 description: recipe.description,
                 user: recipe.user,
                 cookTime: recipe.cookTime,
-                tags: recipe.recipeTags.map(rt => rt.tag),
+                recipeTags: recipe.recipeTags.map(rt => rt.tag),
                 totalIngredients,
                 matchCount,
                 matchPercentage,
                 matchingIngredients: matchingIngredientsDetails,
                 missingIngredients,
+                isFavorited: recipe.favorites?.length > 0,
                 _count: recipe._count
             };
         });
@@ -673,6 +678,7 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
 exports.get_makeable_recipes = asyncHandler(async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
+    const currentUser = req.user;
     const limit = parseInt(req.query.limit) || 5;
 
     try {
@@ -725,7 +731,10 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
                         favorites: true,
                         comments: true
                     }
-                }
+                },
+                favorites: currentUser ? {
+                    where: { userId: currentUser.id }
+                } : false
             }
         });
 
@@ -739,7 +748,7 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
             user: recipe.user,
             title: recipe.title,
             cookTime: recipe.cookTime,
-            tags: recipe.recipeTags.map(rt => rt.tag),
+            recipeTags: recipe.recipeTags.map(rt => rt.tag),
             totalIngredients: recipe.ingredients.length,
             matchPercentage: 100,
             ingredients: recipe.ingredients.map(ing => ({
@@ -748,6 +757,7 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
                 quantity: ing.quantity,
                 measurement: ing.measurement
             })),
+            isFavorited: recipe.favorites?.length > 0,
             _count: recipe._count
         }));
 

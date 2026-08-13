@@ -17,7 +17,8 @@ export default function Homepage() {
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [popularTags, setPopularTags] = useState([]);
   const [userStats, setUserStats] = useState(null);
-  const [favoriteStatus, setFavoriteStatus] = useState({});
+  // const [favoriteStatus, setFavoriteStatus] = useState({});
+
   // const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
@@ -73,7 +74,7 @@ export default function Homepage() {
               if (data.recipes) {
                 // console.log('data.recipes', data.recipes)
                 // console.log('checking favorites...')
-                checkFavoriteStatus(data.recipes);
+                // checkFavoriteStatus(data.recipes);
               }
           }
       } catch (error) {
@@ -100,11 +101,6 @@ export default function Homepage() {
         if (response.ok) {
             // console.log(data);
             setRecipesByPantry(data.recipes || [])
-            if (data.recipes) {
-              console.log('data.recipes', data.recipes)
-              console.log('checking favorites...')
-              checkFavoriteStatus(data.recipes);
-            }
         }
     } catch (error) {
         console.error('Error', error);
@@ -148,9 +144,6 @@ export default function Homepage() {
     // console.log('trending: ', data)
     if (response.ok) {
       setTrendingRecipes(data.recipes || []);
-      if (data.recipes && token) {
-        checkFavoriteStatus(data.recipes);
-      }
     }
   }
 
@@ -168,9 +161,6 @@ export default function Homepage() {
     // console.log('recent: ', data)
     if (response.ok) {
       setRecentRecipes(data.recipes || []);
-      if (data.recipes && token) {
-        checkFavoriteStatus(data.recipes);
-      }
     }
   }
 
@@ -191,36 +181,36 @@ export default function Homepage() {
     }
   }
 
-  const checkFavoriteStatus = async (recipes) => {
-    const url = `http://localhost:3000/recipe/batch-check-favorites`;
-    if (!token || !recipes || recipes.length === 0) return;
+  // const checkFavoriteStatus = async (recipes) => {
+  //   const url = `http://localhost:3000/recipe/batch-check-favorites`;
+  //   if (!token || !recipes || recipes.length === 0) return;
 
-    const recipeIds = recipes.map(r => r.id);
-    console.log('recipes:', recipeIds);
+  //   const recipeIds = recipes.map(r => r.id);
+  //   console.log('recipes:', recipeIds);
 
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        },
-        body: JSON.stringify({ recipeIds }),
-        mode: 'cors'
-      });
-      const data = await response.json();
-      console.log('response', response);
-      console.log('data', data);
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         Authorization: `Bearer ${token}`
+  //       },
+  //       body: JSON.stringify({ recipeIds }),
+  //       mode: 'cors'
+  //     });
+  //     const data = await response.json();
+  //     console.log('response', response);
+  //     console.log('data', data);
 
-      if (response.ok) {
-        setFavoriteStatus(prev => ({ ...prev, ...data.favoriteStatus }));
-        console.log('favorite data', data);
-        console.log('favorites', data.favoriteStatus);
-      }
-    } catch (error) {
-      console.error('Error checking favorite status:', error);
-    }
-  }
+  //     if (response.ok) {
+  //       setFavoriteStatus(prev => ({ ...prev, ...data.favoriteStatus }));
+  //       console.log('favorite data', data);
+  //       console.log('favorites', data.favoriteStatus);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error checking favorite status:', error);
+  //   }
+  // }
 
   if (isLoading) return (
     <div className='app'>
@@ -241,20 +231,20 @@ export default function Homepage() {
             trendingRecipes={trendingRecipes}
             popularTags={popularTags}
             userStats={userStats}
-            favoriteStatus={favoriteStatus}
+            // favoriteStatus={favoriteStatus}
           />
           {userStats && (
             <MakeableRecipes 
             makeableRecipes={makeableRecipes}
             recipesByPantry={recipesByPantry}
             userStats={userStats}
-            favoriteStatus={favoriteStatus} 
+            // favoriteStatus={favoriteStatus} 
             />
           )}
           <Recent 
             recentRecipes={recentRecipes}
             userStats={userStats}
-            favoriteStatus={favoriteStatus}
+            // favoriteStatus={favoriteStatus}
           />
       </Container>
     </div>

@@ -8,8 +8,8 @@ const router = express.Router();
 router.post('/new-recipe', recipeController.new_item);
 router.post('/upload-image', upload.single('image'), recipeController.upload_image);
 router.post('/batch-check-favorites', recipeController.batch_check_favorites);
-router.get('/by-pantry', recipeController.get_recipes_by_pantry);
-router.get('/makeable', recipeController.get_makeable_recipes);
+router.get('/by-pantry', optionalAuth, recipeController.get_recipes_by_pantry);
+router.get('/makeable', optionalAuth, recipeController.get_makeable_recipes);
 router.get('/recent', optionalAuth,recipeController.get_recent_recipes);
 router.get('/trending', optionalAuth, recipeController.get_trending_recipes);
 

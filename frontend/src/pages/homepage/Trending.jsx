@@ -1,15 +1,15 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { Clock, GraphUp, Heart, HeartFill,  Stopwatch } from 'react-bootstrap-icons';
-import { GoHeart, GoHeartFill } from 'react-icons/go'
+import { GoClock, GoHeart, GoHeartFill } from 'react-icons/go'
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe} from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './homepage.css'
 
 
-export default function Trending({trendingRecipes, popularTags, userStats, favoriteStatus }) {
+export default function Trending({trendingRecipes, popularTags, userStats }) {
     const navigate = useNavigate();
-    console.log(trendingRecipes);
+    console.log('t', trendingRecipes);
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
 
@@ -27,7 +27,7 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
     return (
         <>
             {trendingRecipes.length > 0 && (
-                <section className='mb-5 trending-container'>
+                <section className='trending-container'>
                     <div className='d-flex justify-content-between align-items center'>
                         <h2 className='d-flex align-items-center'>Trending Recipes</h2>
                     </div>
@@ -56,7 +56,7 @@ export default function Trending({trendingRecipes, popularTags, userStats, favor
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
                                             <div className='trending-recipe-time'>
-                                                <Clock />
+                                                <GoClock />
                                                 <p>{recipe.cookTime} mins</p>
                                             </div>
                                         </div>

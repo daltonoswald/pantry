@@ -25,6 +25,7 @@
     /* padding: 50px 24px; */
     padding: 0 10vw;
     padding-top: 4vh;
+    margin-bottom: 2rem;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transition-duration: 700ms;
 }

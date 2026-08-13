@@ -5,9 +5,7 @@ import { Heart, HeartFill } from 'react-bootstrap-icons';
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
 
 
-export default function Recent({ recentRecipes, userStats, favoriteStatus }) {
-
-    console.log(favoriteStatus)
+export default function Recent({ recentRecipes, userStats }) {
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
         // setMessage(null);
@@ -46,14 +44,14 @@ export default function Recent({ recentRecipes, userStats, favoriteStatus }) {
                                                 <Col xs={6}>
                                                     <Row>
                                                         <p className='d-flex align-items-center justify-content-end text-end mb-0'>
-                                                            {(userStats != null && favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
+                                                            {/* {(userStats != null && favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
                                                                 <HeartFill className='secondary-link' color='red' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                             ) : (userStats != null && !favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
                                                                 <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                             ) : (
                                                                  <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />   
                                                             )
-                                                            }
+                                                            } */}
                                                         </p>
                                                     </Row>
                                                     <Row>
