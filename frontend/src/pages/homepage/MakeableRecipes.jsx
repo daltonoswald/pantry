@@ -59,62 +59,6 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
     return (
         <>
             {makeableRecipes.length > 0 && (
-                // <section className='mb-5'>
-                //     <div className='d-flex justify-content-between align-items center mb-3'>
-                //         <h2 className='d-flex align-items-center justify-content-end'><Clipboard2Check className='m-2'/>Makeable Recipes</h2>
-                //     </div>
-                //     <Row>
-                //         {makeableRecipes.slice(0, 3).map(recipe => (
-                //             <Col md={4} key={recipe.id}>
-                //                 <Card className='mb-3 h-100'>
-                //                     <Card.Body style={{cursor: 'pointer'}} >
-                //                         <Card.Title>
-                //                         <Row>
-                //                             <Col xs={6}>
-                //                                 <Link className='stretched-link' to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
-                //                             </Col>
-                //                                 <Col xs={6}>
-                //                                     <Row>
-                //                                         <p className='d-flex align-items-center justify-content-end text-end mb-0'>
-                //                                             {(favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                //                                                 <HeartFill className='secondary-link' color='red' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                //                                             ) : (!favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                //                                                 <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                //                                             ) : (
-                //                                                 <></>
-                //                                             )
-                //                                             }
-                //                                         </p>
-                //                                     </Row>
-                //                                     <Row>
-                //                                         <p className='d-flex align-items-center justify-content-end text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</p>
-                //                                     </Row>
-                //                                     <Row>
-                //                                         <p className='text-end mb-0 fs-6'>{recipe.matchPercentage}% Match</p>
-                //                                     </Row>
-                //                                 </Col>
-                //                             </Row>
-                //                         </Card.Title>
-                //                         <Card.Subtitle>
-                //                             <Link className='secondary-link' to={`/user/${recipe.user.username}`}>
-                //                                 By {recipe.user.name}
-                //                             </Link>
-                //                         </Card.Subtitle>
-                //                         <Card.Text className='text-muted small'>
-                //                             {recipe.description}
-                //                         </Card.Text>
-                //                         <Card.Text className='text-muted small'>
-                //                             {recipe.matchPercentage}% Match
-                //                         </Card.Text>
-                //                     </Card.Body>
-                //                     <Card.Footer className='text-muted d-flex flex-row gap-2'>
-                //                         {recipe.tags.map(tag => (
-                //                             <Link className='text-muted secondary-link' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
-                //                         ))}
-                //                     </Card.Footer>
-                //                 </Card>
-                //             </Col>
-                //         ))}
                 //         {makeableRecipes.length < 5 && (
                 //             <Col  md={4}>
                 //                 <Card className='mb-3 h-100' bg='warning'>
@@ -124,8 +68,6 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                 //                 </Card>
                 //             </Col>
                 //         )}
-                //     </Row>
-                // </section>
                 <section className='makeable-container'>
                     <div className='homepage-title-container'>
                         <h2>Within Your Pantry</h2>
@@ -143,9 +85,9 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                     <div className='makeable-recipe-stats'>
                                         <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.username}</Link></p>
                                         <div className='makeable-recipe-counts'>
-                                            <div className='makeable-recipe-match-percentage'>
+                                            <p className='makeable-recipe-match-percentage'>
                                                 {recipe.matchPercentage}% Match
-                                            </div>
+                                            </p>
                                             <div className='makeable-recipe-favorites'>
                                                 {(recipe.isFavorited && userStats) && (
                                                     <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
