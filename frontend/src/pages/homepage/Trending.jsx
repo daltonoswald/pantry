@@ -28,8 +28,8 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
         <>
             {trendingRecipes.length > 0 && (
                 <section className='trending-container'>
-                    <div className='d-flex justify-content-between align-items center'>
-                        <h2 className='d-flex align-items-center'>Trending Recipes</h2>
+                    <div className='homepage-title-container'>
+                        <h2>Trending Recipes</h2>
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (

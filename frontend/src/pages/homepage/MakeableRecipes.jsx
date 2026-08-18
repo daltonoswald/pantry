@@ -5,6 +5,7 @@ import { Clipboard, Clipboard2Check, Heart, HeartFill, Stopwatch } from 'react-b
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { favoriteRecipe, toggleFavoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
+import { MdArrowRightAlt } from 'react-icons/md'
 
 export default function MakeableRecipes({ makeableRecipes, recipesByPantry, userStats }) {
     const navigate = useNavigate();
@@ -71,7 +72,10 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                 <section className='makeable-container'>
                     <div className='homepage-title-container'>
                         <h2>Within Your Pantry</h2>
-                        <p className='homepage-subtitle'>Meals you can make today.</p>
+                        <div className='homepage-subtitle'>
+                            <p>Meals you can make today.</p>
+                            <Link to='/recipes/all-makeable'>View All<MdArrowRightAlt /></Link>
+                        </div>
                     </div>
                     <div className='makeable-recipe-card-container'>
                         {makeableRecipes.map(recipe => (
