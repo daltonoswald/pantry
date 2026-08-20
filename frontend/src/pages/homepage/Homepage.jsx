@@ -83,7 +83,7 @@ export default function Homepage() {
       }
   }
 
-  const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
+  const getRecipesByPantry = async (limit = 4, minMatch = 25) => {
     const url = `http://localhost:3000/recipe/by-pantry?limit=${limit}&minMatch=${minMatch}`
     try {
         const response = await fetch(url, {
@@ -233,14 +233,14 @@ export default function Homepage() {
             userStats={userStats}
             // favoriteStatus={favoriteStatus}
           />
-          {userStats && (
+          {/* {userStats && ( */}
             <MakeableRecipes 
             makeableRecipes={makeableRecipes}
             recipesByPantry={recipesByPantry}
             userStats={userStats}
             // favoriteStatus={favoriteStatus} 
             />
-          )}
+          {/* )} */}
           <Recent 
             recentRecipes={recentRecipes}
             userStats={userStats}

@@ -57,18 +57,19 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
         }
     }
 
-    return (
+    if (!userStats) return (
+        <div className='homepage-auth-container'>
+            <div className='homepage-auth-container-tl'></div>
+            <div className='homepage-auth-container-br'></div>
+            <h3>Want to find recipes you can make today?</h3>
+            <p><Link to='/sign-up'>Sign up</Link> or <Link to='login'>Log in</Link> and create your pantry.</p>
+            <p>Join today and add ingredients to your pantry to find personalized recipes that you can make. Expand your palate and discover new flavors.</p>
+        </div>
+    )
+
+    if (userStats) return (
         <>
             {makeableRecipes.length > 0 && (
-                //         {makeableRecipes.length < 5 && (
-                //             <Col  md={4}>
-                //                 <Card className='mb-3 h-100' bg='warning'>
-                //                     <Card.Body>
-                //                         <Card.Text>Check back later or add more items to your pantry to see more makeable recipes!</Card.Text>
-                //                     </Card.Body>
-                //                 </Card>
-                //             </Col>
-                //         )}
                 <section className='makeable-container'>
                     <div className='homepage-title-container'>
                         <h2>Within Your Pantry</h2>
@@ -144,72 +145,62 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                     </Row>
                 </section>
             )}
+            
             {recipesByPantry.length > 0 && (
-                <section className='mb-5'>
-                    <div className='d-flex justify-content-between align-items center mb-3'>
-                        <h2 className='d-flex align-items-center justify-content-end'><Clipboard className='m-2' />Matching Your Pantry</h2>
-                        {/* <Link to='/recipes/by-pantry'>
-                            <Button variant='outline-primary'>See All</Button>
-                        </Link> */}
+                <section className='makeable-container  by-pantry-container'>
+                    <div className='homepage-title-container'>
+                        <h2>Almost Ready</h2>
+                        <div className='homepage-subtitle'>
+                            <p>A quick stop at the store for even more meals.</p>
+                            <Link to='/recipes/all-by-pantry'>View All<MdArrowRightAlt /></Link>
+                        </div>
                     </div>
-                    <Row>
-                        {recipesByPantry.slice(0, 3).map(recipe => (
-                            <Col md={4} key={recipe.id}>
-                                <Card className='mb-3 h-100'>
-                                    <Card.Body style={{cursor: 'pointer'}} >
-                                        <Card.Title>
-                                            <Row>
-                                                <Col xs={6}>
-                                                <Link className='stretched-link' to={`/recipe/${recipe.id}`}>{recipe.title}</Link></Col>
-                                                <Col xs={6}>
-                                                    <Row>
-                                                        <p className='d-flex align-items-center justify-content-end text-end mb-0'>
-                                                            {/* {(favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                                                                <HeartFill className='secondary-link' color='red' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                                                            ) : (!favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                                                                <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                                                            ) : (
-                                                                <></>
-                                                            )
-                                                            } */}
-                                                        </p>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className='d-flex align-items-center justify-content-end text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</p>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className='text-end mb-0 fs-6'>{recipe.matchPercentage}% Match</p>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        </Card.Title>
-                                        <Card.Subtitle>
-                                            <Link className='secondary-link' to={`/user/${recipe.user.username}`}>
-                                                By {recipe.user.name}
-                                            </Link>
-                                        </Card.Subtitle>
-                                        <Card.Text className='text-muted small'>
-                                            {recipe.description}
-                                        </Card.Text>
-                                    </Card.Body>
-                                    <Card.Footer className='text-muted d-flex flex-row gap-2'>
+                    <div className='makeable-recipe-card-container'>
+                        {recipesByPantry.map(recipe => (
+                            <div className='makeable-recipe-card by-pantry-card'>
+                                <div className='makeable-recipe-image-container'>
+                                    <Link to={`/recipe/${recipe.id}`}>
+                                        <img src={recipe.image || kitchenImg} className='makeable-recipe-image' alt='recipe image' />
+                                    </Link>
+                                </div>
+                                <div className='makeable-recipe-about'>
+                                    <div className='makeable-recipe-stats'>
+                                        <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.username}</Link></p>
+                                        <div className='makeable-recipe-counts'>
+                                            <p className='makeable-recipe-match-percentage'>
+                                                {recipe.matchPercentage}% Match
+                                            </p>
+                                            <div className='makeable-recipe-favorites'>
+                                                {(recipe.isFavorited && userStats) && (
+                                                    <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                )}
+                                                {(!recipe.isFavorited && userStats) && (
+                                                    <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                )}
+                                                {(!recipe.isFavorited && !userStats) && (
+                                                    <GoHeart className='not-favorited' onClick={() => navigate('/log-in')} />
+                                                )}
+                                                <p>{recipe._count.favorites}</p>
+                                            </div>
+                                            <div className='makeable-recipe-time'>
+                                                <GoClock />
+                                                <p>{recipe.cookTime} mins</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 className='makeable-recipe-title'>
+                                        <Link to={`/recipe/${recipe.id}`} className='makeable-recipe-title-link'>{recipe.title}</Link>
+                                    </h3>
+                                    <p>{recipe.description}</p>
+                                    <div className='makeable-recipe-tags'>
                                         {recipe.recipeTags.map(tag => (
-                                            <Link className='text-muted secondary-link' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
+                                            <Link className='makeable-recipe-tag' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
                                         ))}
-                                    </Card.Footer>
-                                </Card>
-                            </Col>
+                                    </div>
+                                </div>
+                            </div>
                         ))}
-                        {recipesByPantry.length < 5 && (
-                            <Col  md={4}>
-                                <Card className='mb-3 h-100' bg='warning'>
-                                    <Card.Body>
-                                        <Card.Text>Check back later or add more items to your pantry to see more matching recipes!</Card.Text>
-                                    </Card.Body>
-                                </Card>
-                            </Col>
-                        )}
-                    </Row>
+                    </div>
                 </section>
             )}
             {recipesByPantry.length <= 0 && (
