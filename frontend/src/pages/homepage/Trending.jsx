@@ -29,7 +29,8 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
             {trendingRecipes.length > 0 && (
                 <section className='trending-container'>
                     <div className='homepage-title-container'>
-                        <h2>Trending Recipes</h2>
+                        <p className='tagline'>The Current Pulse</p>
+                        <h2>Trending in the Kitchen</h2>
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (
@@ -51,7 +52,7 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/log-in')} />
+                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
@@ -65,9 +66,9 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                                         <Link to={`/recipe/${recipe.id}`} className='trending-recipe-title-link'>{recipe.title}</Link>
                                     </h3>
                                     <p>{recipe.description}</p>
-                                    <div className='trending-recipe-tags'>
+                                    <div className='tag-container'>
                                         {recipe.recipeTags.map(tag => (
-                                            <Link className='trending-recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
+                                            <Link className='recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
                                         ))}
                                     </div>
                                 </div>

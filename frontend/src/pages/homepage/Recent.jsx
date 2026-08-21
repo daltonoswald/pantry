@@ -1,11 +1,15 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { ClockHistory, Stopwatch } from 'react-bootstrap-icons';
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
-import { Heart, HeartFill } from 'react-bootstrap-icons';
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
+import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
+import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
+import { MdArrowRightAlt } from 'react-icons/md'
 
 
 export default function Recent({ recentRecipes, userStats }) {
+
+    const navigate = useNavigate();
+    console.log('r', recentRecipes);
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
         // setMessage(null);
@@ -24,60 +28,58 @@ export default function Recent({ recentRecipes, userStats }) {
     return (
         <>
             {recentRecipes.length > 0 && (
-                <section className='mb-5'>
-                    <div className='d-flex justify-content-between align-items center mb-3'>
-                        <h2 className='d-flex align-items-center justify-content-end'><ClockHistory className='m-2' />Recent Recipes</h2>
-                        {/* <Link to='/recipes/by-pantry'>
-                            <Button variant='outline-primary'>See All</Button>
-                        </Link> */}
+                <section className='recent-container'>
+                    <div className='homepage-title-container'>
+                        <p className='tagline'>Fresh From the Oven</p>
+                        <h2>Recent Recipes</h2>
+                        <div className='homepage-subtitle'>
+                            <p>The newest recipes.</p>
+                            <Link to='/recipes/new'>View All<MdArrowRightAlt /></Link>
+                        </div>
                     </div>
-                    <Row>
-                        {recentRecipes.slice(0, 3).map(recipe => (
-                            <Col md={4} key={recipe.id}>
-                                <Card className='mb-3 h-100'>
-                                    <Card.Body style={{cursor: 'pointer'}} >
-                                        <Card.Title>
-                                            <Row>
-                                                <Col xs={6}>
-                                                    <Link className='stretched-link' to={`/recipe/${recipe.id}`}>{recipe.title}</Link>
-                                                </Col>
-                                                <Col xs={6}>
-                                                    <Row>
-                                                        <p className='d-flex align-items-center justify-content-end text-end mb-0'>
-                                                            {/* {(userStats != null && favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                                                                <HeartFill className='secondary-link' color='red' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                                                            ) : (userStats != null && !favoriteStatus[recipe.id] && recipe.user.id !== userStats.id) ? (
-                                                                <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                                                            ) : (
-                                                                 <Heart className='secondary-link' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />   
-                                                            )
-                                                            } */}
-                                                        </p>
-                                                    </Row>
-                                                    <Row>
-                                                        <p className='d-flex align-items-center justify-content-end text-end mb-0'><Stopwatch className='me-2' />{recipe.cookTime}</p>
-                                                    </Row>
-                                                </Col>
-                                            </Row>
-                                        </Card.Title>
-                                        <Card.Subtitle>
-                                            <Link className='secondary-link' to={`/user/${recipe.user.username}`}>
-                                                By {recipe.user.name}
-                                            </Link>
-                                        </Card.Subtitle>
-                                        <Card.Text className='text-muted small'>
-                                            {recipe.description}
-                                        </Card.Text>
-                                    </Card.Body>
-                                    <Card.Footer className='text-muted d-flex flex-row gap-2'>
+                    <div className='recent-recipe-card-container'>
+                        {recentRecipes.map(recipe => (
+                            <div className='medium-recipe-card'>
+                                <div className='medium-recipe-image-container'>
+                                    <Link to={`/recipe/${recipe.id}`}>
+                                        <img src={recipe.image || kitchenImg} className='medium-recipe-image' alt='recipe image' />
+                                    </Link>
+                                </div>
+                                <div className='medium-recipe-about'>
+                                    <div className='medium-recipe-stats'>
+                                        <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.username}</Link></p>
+                                        <div className='medium-recipe-counts'>
+                                            <div className='medium-recipe-favorites'>
+                                                {(recipe.isFavorited && userStats) && (
+                                                    <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                )}
+                                                {(!recipe.isFavorited && userStats) && (
+                                                    <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
+                                                )}
+                                                {(!recipe.isFavorited && !userStats) && (
+                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
+                                                )}
+                                                <p>{recipe._count.favorites}</p>
+                                            </div>
+                                            <div className='medium-recipe-time'>
+                                                <GoClock />
+                                                <p>{recipe.cookTime} mins</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <h3 className='medium-recipe-title'>
+                                        <Link to={`/recipe/${recipe.id}`} className='medium-recipe-title-link'>{recipe.title}</Link>
+                                    </h3>
+                                    <p>{recipe.description}</p>
+                                    <div className='tag-container'>
                                         {recipe.recipeTags.map(tag => (
-                                            <Link className='text-muted secondary-link' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
+                                            <Link className='recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
                                         ))}
-                                    </Card.Footer>
-                                </Card>
-                            </Col>
+                                    </div>
+                                </div>
+                            </div>
                         ))}
-                    </Row>
+                    </div>
                 </section>
             )}
         </>

@@ -101,7 +101,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/log-in')} />
+                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
@@ -115,9 +115,9 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                         <Link to={`/recipe/${recipe.id}`} className='makeable-recipe-title-link'>{recipe.title}</Link>
                                     </h3>
                                     <p>{recipe.description}</p>
-                                    <div className='makeable-recipe-tags'>
+                                    <div className='tag-container'>
                                         {recipe.recipeTags.map(tag => (
-                                            <Link className='makeable-recipe-tag' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
+                                            <Link className='recipe-tag' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
                                         ))}
                                     </div>
                                 </div>
@@ -178,7 +178,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/log-in')} />
+                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
@@ -192,9 +192,9 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                         <Link to={`/recipe/${recipe.id}`} className='makeable-recipe-title-link'>{recipe.title}</Link>
                                     </h3>
                                     <p>{recipe.description}</p>
-                                    <div className='makeable-recipe-tags'>
+                                    <div className='tag-container'>
                                         {recipe.recipeTags.map(tag => (
-                                            <Link className='makeable-recipe-tag' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
+                                            <Link className='recipe-tag' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
                                         ))}
                                     </div>
                                 </div>

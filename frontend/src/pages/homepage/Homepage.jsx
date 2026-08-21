@@ -148,7 +148,7 @@ export default function Homepage() {
   }
 
   const fetchRecentRecipes = async () => {
-    const url = `http://localhost:3000/recipe/recent?limit=6`
+    const url = `http://localhost:3000/recipe/recent?limit=4`
     const response = await fetch(url, {
       method: 'GET',
       headers: {

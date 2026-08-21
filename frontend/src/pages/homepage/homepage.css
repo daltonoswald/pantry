@@ -23,10 +23,24 @@
     margin-bottom: 1rem;
 }
 
+.tagline {
+    text-transform: uppercase;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: var(--primary) !important;
+    margin-bottom: 0.5rem !important;
+}
+
 .homepage-subtitle {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.homepage-subtitle p {
+    font-style: italic;
 }
 
 .trending-container {
@@ -41,9 +55,9 @@
 }
 
 .trending-recipe-card-container {
-    display: flex;
-    flex-direction: row;
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2rem;
 }
 
 .trending-recipe-card {
@@ -58,7 +72,8 @@
 }
 
 .trending-recipe-card:hover .trending-recipe-title-link,
-.makeable-recipe-card:hover .makeable-recipe-title-link {
+.makeable-recipe-card:hover .makeable-recipe-title-link,
+.medium-recipe-card:hover .medium-recipe-title-link {
     color: var(--primary) !important;
 }
 
@@ -105,8 +120,7 @@
     gap: 4px;
 }
 
-.trending-recipe-tag,
-.makeable-recipe-tag {
+.recipe-tag {
     background-color: rgb(236 224 215);
     border-radius: 9999px;
     padding: 0.25rem 0.5rem;
@@ -117,11 +131,11 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
-.trending-recipe-tags,
-.makeable-recipe-tags {
+.tag-container {
     display: flex;
     gap: 4px;
     color: var(--on-surface);
+    /* flex-wrap: wrap; */
 }
 
 .homepage-subtitle a {
@@ -251,4 +265,73 @@
     bottom: 0px;
     right: 0px;
     position: absolute;
+}
+
+.recent-container {
+    width: 100%;
+    padding: 4vh 10vw;
+    /* padding-top: 4vh; */
+    margin-bottom: 2rem;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 700ms;
+}
+
+.recent-recipe-card-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.medium-recipe-card {
+    height: 100%;
+}
+
+.medium-recipe-card:hover {
+    background-color: var(--card);
+}
+
+.medium-recipe-image-container {
+    overflow: hidden;
+    border-radius: 1.5rem;
+}
+
+.medium-recipe-image {
+    height: 45vh;
+    width: 100%;
+    object-fit: cover;
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 700ms;
+}
+
+.medium-recipe-card {
+    border-radius: 1.5rem;
+}
+
+.medium-recipe-card:hover .medium-recipe-image {
+    transform: scale(1.05)
+}
+
+.medium-recipe-about {
+    display: grid;
+    grid-template-rows: 1fr 1fr 1.5fr 1fr;
+    align-items: start;
+    padding: 0.5rem;
+}
+
+.medium-recipe-stats {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 0;
+}
+
+.medium-recipe-counts {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.medium-recipe-favorites,
+.medium-recipe-time {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
