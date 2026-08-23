@@ -34,17 +34,17 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (
-                            <div className='trending-recipe-card'>
-                                <div className='trending-recipe-image-container'>
+                            <div className='large-recipe-card'>
+                                <div className='large-recipe-image-container'>
                                     <Link to={`/recipe/${recipe.id}`}> 
-                                        <img src={recipe.image || kitchenImg} className='trending-recipe-image' alt='recipe image' />
+                                        <img src={recipe.image || kitchenImg} className='large-recipe-image' alt='recipe image' />
                                     </Link>
                                 </div>
-                                <div className='trending-recipe-about'>
-                                    <div className='trending-recipe-about-stats'>
+                                <div className='large-recipe-about'>
+                                    <div className='large-recipe-about-stats'>
                                         <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
-                                        <div className='trending-recipe-favorites-time'>
-                                            <div className='trending-recipe-favorites'>
+                                        <div className='large-recipe-favorites-time'>
+                                            <div className='large-recipe-favorites'>
                                                 {(recipe.isFavorited && userStats) && (
                                                     <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
@@ -56,14 +56,14 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
-                                            <div className='trending-recipe-time'>
+                                            <div className='large-recipe-time'>
                                                 <GoClock />
                                                 <p>{recipe.cookTime} mins</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 className='trending-recipe-title'>
-                                        <Link to={`/recipe/${recipe.id}`} className='trending-recipe-title-link'>{recipe.title}</Link>
+                                    <h3 className='large-recipe-title'>
+                                        <Link to={`/recipe/${recipe.id}`} className='large-recipe-title-link'>{recipe.title}</Link>
                                     </h3>
                                     <p>{recipe.description}</p>
                                     <div className='tag-container'>

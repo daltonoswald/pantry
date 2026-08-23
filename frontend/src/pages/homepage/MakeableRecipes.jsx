@@ -80,20 +80,20 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                     </div>
                     <div className='makeable-recipe-card-container'>
                         {makeableRecipes.map(recipe => (
-                            <div className='makeable-recipe-card'>
-                                <div className='makeable-recipe-image-container'>
+                            <div className='small-recipe-card'>
+                                <div className='small-recipe-image-container'>
                                     <Link to={`/recipe/${recipe.id}`}>
-                                        <img src={recipe.image || kitchenImg} className='makeable-recipe-image' alt='recipe image' />
+                                        <img src={recipe.image || kitchenImg} className='small-recipe-image' alt='recipe image' />
                                     </Link>
                                 </div>
-                                <div className='makeable-recipe-about'>
-                                    <div className='makeable-recipe-stats'>
+                                <div className='small-recipe-about'>
+                                    <div className='small-recipe-stats'>
                                         <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.username}</Link></p>
-                                        <div className='makeable-recipe-counts'>
-                                            <p className='makeable-recipe-match-percentage'>
+                                        <div className='small-recipe-counts'>
+                                            <p className='small-recipe-match-percentage'>
                                                 {recipe.matchPercentage}% Match
                                             </p>
-                                            <div className='makeable-recipe-favorites'>
+                                            <div className='small-recipe-favorites'>
                                                 {(recipe.isFavorited && userStats) && (
                                                     <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
@@ -105,14 +105,14 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
-                                            <div className='makeable-recipe-time'>
+                                            <div className='small-recipe-time'>
                                                 <GoClock />
                                                 <p>{recipe.cookTime} mins</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 className='makeable-recipe-title'>
-                                        <Link to={`/recipe/${recipe.id}`} className='makeable-recipe-title-link'>{recipe.title}</Link>
+                                    <h3 className='small-recipe-title'>
+                                        <Link to={`/recipe/${recipe.id}`} className='small-recipe-title-link'>{recipe.title}</Link>
                                     </h3>
                                     <p>{recipe.description}</p>
                                     <div className='tag-container'>
@@ -157,20 +157,20 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                     </div>
                     <div className='makeable-recipe-card-container'>
                         {recipesByPantry.map(recipe => (
-                            <div className='makeable-recipe-card by-pantry-card'>
-                                <div className='makeable-recipe-image-container'>
+                            <div className='small-recipe-card by-pantry-card'>
+                                <div className='small-recipe-image-container'>
                                     <Link to={`/recipe/${recipe.id}`}>
-                                        <img src={recipe.image || kitchenImg} className='makeable-recipe-image' alt='recipe image' />
+                                        <img src={recipe.image || kitchenImg} className='small-recipe-image' alt='recipe image' />
                                     </Link>
                                 </div>
-                                <div className='makeable-recipe-about'>
-                                    <div className='makeable-recipe-stats'>
+                                <div className='small-recipe-about'>
+                                    <div className='small-recipe-stats'>
                                         <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.username}</Link></p>
-                                        <div className='makeable-recipe-counts'>
-                                            <p className='makeable-recipe-match-percentage'>
+                                        <div className='small-recipe-counts'>
+                                            <p className='small-recipe-match-percentage'>
                                                 {recipe.matchPercentage}% Match
                                             </p>
-                                            <div className='makeable-recipe-favorites'>
+                                            <div className='small-recipe-favorites'>
                                                 {(recipe.isFavorited && userStats) && (
                                                     <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
@@ -182,14 +182,14 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
-                                            <div className='makeable-recipe-time'>
+                                            <div className='small-recipe-time'>
                                                 <GoClock />
                                                 <p>{recipe.cookTime} mins</p>
                                             </div>
                                         </div>
                                     </div>
-                                    <h3 className='makeable-recipe-title'>
-                                        <Link to={`/recipe/${recipe.id}`} className='makeable-recipe-title-link'>{recipe.title}</Link>
+                                    <h3 className='small-recipe-title'>
+                                        <Link to={`/recipe/${recipe.id}`} className='small-recipe-title-link'>{recipe.title}</Link>
                                     </h3>
                                     <p>{recipe.description}</p>
                                     <div className='tag-container'>
