@@ -376,6 +376,8 @@ exports.favorite_recipe = asyncHandler(async (req, res, next) => {
         }
 
         // Check to see if trying to favorite own recipe
+        console.log('checking if currentUser is author...')
+        console.log('Status: ', (currentUser.id === recipeToFavorite.userId))
         if (currentUser.id === recipeToFavorite.userId) {
             return res.status(400).json({
                 message: 'You cannot favorite your own recipes.'
@@ -480,6 +482,7 @@ exports.unfavorite_recipe = asyncHandler(async (req, res, next) => {
 exports.toggle_favorite = asyncHandler(async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
+    const currentUser = authorizedUser.user;
 
     const { recipeId } = req.params;
 
@@ -487,11 +490,18 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
         // Check if recipe exists
         const recipe = await prisma.recipe.findUnique({
             where: { id: recipeId },
-            select: { id: true, title: true }
+            select: { id: true, title: true, userId: true }
         });
 
         if (!recipe) {
             return res.status(404).json({ message: 'Recipe not found.' });
+        }
+
+        // Check to see if trying to favorite own recipe
+        if (currentUser.id === recipe.userId) {
+            return res.status(400).json({
+                message: 'You cannot favorite your own recipes.'
+            });
         }
 
         // Check if already favorited

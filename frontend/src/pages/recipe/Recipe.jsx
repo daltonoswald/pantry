@@ -1,4 +1,4 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert, Spinner, Stack } from 'react-bootstrap';
+import { Spinner } from 'react-bootstrap';
 import Header from '../../components/header/Header';
 import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
@@ -6,8 +6,8 @@ import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './recipe.styles.css';
-import { Heart, HeartFill, Share } from 'react-bootstrap-icons';
-import { favoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
+import { GoHeart, GoHeartFill, GoShareAndroid } from 'react-icons/go'
+import { toggleFavoriteRecipe } from '../../utils/utility';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -57,43 +57,21 @@ export default function Recipe() {
                 setMessage(error);
             } finally {
                 setIsLoading(false)
-                console.log('myData: ', myData)
             }
         }
         getRecipe();
     }, [params.recipe, navigate])
 
-    const handleFavoriteRecipe = async (e) => {
-        e.preventDefault();
-        setMessage(null);
-        const recipeId = {
-            recipeId: params.recipeId
-        }
-        const result = await favoriteRecipe(recipeId)
+    const handleToggleFavoriteRecipe = async (recipeId) => {
 
-        console.log(71, result)
+        console.log('toggling: ', recipeId)
+        const result = await toggleFavoriteRecipe(recipeId)
 
         if (result.success) {
             // setMessage({ type: 'success', text: result.message });
             window.location.reload();
         } else {
-            setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
-        }
-    }
-
-    const handleUnfavoriteRecipe = async (e) => {
-        e.preventDefault();
-        setMessage(null);
-        const recipeId = {
-            recipeId: params.recipeId
-        }
-        const result = await unfavoriteRecipe(recipeId)
-
-        if (result.success) {
-            // setMessage({ type: 'success', text: result.message });
-            window.location.reload();
-        } else {
-            setMessage({ type: 'danger', text: result.message || 'Failed to unfavorite recipe.'})
+            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
         }
     }
 
@@ -122,9 +100,9 @@ export default function Recipe() {
 
     if (!isLoading && !message) {
         return (
-            <div className='app recipe-page'>
+            <div className='app'>
                 <Header />
-                <Container className='my-auto p-0' fluid>
+                <div className='recipe-page'>
                     <div className='recipe-image-container'>
                         <img 
                             src={ recipeData.image || kitchenImg }
@@ -175,20 +153,20 @@ export default function Recipe() {
                                 <div className='recipe-info-containers'>
                                     <div className='recipe-info-favorite'>
                                         {(isFavorited && myData && !isAuthor) && (
-                                            <HeartFill className='not-favorited icon-link' color='red' onClick={handleUnfavoriteRecipe} />
+                                            <GoHeartFill className='favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
                                         {(!isFavorited && myData && !isAuthor) && (
-                                            <Heart className='favorited icon-link' onClick={handleFavoriteRecipe} />
+                                            <GoHeart className='not-favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
                                         {(!myData && (
-                                            <Heart className='favorited icon-link' onClick={() => navigate('/login')} />
+                                            <GoHeart className='not-favorited icon-link' onClick={() => navigate('/login')} />
                                         ))}
                                     </div>
                                     <p>{recipeData._count.favorites}</p>
                                 </div>
                             )}
                             <div className='recipe-info-share'>
-                                <Share className='icon-link' color='black' onClick={() => navigator.clipboard.writeText(window.location.href)} />
+                                <GoShareAndroid className='share-icon icon-link' color='black' onClick={() => navigator.clipboard.writeText(window.location.href)} />
                             </div>
                         </div>
                     </div>
@@ -221,12 +199,12 @@ export default function Recipe() {
                             </div>
                         </div>
                     </div>
-                    <Col className='d-flex flex-row gap-2'>
+                    <div className='recipe-tags tag-container'>
                         {recipeData.recipeTags.map((tag) => (
-                            <Link key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
+                            <Link className='recipe-tag' key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
                         ))}
-                    </Col>
-                </Container>
+                    </div>
+                </div>
             </div>
         )
     }

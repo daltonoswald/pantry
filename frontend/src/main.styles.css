@@ -6,6 +6,8 @@
     --primary-subtle: #FFDAD2;
     --secondary: #76885B;
     --tetriary: #E8DED1;
+    --pantry-blue: #0055B3;
+    --pantry-bold-red: #B3301B;
     --neutral: #4D463F;
     --background: rgb(255 248 244 / 1);
     --background-deeper: #fdf2e8;
@@ -72,6 +74,12 @@ p {
     max-width: 65ch;
 }
 
+svg {
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+
 input,
 textarea {
     font-family: Noto Serif !important;
@@ -111,21 +119,37 @@ textarea {
     background-color: #E8DED1;
 }
 
+.icon-link {
+    font-size: 1.5rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+
 .icon-link:hover {
     cursor: pointer;
 }
 
 .not-favorited:hover {
-    fill: red !important;
+    fill: var(--pantry-bold-red) !important;
     cursor: pointer;
 }
 
 .favorited {
-    color: red;
+    color: var(--pantry-bold-red) !important;
 }
 
+
+.recipe-info-favorite:hover .favorited,
 .favorited:hover {
-    fill: gray !important;
+    fill: #5D5755 !important;
+    cursor: pointer;
+}
+
+.recipe-info-share:hover .share-icon,
+.share-icon:hover {
+    /* color: #7A8D99 !important; */
+    color: var(--pantry-blue) !important;
     cursor: pointer;
 }
 
