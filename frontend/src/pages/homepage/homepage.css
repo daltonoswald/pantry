@@ -138,7 +138,7 @@
     display: flex;
     gap: 4px;
     color: var(--on-surface);
-    /* flex-wrap: wrap; */
+    flex-wrap: wrap;
 }
 
 .homepage-subtitle a {

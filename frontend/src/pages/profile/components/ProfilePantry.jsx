@@ -5,29 +5,6 @@ import { MdArrowRightAlt } from 'react-icons/md';
 export default function ProfilePantry({ myData, profileData, isOwnProfile, isLoading }) {
     
     return (
-    //     <Row className='h-100'>
-    //     <Col className='profile-pantry border'>
-    //         <h3 className='text-center'>Pantry</h3>
-    //         {(profileData.pantryItems.length > 0) && (
-    //             <div className='profile-recipes-list'>
-    //                 {profileData.pantryItems.map((item) => (
-    //                     <Row className='mb-2 pantry-item' key={item.id}>
-    //                         <Col>
-    //                             <p className='pantry-item-name'>{capFirst(item.pantryItem.name)}</p>
-    //                         </Col>
-    //                         {(isOwnProfile) && (
-    //                         <Col className='col-auto'>
-    //                             <Button variant='danger' type='button' onClick={() => handleDeleteFromPantry(item.id)} >
-    //                                 <Trash color='black'/>
-    //                             </Button>
-    //                         </Col>
-    //                         )}
-    //                     </Row>
-    //                 ))}
-    //             </ div>
-    //         )}
-    //     </Col>
-    // </Row>
     <>
     <div className='profile-pantry-container'>
         <div className='profile-pantry-header'>

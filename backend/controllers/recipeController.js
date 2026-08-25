@@ -376,8 +376,6 @@ exports.favorite_recipe = asyncHandler(async (req, res, next) => {
         }
 
         // Check to see if trying to favorite own recipe
-        console.log('checking if currentUser is author...')
-        console.log('Status: ', (currentUser.id === recipeToFavorite.userId))
         if (currentUser.id === recipeToFavorite.userId) {
             return res.status(400).json({
                 message: 'You cannot favorite your own recipes.'
@@ -436,7 +434,6 @@ exports.favorite_recipe = asyncHandler(async (req, res, next) => {
 exports.unfavorite_recipe = asyncHandler(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
-    console.log('auth-', authorizedUser);
     const currentUser = authorizedUser.user;
     const recipeId = req.body.recipeId;
 

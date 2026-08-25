@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
-import { Clipboard, Clipboard2Check, Heart, HeartFill, Stopwatch } from 'react-bootstrap-icons';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { favoriteRecipe, toggleFavoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
@@ -129,7 +128,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
             {makeableRecipes.length <= 0 && (
                 <section className='mb-5'>
                     <div className='d-flex justify-content-between align-items center mb-3'>
-                        <h2 className='d-flex align-items-center justify-content-end'><Clipboard2Check className='m-2' />Makeable Recipes</h2>
+                        <h2 className='d-flex align-items-center justify-content-end'>Makeable Recipes</h2>
                         {/* <Link to='/recipes/by-pantry'>
                             <Button variant='outline-primary'>See All</Button>
                         </Link> */}
@@ -204,16 +203,16 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                 </section>
             )}
             {recipesByPantry.length <= 0 && (
-                <section className='mb-5'>
-                    <div className='d-flex justify-content-between align-items center mb-3'>
-                        <h2 className='d-flex align-items-center justify-content-end'><Clipboard className='m-2' />Matching Your Pantry</h2>
+                <section className=''>
+                    <div className=''>
+                        <h2 className=''>Matching Your Pantry</h2>
                         {/* <Link to='/recipes/by-pantry'>
                             <Button variant='outline-primary'>See All</Button>
                         </Link> */}
                     </div>
                     <Row>
                         <Col md={4}>
-                            <Card className='mb-3 h-100' bg='warning'>
+                            <Card className='' bg='warning'>
                                 <Card.Body>
                                     <Card.Text>Check back later or add more items to your pantry to see more matching recipes!</Card.Text>
                                 </Card.Body>

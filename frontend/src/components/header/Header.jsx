@@ -49,19 +49,6 @@ export default function Header() {
                 </NavLink>
             </div>
             <div className='navbar-right'>
-                {/* <Form className='d-flex' onSubmit={handleNavSearch}>
-                    <Form.Control
-                        type='search'
-                        name='query'
-                        placeholder='Search...'
-                        className='me-2'
-                        defaultValue={query || ''}
-                        aria-label='Search'
-                    />
-                    <Button type='submit' className='pantry-secondary'>
-                        <MdOutlineSearch color='black' />
-                    </Button>
-                </Form> */}
                 <form className='pantry-nav-search' onSubmit={handleNavSearch}>
                     <MdOutlineSearch color='black' />
                     <input  

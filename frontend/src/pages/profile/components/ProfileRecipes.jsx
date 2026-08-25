@@ -1,5 +1,3 @@
-import { Row, Col, Button } from 'react-bootstrap';
-import { Trash,} from 'react-bootstrap-icons';
 import { handleDeleteRecipe, favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe} from '../../../utils/utility';
 import { Link } from 'react-router-dom';
 import ConfirmDelete from '../../../components/modals/ConfirmDelete'

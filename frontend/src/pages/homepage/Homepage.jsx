@@ -215,18 +215,16 @@ export default function Homepage() {
   if (isLoading) return (
     <div className='app'>
       <Header />
-      <Container className='my-5 text-center'>
         <Spinner animation='border' role='status'>
           <span className='visually-hidden'>Loading...</span>
         </Spinner>
-      </Container>
     </div>
   )
 
   if (!isLoading) return (
     <div className='app'>
       <Header />
-      <Container className='homepage-container' fluid>
+      <div className='homepage-container'>
         <Trending 
             trendingRecipes={trendingRecipes}
             popularTags={popularTags}
@@ -246,7 +244,7 @@ export default function Homepage() {
             userStats={userStats}
             // favoriteStatus={favoriteStatus}
           />
-      </Container>
+      </div>
     </div>
   )
 }

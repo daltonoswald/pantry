@@ -1,5 +1,4 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
