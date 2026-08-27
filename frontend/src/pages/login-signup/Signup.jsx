@@ -1,4 +1,3 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, Alert } from 'react-bootstrap';
 import Header from '../../components/header/Header';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -55,53 +54,82 @@ export default function Signup() {
     return (
         <div className='app'>
             <Header />
-            <Container className='my-auto w-75' fluid>
-                <Row className='signup-container'>
-                    <Col md={6} className='signup-column-left' >
-                        <img className='signup-image' src={doughImg} />
-                    </Col>
-                    <Col md={6} className='signup-column-right'>
-                        <Form className='mx-4' onSubmit={handleSubmit}>
-                            <h3 className='text-center m-2 signup-brand'>Pantry</h3>
-                                <Form.Group className='my-4' controlId='formUsername'>
-                                    <Form.Label>USERNAME</Form.Label>
-                                    <Form.Control name='username' placeholder='Username'></Form.Control>
-                                </Form.Group>
-                                <Form.Group className='my-4' controlId='formEmail'>
-                                    <Form.Label>E-Mail</Form.Label>
-                                    <Form.Control name='email' placeholder='example@email.com'></Form.Control>
-                                </Form.Group>
-                                <Form.Group className='my-4' controlId='formName'>
-                                    <Form.Label>FULL NAME</Form.Label>
-                                    <Form.Control name='name' placeholder='Full Name'></Form.Control>
-                                </Form.Group>
-                                <Form.Group className='my-4' controlId='formPassword'>
-                                    <Form.Label>PASSWORD</Form.Label>
-                                    <Form.Control name='password' type='password' placeholder='*********' required minLength={8} maxLength={50} ></Form.Control>
-                                </Form.Group>
-                                <Form.Group className='my-4' controlId='formConfirmPassword'>
-                                    <Form.Label>CONFIRM PASSWORD</Form.Label>
-                                    <Form.Control name='confirm_password' type='password' placeholder='*********' required minLength={8} maxLength={50} ></Form.Control>
-                                </Form.Group>
-                                <Form.Group className='my-4' controlId='formBio'>
-                                    <Form.Label>Bio</Form.Label>
-                                    <Form.Control type='text' as='textarea' rows={3} name='bio' placeholder='Bio' style={{ height: 'unset'}} ></Form.Control>
-                                </Form.Group>
-                                <Row className='my-4 justify-content-md-center'>
-                                    <Button className='w-75 m-2 submit-button' type='submit'>Create Account</Button>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2 text-center'>
-                                        <p>Returning to Pantry? <Link to='/login'>Log in</Link></p>
-                                    </Col>
-                                </Row>
-                        </Form>
-                        {message && (
+            <div className='signup-container'>
+                <div className='signup-column-left'>
+                    <img className='signup-image' src={doughImg} />
+                </div>
+                <div className='signup-column-right'>
+                    <form className='signup-form' onSubmit={handleSubmit}>
+                        <h3 className='signup-brand'>Pantry</h3>
+                        <div className='form-group'>
+                            <label htmlFor='username' className='form-label'>Username</label>
+                            <input
+                                type='text'
+                                id='username'
+                                name='username'
+                                placeholder='Username'
+                                className='form-input'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='email' className='form-label'>E-Mail</label>
+                            <input 
+                                type='text'
+                                id='email'
+                                name='email'
+                                placeholder='example@email.com'
+                                className='form-input'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='name' className='form-label'>Full Name</label>
+                            <input  
+                                type='text'
+                                id='id'
+                                name='name'
+                                className='form-input'
+                                placeholder='Full Name'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='password' className='form-label'>Password</label>
+                            <input
+                                type='password'
+                                id='password'
+                                name='password'
+                                minLength={8}
+                                className='form-input'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='confirm_password' className='form-label'>Confirm Password</label>
+                            <input
+                                type='password'
+                                id='confirm_password'
+                                name='confirm_password'
+                                minLength={8}
+                                className='form-input'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='bio' className='form-label'>Bio</label>
+                            <textarea
+                                id='bio'
+                                name='bio'
+                                className='form-input'
+                                rows={5}
+                                cols={40} />
+                        </div>
+                        <div className='form-group'>
+                            <button className='submit-button' type='submit'>Sign up</button>
+                        </div>
+                        <p className='sign-up-login-link'>New to Pantry? <Link to='/login'>Log in</Link></p>
+                    </form>
+                </div>
+            </div>
+                        {/* {message && (
                             <Alert className='w-50 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
-                        )}
-                    </Col>
-                </Row>
-            </Container>
+                        )} */}
         </div>
     )
 }

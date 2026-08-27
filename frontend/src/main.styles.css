@@ -182,6 +182,10 @@ p {
     background-color: var(--card);
 }
 
+.form-group {
+    margin: 1.5rem 0;
+}
+
 .form-title {
     color: var(--neutral);
     font-size: 1.5rem;
@@ -200,6 +204,7 @@ p {
     font-weight: 700;
 }
 
+.form-input,
 .form-control {
     color: var(--neutral);
     letter-spacing: 0.05em;
@@ -208,8 +213,11 @@ p {
     font-size: 0.75rem;
     line-height: 1rem;
     font-family: 'Plus Jakarta Sans', sans-serif;
+    padding: .375rem .75rem;
+    width: 100%;
 }
 
+.form-input,
 .form-control,
 .form-select {
     /* background-color: var(--tetriary); */
@@ -219,6 +227,7 @@ p {
     border-radius: 0.75rem;
 }
 
+.form-input:focus,
 .form-control:focus,
 .form-select:focus {
     box-shadow: none !important;
@@ -258,6 +267,8 @@ p {
     padding-bottom: 1.125rem;
     border-radius: 9999px;
     border: 0 !important;
+    width: 75%;
+    margin: 2rem;
 }
 
 .submit-button:hover {

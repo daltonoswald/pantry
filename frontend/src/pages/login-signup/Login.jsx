@@ -55,7 +55,41 @@ export default function Login() {
     return (
         <div className='app'>
             <Header />
-            <Container className='my-auto w-75 flex-grow-1' fluid>
+            <div className='login-container'>
+                <div className='login-column-left'>
+                    <img className='login-image' src={vegetablesImg} />
+                </div>
+                <div className='login-column-right'>
+                    <form className='login-form' onSubmit={handleSubmit}>
+                        <h3 className='login-brand'>Welcome Back</h3>
+                        <div className='form-group'>
+                            <label htmlFor='username' className='form-label'>Username</label>
+                            <input
+                                type='text'
+                                id='username'
+                                name='username'
+                                placeholder='Username'
+                                className='form-input'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor='password' className='form-label'>Password</label>
+                            <input
+                                type='password'
+                                id='password'
+                                name='password'
+                                minLength={8}
+                                className='form-input'
+                                required />
+                        </div>
+                        <div className='form-group'>
+                            <button className='submit-button' type='submit'>Log in</button>
+                        </div>
+                        <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up'>Sign up</Link></p>
+                    </form>
+                </div>
+            </div>
+            {/* <Container className='my-auto w-75 flex-grow-1' fluid>
                 <Row className='login-container'>
                     <Col md={6} className='login-column-left'>
                         <img className='login-image' src={vegetablesImg} />
@@ -85,7 +119,7 @@ export default function Login() {
                         )}  
                     </Col>          
                 </Row>
-            </Container>
+            </Container> */}
         </div>
     )
 }
