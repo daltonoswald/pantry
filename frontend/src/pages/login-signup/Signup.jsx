@@ -1,4 +1,5 @@
 import Header from '../../components/header/Header';
+import Alert from '../../components/modals/Alert';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import doughImg from '../../assets/temp-stock-photos/dough.jpg'
@@ -123,13 +124,13 @@ export default function Signup() {
                         <div className='form-group'>
                             <button className='submit-button' type='submit'>Sign up</button>
                         </div>
+                        {message && (
+                            <Alert message={message} />
+                        )}
                         <p className='sign-up-login-link'>New to Pantry? <Link to='/login'>Log in</Link></p>
                     </form>
                 </div>
             </div>
-                        {/* {message && (
-                            <Alert className='w-50 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
-                        )} */}
         </div>
     )
 }

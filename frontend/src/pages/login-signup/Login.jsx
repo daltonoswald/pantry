@@ -1,5 +1,5 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
 import Header from '../../components/header/Header';
+import Alert from '../../components/modals/Alert';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
@@ -85,41 +85,15 @@ export default function Login() {
                         <div className='form-group'>
                             <button className='submit-button' type='submit'>Log in</button>
                         </div>
+                        
+                        {message && (
+                        <Alert message={message} />
+                        )}
+
                         <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up'>Sign up</Link></p>
                     </form>
                 </div>
             </div>
-            {/* <Container className='my-auto w-75 flex-grow-1' fluid>
-                <Row className='login-container'>
-                    <Col md={6} className='login-column-left'>
-                        <img className='login-image' src={vegetablesImg} />
-                    </Col>
-                    <Col md={6} className='login-column-right'>
-                        <Form className='mx-4' onSubmit={handleSubmit}>
-                            <h3 className='text-center m-2 login-brand'>Welcome Back</h3>
-                                <Form.Group className='my-4' controlId='formUsername'>
-                                    <Form.Label>USERNAME</Form.Label>
-                                    <Form.Control name='username' placeholder='Username'></Form.Control>
-                                </Form.Group>
-                                <Form.Group className='my-4' controlId='formPassword'>
-                                    <Form.Label>PASSWORD</Form.Label>
-                                    <Form.Control name='password' type='password' ></Form.Control>
-                                </Form.Group>
-                                <Row className='my-4 justify-content-md-center'>
-                                    <Button className='w-75 m-2 submit-button' type='submit'>Log in</Button>
-                                </Row>
-                                <Row>
-                                    <Col className='m-2 text-center'>
-                                        <p>New to Pantry? <Link to='/sign-up'>Sign Up</Link></p>
-                                    </Col>
-                                </Row>
-                        </Form>
-                        {message && (
-                            <Alert className='w-50 m-3 p-3 mx-auto' variant='danger'>{message}</Alert>
-                        )}  
-                    </Col>          
-                </Row>
-            </Container> */}
         </div>
     )
 }
