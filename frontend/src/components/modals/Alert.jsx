@@ -1,4 +1,4 @@
-import { IoMdWarning } from "react-icons/io"
+import { IoMdWarning } from "react-icons/io";
 
 export default function Alert({ message }) {
 

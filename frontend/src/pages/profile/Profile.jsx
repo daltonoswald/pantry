@@ -1,4 +1,3 @@
-import {  Spinner } from 'react-bootstrap';
 import Header from '../../components/header/Header';
 import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -143,15 +142,14 @@ export default function Profile() {
         setOpenEditProfile(!openEditProfile)
     }
 
-    if (isLoading) {
-        return (
-            <div className='app'>
-                <Header />
-                <Spinner />
-                <p>Loading...</p>
-            </div>
-        )
-    }
+    if (isLoading) return (
+        <div className='app'>
+            <Header />
+          <div className='spinner-container'>
+            <div className='loading-spinner'></div>
+          </div>
+        </div>
+      )
 
     if (!isLoading && message) {
         console.log(message)

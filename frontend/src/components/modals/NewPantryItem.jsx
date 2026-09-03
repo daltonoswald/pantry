@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { FloatingLabel, Form, Modal, Col, Row, Button, Alert } from 'react-bootstrap';
+import Alert from '../modals/Alert';
 
-export default function NewPantryItem({ openNewPantryItem, setOpenNewPantryItem}) {
+export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
 
-    function handleCloseModal() {
-        setOpenNewPantryItem(false);
-    }
+    // function handleCloseModal() {
+    //     setOpenNewPantryItem(false);
+    // }
 
     async function handleSubmitPantryItem(e) {
         e.preventDefault()
@@ -32,7 +32,7 @@ export default function NewPantryItem({ openNewPantryItem, setOpenNewPantryItem}
                 setMessage(data.message);
                 const timer = setTimeout(() => {
                     console.log('goes off after 3 seconds');
-                    handleCloseModal();
+                    setIsModalOpen(false);
                 }, 3000)
                 return () => clearTimeout(timer);
             } else {
@@ -45,29 +45,38 @@ export default function NewPantryItem({ openNewPantryItem, setOpenNewPantryItem}
         }
     }
 
+    if (!isOpen) return null;
+
     return (
-        <Modal show={openNewPantryItem} onHide={handleCloseModal} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Add To Your Pantry</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmitPantryItem}>
-                    <Form.Group className='mb-3' controlId='formItem'>
-                            <FloatingLabel controlId='formItem' label='Item'>
-                                <Form.Control name='item' type='text' placeholder='Item' autoFocus />
-                            </FloatingLabel>
-                    </Form.Group>
-                    <Form.Group className='float-end'>
-                        <Button className='mx-2' variant='secondary' onClick={handleCloseModal}>Close</Button>
-                        <Button variant='primary' type='submit'>Add Item</Button>
-                    </Form.Group>
-                </Form>  
-            </Modal.Body>
-            {message && (
-                <Modal.Footer>
-                    <Alert className='m-3 p-3 mx-auto text-center' variant='danger'>{message}</Alert>  
-                </Modal.Footer>
-            )}
-        </Modal>
+        <div className='new-pantry-item-modal' onClick={onClose}>
+            <div className='new-pantry-item-modal-content' onClick={(e) => e.stopPropagation()}>
+                <button className='modal-close-button' onClick={onClose}>
+                    &times;
+                </button>
+                {/* <h3>Add To Your Pantry</h3> */}
+                <form className='new-pantry-item-form' onSubmit={handleSubmitPantryItem}>
+                    <div className='form-group'>
+                        <label htmlFor='formItem' className='form-label'>Add To Your Pantry</label>
+                        <input 
+                            type='text'
+                            id='item'
+                            name='item'
+                            placeholder='Item'
+                            className='form-input'
+                            required
+                            />
+                    </div>
+                    <div className='form-group modal-submit-container'>
+                        <button className='submit-button modal-submit-button' type='submit'>Add</button>
+                    </div>
+                </form>
+
+                {/* Adjust this to reflect error message vs. confirmation message */}
+
+                {message && (
+                    <Alert message={message} />
+                )}
+            </div>
+        </div>
     )
 }

@@ -87,7 +87,7 @@ export default function Login() {
                         </div>
                         
                         {message && (
-                        <Alert message={message} />
+                            <Alert message={message} />
                         )}
 
                         <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up'>Sign up</Link></p>

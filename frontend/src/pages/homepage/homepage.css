@@ -235,7 +235,8 @@
     margin: 0 !important;
 }
 
-.homepage-auth-container {
+.homepage-auth-container,
+.empty-pantry-container {
     position: relative;
     width: 80%;
     display: flex;

@@ -215,9 +215,9 @@ export default function Homepage() {
   if (isLoading) return (
     <div className='app'>
       <Header />
-        <Spinner animation='border' role='status'>
-          <span className='visually-hidden'>Loading...</span>
-        </Spinner>
+      <div className='spinner-container'>
+        <div className='loading-spinner'></div>
+      </div>
     </div>
   )
 

@@ -9,16 +9,15 @@ import { Search, PersonCircle } from 'react-bootstrap-icons';
 import { FaSearch } from 'react-icons/fa';
 
 export default function Header() {
-    const [openNewPantryItem, setOpenNewPantryItem] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
     const token = localStorage.getItem('pantryAuthToken');
     const username = localStorage.getItem('pantryUsername');
 
-    function handleOpenNewPantryItem() {
-        setOpenNewPantryItem(!openNewPantryItem)
-    }
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     function logout() {
         localStorage.removeItem('pantryAuthToken');
@@ -72,14 +71,14 @@ export default function Header() {
                                 <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-heading'>{username}</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-heading'>Search</NavDropdown.Item>
                                 <NavDropdown.Item as={Link} to={'/new-recipe'} className='pantry-heading'>New Recipe</NavDropdown.Item>
-                                <NavDropdown.Item onClick={handleOpenNewPantryItem} className='pantry-heading'>New Pantry Item</NavDropdown.Item>
+                                <NavDropdown.Item onClick={openModal} className='pantry-heading'>New Pantry Item</NavDropdown.Item>
                                 <NavDropdown.Item onClick={logout} className='pantry-heading'>Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Col>
                     )}
             </div>
         </Navbar>
-        <NewPantryItem openNewPantryItem={openNewPantryItem} setOpenNewPantryItem={setOpenNewPantryItem} />
+        <NewPantryItem isOpen={isModalOpen} setIsModalOpen={setIsModalOpen} onClose={closeModal} />
         </>
     )
 }

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Badge, Button, Col, Card, Row } from 'react-bootstrap';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { favoriteRecipe, toggleFavoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
@@ -8,39 +7,6 @@ import { MdArrowRightAlt } from 'react-icons/md'
 
 export default function MakeableRecipes({ makeableRecipes, recipesByPantry, userStats }) {
     const navigate = useNavigate();
-
-    console.log('m', makeableRecipes)
-
-    // const handleFavoriteRecipe = async (id) => {
-    //     // setMessage(null);
-    //     const recipeId = { 
-    //         recipeId: id
-    //      }
-    //     console.log('favoriting: ', recipeId)
-    //     const result = await favoriteRecipe(recipeId)
-
-    //     if (result.success) {
-    //         // setMessage({ type: 'success', text: result.message });
-    //         window.location.reload();
-    //     } else {
-    //         // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
-    //     }
-    // }
-
-    // const handleUnfavoriteRecipe = async (id) => {
-    //     // setMessage(null);
-    //     const recipeId = { 
-    //         recipeId: id
-    //      }
-    //     const result = await unfavoriteRecipe(recipeId)
-
-    //     if (result.success) {
-    //         // setMessage({ type: 'success', text: result.message });
-    //         window.location.reload();
-    //     } else {
-    //         // setMessage({ type: 'danger', text: result.message || 'Failed to unfavorite recipe.'})
-    //     }
-    // }
     
     const handleToggleFavoriteRecipe = async (recipeId) => {
         // setMessage(null);
@@ -125,25 +91,6 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                     </div>
                 </section>
             )}
-            {makeableRecipes.length <= 0 && (
-                <section className='mb-5'>
-                    <div className='d-flex justify-content-between align-items center mb-3'>
-                        <h2 className='d-flex align-items-center justify-content-end'>Makeable Recipes</h2>
-                        {/* <Link to='/recipes/by-pantry'>
-                            <Button variant='outline-primary'>See All</Button>
-                        </Link> */}
-                    </div>
-                    <Row>
-                        <Col md={4}>
-                            <Card className='mb-3 h-100' bg='warning'>
-                                <Card.Body>
-                                    <Card.Text>Check back later or add more items to your pantry to see more makeable recipes!</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
-                </section>
-            )}
             
             {recipesByPantry.length > 0 && (
                 <section className='makeable-container  by-pantry-container'>
@@ -202,23 +149,12 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                     </div>
                 </section>
             )}
-            {recipesByPantry.length <= 0 && (
-                <section className=''>
-                    <div className=''>
-                        <h2 className=''>Matching Your Pantry</h2>
-                        {/* <Link to='/recipes/by-pantry'>
-                            <Button variant='outline-primary'>See All</Button>
-                        </Link> */}
-                    </div>
-                    <Row>
-                        <Col md={4}>
-                            <Card className='' bg='warning'>
-                                <Card.Body>
-                                    <Card.Text>Check back later or add more items to your pantry to see more matching recipes!</Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </Col>
-                    </Row>
+            {(recipesByPantry.length <= 0 || makeableRecipes.length <= 0) && (
+            <section className='empty-pantry-container'>
+                    <div className='homepage-auth-container-tl'></div>
+                    <div className='homepage-auth-container-br'></div>
+                    <h3>Want to find recipes you can make today?</h3>
+                    <p>Add ingredients to your pantry to find personalized recipes you can make.</p>
                 </section>
             )}
         </>
