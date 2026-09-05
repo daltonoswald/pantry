@@ -4,6 +4,7 @@ import Alert from '../modals/Alert';
 export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
+    const [success, setSuccess] = useState();
 
     // function handleCloseModal() {
     //     setOpenNewPantryItem(false);
@@ -30,18 +31,22 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
                 // window.location.reload();
                 console.log(data.message);
                 setMessage(data.message);
+                setSuccess(data.success);
                 const timer = setTimeout(() => {
-                    console.log('goes off after 3 seconds');
                     setIsModalOpen(false);
+                    setMessage(null)
+                    setSuccess(null);
                 }, 3000)
                 return () => clearTimeout(timer);
             } else {
                 console.error(data.message)
                 setMessage(data.message)
+                setSuccess(data.success);
             }
         } catch (error) {
             console.error(`Error requesting:`, error);
             setMessage(`There was an error adding your pantry item. Please try again later.`);
+            setSuccess(false);
         }
     }
 
@@ -53,7 +58,6 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
                 <button className='modal-close-button' onClick={onClose}>
                     &times;
                 </button>
-                {/* <h3>Add To Your Pantry</h3> */}
                 <form className='new-pantry-item-form' onSubmit={handleSubmitPantryItem}>
                     <div className='form-group'>
                         <label htmlFor='formItem' className='form-label'>Add To Your Pantry</label>
@@ -71,10 +75,8 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
                     </div>
                 </form>
 
-                {/* Adjust this to reflect error message vs. confirmation message */}
-
                 {message && (
-                    <Alert message={message} />
+                    <Alert success={success} message={message} />
                 )}
             </div>
         </div>

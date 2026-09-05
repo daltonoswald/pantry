@@ -1,13 +1,12 @@
-import { Spinner } from 'react-bootstrap';
 import Header from '../../components/header/Header';
 import ErrorModal from '../../components/ErrorModal';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
-import './recipe.styles.css';
 import { GoHeart, GoHeartFill, GoShareAndroid } from 'react-icons/go'
 import { toggleFavoriteRecipe } from '../../utils/utility';
+import './recipe.styles.css';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -83,8 +82,9 @@ export default function Recipe() {
         return (
             <div className='app'>
                 <Header />
-                <Spinner />
-                <p>Loading...</p>
+                <div className='spinner-container'>
+                    <div className='loading-spinner'></div>
+                </div>
             </div>
         )
     }

@@ -154,6 +154,7 @@ exports.new_item = [
             if (result.added) {
                 res.json({ 
                     message: `${pantryItemName} added to your pantry.`,
+                    success: true,
                     pantryUser: result.pantryUser 
                 });
             } else {

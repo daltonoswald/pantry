@@ -182,7 +182,6 @@ textarea {
 }
 
 .alert-modal {
-    background-color: rgb(255 218 214);
     border-radius: 0.75rem;
     display: flex;
     flex-direction: column;
@@ -190,10 +189,20 @@ textarea {
     gap: 1.5rem;
     padding: 1.5rem;
     font-family: 'Plus Jakarta Sans';
-    color: rgb(147 0 10 / 0.8) !important;
     font-size: 0.875rem;
     line-height: 1.25rem;
     margin: 1.5rem;
+    background-color: rgba(96, 86, 350, 0.3) !important;
+}
+
+.alert-failure {
+    background-color: rgb(255 218 214) !important;
+    color: rgb(147 0 10 / 0.8) !important;
+}
+
+.alert-success {
+    background-color: rgb(214 234 181) !important;
+    color: rgb(89 106 64 / 0.8) !important
 }
 
 .alert-heading {

@@ -20,8 +20,6 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
     }
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
-
-        console.log('toggling: ', recipeId)
         const result = await toggleFavoriteRecipe(recipeId)
 
         if (result.success) {
