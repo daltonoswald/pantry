@@ -14,9 +14,9 @@
     --on-surface: rgb(86 66 61 / 0.5);
 }
 
-/* .recipe-page {
-    
-} */
+.recipe-page-container {
+    padding-bottom: 4vh;
+}
 
 .recipe-image-container {
     position: relative;
@@ -206,7 +206,7 @@
 
 .recipe-tags {
     width: 90vw;
-    margin: 0 auto 5vh;
+    margin: 0 auto;
     display: flex;
     padding: 2vh 0;
     gap: 1rem;

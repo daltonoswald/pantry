@@ -1,0 +1,90 @@
+.new-recipe-container {
+    padding: 4vh 10vw;
+}
+
+.new-recipe-block-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.new-recipe-block {
+    background-color: var(--card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    padding: 8px;
+    border-radius: 1rem;
+}
+
+.form-ingredient-container {
+    margin: 1rem auto;
+}
+
+.form-ingredient-title-container,
+.form-method-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.form-group-ingredient-container,
+.form-group-step-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 1rem auto;
+}
+
+.form-group-ingredient,
+.form-group-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.form-ingredient-delete {
+    min-width: 1rem;
+    min-height: 1rem;
+}
+
+.form-ingredient-delete:hover {
+    cursor: pointer;
+}
+
+.new-recipe-block > input,
+.new-recipe-block > input:focus {
+    border: none !important;
+    background-color: var(--card) !important;
+    text-align: center;
+}
+
+select.form-input,
+.form-input > option {
+    text-transform: lowercase;
+}
+
+select.form-input,
+.form-group-ingredient > input[type="number"] {
+    max-width: 15% !important;
+}
+
+.form-group-ingredient > .form-input {
+    width: 25%;
+}
+
+.form-ingredient-input {
+    flex-grow: 1;
+}
+
+.recipe-step-counter {
+    background-color: var(--primary);
+    display: flex;
+    border-radius: 9999px;
+    width: 2rem;
+    align-items: center;
+    height: 2rem;
+    justify-content: center;
+}

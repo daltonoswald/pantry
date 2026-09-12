@@ -248,6 +248,7 @@ textarea {
     font-family: 'Noto Serif';
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #4d463f3f;
+    flex-grow: 1;
 }
 
 .form-label {
@@ -260,8 +261,12 @@ textarea {
 }
 
 .form-input,
-.form-control {
+.form-control,
+.form-select {
     color: var(--neutral);
+    background-color: var(--card);
+    border: 1px solid rgb(238, 227, 217);
+    border-radius: 0.75rem;
     letter-spacing: 0.05em;
     text-transform: uppercase;
     font-weight: 500;
@@ -270,16 +275,6 @@ textarea {
     font-family: 'Plus Jakarta Sans', sans-serif;
     padding: .375rem .75rem;
     width: 100%;
-}
-
-.form-input,
-.form-control,
-.form-select {
-    /* background-color: var(--tetriary); */
-    /* border: 1px solid var(--neutral) !important; */
-    background-color: var(--card);
-    border: 1px solid rgb(238, 227, 217);
-    border-radius: 0.75rem;
 }
 
 .form-input:focus,
@@ -328,33 +323,6 @@ textarea {
 
 .submit-button:hover {
     background-color: var(--primary-opaque) !important;
-}
-
-.new-recipe-block {
-    background-color: var(--card);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    padding: 8px;
-    border-radius: 1rem;
-}
-
-.new-recipe-block > input,
-.new-recipe-block > input:focus {
-    border: none !important;
-    background-color: var(--card) !important;
-    text-align: center;
-}
-
-.recipe-step-counter {
-    background-color: var(--primary);
-    display: flex;
-    border-radius: 9999px;
-    width: 2rem;
-    align-items: center;
-    height: 2rem;
-    justify-content: center;
 }
 
 

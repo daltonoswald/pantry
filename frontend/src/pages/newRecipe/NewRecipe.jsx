@@ -7,6 +7,7 @@ import { MdClose } from 'react-icons/md';
 import TinyEditor from '../../components/tinyEditor/TinyEditor';
 import ImageUpload from '../../components/ImageUpload';
 import Alert from '../../components/modals/Alert';
+import './newRecipe.css'
 
 export default function NewRecipe() {
     const navigate = useNavigate();
@@ -295,65 +296,77 @@ export default function NewRecipe() {
                         </div>
                     </div>
                     <div className='form-ingredient-container'>
-                        <h2 className='form-title'>Ingredients</h2>
-                        <p className='add-ingredient' onClick={handleAddIngredient}><GoPlusCircle /> Add Ingredient</p>
-                    </div>
-                    {ingredientList.map((ingredient, index) => (
-                        <div className='form-group-ingredient'>
-                            <input
-                                type='number'
-                                name='unitAmount'
-                                id='unitAmount'
-                                step='0.25'
-                                onChange={(e) => handleUnitAmountChange(e, index)}
-                                min={0}
-                                defaultValue={0}
-                                required />
-                            <select onChange={(e) => handleUnitChange(e, index)} name='unit' required>
-                                {cookingUnits.map((unit) => 
-                                    <option
-                                        key={unit}
-                                        name='unit'
-                                        defaultValue={'tsp'}
-                                        value={unit}
-                                        required
-                                        >{unit}</option>
-                                )}
-                            </select>
-                            <input
-                                type='text'
-                                name='ingredientNote'
-                                id='ingredientNote'
-                                onChange={(e) => handleIngredientNoteChange(e, index)}
-                                placeholder='Notes (dcied, thin-sliced, etc.)'
-                                required />
-                            <input
-                                type='text'
-                                name='ingredient'
-                                id='ingredient'
-                                onChange={(e) => handleIngredientChange(e, index)}
-                                placeholder='Ingredient name...'
-                                required />
-                            {/* <p onClick={() => handleRemoveIngredient(index)}>&times;</p> */}
-                            <MdClose onClick={() => handleRemoveIngredient(index)} className='form-ingredient-delete' />
+                        <div className='form-ingredient-title-container'>
+                            <h2 className='form-title'>Ingredients</h2>
+                            <p className='add-ingredient' onClick={handleAddIngredient}><GoPlusCircle /> Add Ingredient</p>
                         </div>
-                    ))}
+                        <div className='form-group-ingredient-container'>
+                            {ingredientList.map((ingredient, index) => (
+                                <div className='form-group-ingredient'>
+                                    <input
+                                        type='number'
+                                        name='unitAmount'
+                                        id='unitAmount'
+                                        className='form-input'
+                                        step='0.25'
+                                        onChange={(e) => handleUnitAmountChange(e, index)}
+                                        min={0}
+                                        defaultValue={0}
+                                        required />
+                                    <select onChange={(e) => handleUnitChange(e, index)} name='unit' className='form-input' required>
+                                        {cookingUnits.map((unit) => 
+                                            <option
+                                                key={unit}
+                                                name='unit'
+                                                defaultValue={'tsp'}
+                                                value={unit}
+                                                required
+                                                >{unit}</option>
+                                        )}
+                                    </select>
+                                    <input
+                                        type='text'
+                                        name='ingredientNote'
+                                        id='ingredientNote'
+                                        className='form-input'
+                                        onChange={(e) => handleIngredientNoteChange(e, index)}
+                                        placeholder='Notes (diced, thin-sliced, etc.)'
+                                        required />
+                                    <input
+                                        type='text'
+                                        name='ingredient'
+                                        id='ingredient'
+                                        className='form-input form-ingredient-input'
+                                        onChange={(e) => handleIngredientChange(e, index)}
+                                        placeholder='Ingredient name...'
+                                        required />
+                                    {/* <p onClick={() => handleRemoveIngredient(index)}>&times;</p> */}
+                                    <MdClose onClick={() => handleRemoveIngredient(index)} className='form-ingredient-delete' />
+                                </div>
+                            ))}
+                        </div>
+                        </div>
                     <div className='form-method-container'>
-                        <h2 className='form-title'>Method</h2>
-                        <p className='add-ingredient' onClick={handleAddIngredient}><GoPlusCircle /> Add Step</p>
-                        {steps.map((step, index) => (
-                            <div className='form-group-step'>
-                                <p className='recipe-step-counter'>{index + 1}</p>
-                                <input
-                                    type='textarea'
-                                    rows={2}
-                                    value={step}
-                                    onChange={(e) => handleStepChange(e, index)}
-                                    placeholder={`Step ${index + 1}`}
-                                    required />
-                                <MdClose onClick={() => handleRemoveStep(index)} className='form-step-delete' />
-                            </div>
-                        ))}
+                        <div className='form-method-title-container'>
+                            <h2 className='form-title'>Method</h2>
+                            <p className='add-ingredient' onClick={handleAddStep}><GoPlusCircle /> Add Step</p>
+                        </div>
+                        <div className='form-group-step-container'>
+                            {steps.map((step, index) => (
+                                <div className='form-group-step'>
+                                    <p className='recipe-step-counter'>{index + 1}</p>
+                                    <input
+                                        type='textarea'
+                                        rows={2}
+                                        value={step}
+                                        className='form-input'
+                                        onChange={(e) => handleStepChange(e, index)}
+                                        placeholder={`Step ${index + 1}`}
+                                        required />
+                                    <MdClose onClick={() => handleRemoveStep(index)} className='form-step-delete' />
+                                </div>
+                            ))}
+                        </div>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='tags' className='form-label'>Tags (seperate with commas)</label>

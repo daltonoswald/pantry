@@ -16,7 +16,8 @@
 
 .homepage-container {
     padding-right: 0 !important;
-    padding-left: 0 !important
+    padding-left: 0 !important;
+    padding-bottom: 4vh;
 }
 
 .homepage-title-container {

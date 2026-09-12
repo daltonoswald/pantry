@@ -4,7 +4,6 @@ import MakeableRecipes from './MakeableRecipes';
 import { useState, useEffect } from 'react';
 import Recent from './Recent';
 import Trending from './Trending';
-import { Spinner, Container } from 'react-bootstrap';
 
 export default function Homepage() {
   const navigate = useNavigate();
