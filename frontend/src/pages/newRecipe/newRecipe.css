@@ -1,5 +1,9 @@
 .new-recipe-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 4vh 10vw;
+    margin: 0 auto;
 }
 
 .new-recipe-block-container {
