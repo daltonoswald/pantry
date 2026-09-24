@@ -31,7 +31,7 @@ export default function Router() {
                 { path: '/user/:username', element: <Profile /> },
                 { path: '/recipe/:recipeId', element: <Recipe /> },
                 { path: '/new-recipe', element: <NewRecipe /> },
-                { path: '/serach', element: <Search /> },
+                { path: '/search', element: <Search /> },
             ]
         }
     ])

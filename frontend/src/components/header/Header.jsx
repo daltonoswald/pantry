@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Col, Container, Nav, Navbar, NavDropdown, Row, Form, Button } from 'react-bootstrap'
 import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -10,6 +10,7 @@ import { FaSearch } from 'react-icons/fa';
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const navbarRef = useRef(null);
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
@@ -18,7 +19,27 @@ export default function Header() {
 
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
-    const openModal = () => setIsModalOpen(true);
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+
+        if (dropdownOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [dropdownOpen]);
+
+    // const openModal = () => setIsModalOpen(true);
+    const openModal = function() {
+        setIsModalOpen(true);
+        setDropdownOpen(false);
+    }
     const closeModal = () => setIsModalOpen(false);
 
     function logout() {
@@ -34,7 +55,7 @@ export default function Header() {
 
     return (
         <>
-        {/* <Navbar sticky='top' expand='lg' className='pantry-nav' >
+        <div className='pantry-nav' ref={navbarRef}>
             <div className='navbar-left'>
                 <NavLink to='/' style={({ isActive }) => isActive ? { color: '#C0563E'} : { color: 'black'}} className='navbar-brand'>
                     Pantry
@@ -67,66 +88,10 @@ export default function Header() {
                             </div>
                     )}
                     {token && (
-                        <Col md='auto' className='d-flex align-items-center pantry-heading-user'>
-                            <MdAccountCircle size='1.5rem' color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
-                            <NavDropdown title={username} className='pantry-heading' >
-                                <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-heading'>{username}</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-heading'>Search</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to={'/new-recipe'} className='pantry-heading'>New Recipe</NavDropdown.Item>
-                                <NavDropdown.Item onClick={openModal} className='pantry-heading'>New Pantry Item</NavDropdown.Item>
-                                <NavDropdown.Item onClick={logout} className='pantry-heading'>Logout</NavDropdown.Item>
-                            </NavDropdown>
-                        </Col>
-                    )}
-            </div>
-        </Navbar> */}
-        <div className='pantry-nav'>
-            <div className='navbar-left'>
-                <NavLink to='/' style={({ isActive }) => isActive ? { color: '#C0563E'} : { color: 'black'}} className='navbar-brand'>
-                    Pantry
-                </NavLink>
-                <NavLink to='/' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>
-                        Recipes
-                </NavLink>
-                <NavLink to='/search' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>
-                        Search
-                </NavLink>
-                <NavLink to='/about' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>
-                        About
-                </NavLink>
-            </div>
-            <div className='navbar-right'>
-                <form className='pantry-nav-search' onSubmit={handleNavSearch}>
-                    <MdOutlineSearch color='black' />
-                    <input  
-                        type='text'
-                        name='query'
-                        placeholder='Search...'
-                        defaultValue={query || ''}
-                        aria-label='Search'
-                    />
-                </form>
-                    {!token && (
-                            <div className='pantry-nav-unauthenticated'>
-                                <Link to={'/login'}>Log in</Link>
-                                <Link to={'/sign-up'}>Sign up</Link>
-                            </div>
-                    )}
-                    {token && (
-                        // <Col md='auto' className='d-flex align-items-center pantry-heading-user'>
-                        //     <MdAccountCircle size='1.5rem' color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
-                        //     <NavDropdown title={username} className='pantry-heading' >
-                        //         <NavDropdown.Item as={Link} to={`/user/${username}`} className='pantry-heading'>{username}</NavDropdown.Item>
-                        //         <NavDropdown.Item as={Link} to={'/search'} reloadDocument className='pantry-heading'>Search</NavDropdown.Item>
-                        //         <NavDropdown.Item as={Link} to={'/new-recipe'} className='pantry-heading'>New Recipe</NavDropdown.Item>
-                        //         <NavDropdown.Item onClick={openModal} className='pantry-heading'>New Pantry Item</NavDropdown.Item>
-                        //         <NavDropdown.Item onClick={logout} className='pantry-heading'>Logout</NavDropdown.Item>
-                        //     </NavDropdown>
-                        // </Col>
                         <div className='pantry-heading-user'>
                                 <div className='pantry-heading nav-dropdown-container'>
-                                    <p className='nav-dropdown-button' onClick={toggleDropdown}>
                                     <MdAccountCircle size='1.5rem' color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
+                                    <p className='nav-dropdown-button' onClick={toggleDropdown}>
                                         {username} ▾
                                     </p>
                                     {dropdownOpen && (
