@@ -48,8 +48,7 @@
     width: 100%;
     background-color: var(--card);
     /* padding: 50px 24px; */
-    padding: 0 10vw;
-    padding-top: 4vh;
+    padding: 4vh 10vw;
     margin-bottom: 2rem;
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transition-duration: 700ms;
@@ -93,15 +92,23 @@
     transition-duration: 700ms;
 }
 
-.large-recipe-image:hover {
+/* .large-recipe-image:hover {
+    transform: scale(1.05)
+} */
+
+.large-recipe-card:hover .large-recipe-image,
+.medium-recipe-card:hover .medium-recipe-image,
+.small-recipe-card:hover .small-recipe-image {
     transform: scale(1.05)
 }
 
-.large-recipe-about {
+.large-recipe-about,
+.medium-recipe-about {
     flex-grow: 1;
     display: grid;
-    grid-template-rows: 1fr 1fr 1.5fr 1fr;
+    grid-template-rows: max-content 1fr 1.5fr 1fr;
     align-items: start;
+    padding: 0 0.5rem;
 }
 
 .large-recipe-about-stats {
@@ -184,9 +191,9 @@
     transition-duration: 700ms;
 }
 
-.small-recipe-card:hover .small-recipe-image {
+/* .small-recipe-card:hover .small-recipe-image {
     transform: scale(1.05)
-}
+} */
 
 .small-recipe-card {
     display: flex;
@@ -201,16 +208,20 @@
     background-color: var(--card);
 }
 
-.by-pantry-card:hover {
+/* .by-pantry-card:hover {
     background-color: #f2e6dc;
-}
+} */
 
 .small-recipe-about {
-    flex-grow: 1;
+    /* flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    padding: 0.5rem;
+    justify-content: space-around; */
+    flex-grow: 1;
+    display: grid;
+    grid-template-rows: max-content 1fr 1.5fr;
+    align-items: start;
+    padding: 0 0.5rem;
 }
 
 .small-recipe-stats {
@@ -299,9 +310,9 @@
 }
 
 
-.medium-recipe-card:hover .medium-recipe-image {
+/* .medium-recipe-card:hover .medium-recipe-image {
     transform: scale(1.05)
-}
+} */
 
 .medium-recipe-image-container {
     overflow: hidden;
@@ -316,13 +327,12 @@
     transition-duration: 700ms;
 }
 
-.medium-recipe-about {
+/* .medium-recipe-about {
     flex-grow: 1;
     display: grid;
     grid-template-rows: 1fr 1fr 1.5fr 1fr;
     align-items: start;
-    padding: 0.5rem;
-}
+} */
 
 .medium-recipe-stats {
     display: flex;

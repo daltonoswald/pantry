@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { Col, Container, Nav, Navbar, NavDropdown, Row, Form, Button } from 'react-bootstrap'
 import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import 'bootstrap/dist/css/bootstrap.min.css'
+// import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.styles.css'
 import NewPantryItem from '../modals/NewPantryItem';
 import { MdAccountCircle, MdOutlineSearch } from 'react-icons/md'
-import { FaSearch } from 'react-icons/fa';
 
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
