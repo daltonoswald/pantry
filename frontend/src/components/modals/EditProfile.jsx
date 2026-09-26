@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { FloatingLabel, Form, Modal, Col, Row, Button, Alert } from 'react-bootstrap';
 import { updateProfile } from '../../utils/utility';
 
 export default function EditProfile({ profileData, openEditProfile, setOpenEditProfile }) {
@@ -32,36 +31,36 @@ export default function EditProfile({ profileData, openEditProfile, setOpenEditP
         }
     }
 
-    return (
-        <Modal show={openEditProfile} onHide={handleCloseModal} centered>
-            <Modal.Header closeButton>
-                <Modal.Title>Edit Profile</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form onSubmit={handleSubmitEditProfile}>
-                    <Form.Group>
-                        <Col className='mb-3'>
-                            <FloatingLabel controlid='formName' label='Name'>
-                                <Form.Control name='name' type='text' placeholder='Name' defaultValue={profileData.name}/>
-                            </FloatingLabel>
-                        </Col>
-                        <Col className='mb-3'>
-                            <FloatingLabel controlid='formBio' label='Bio'>
-                                <Form.Control name='bio' type='text' placeholder='Bio' defaultValue={profileData.bio}/>
-                            </FloatingLabel>
-                        </Col>
-                    </Form.Group>
-                    <Form.Group className='float-end'>
-                        <Button className='mx-2' variant='secondary' onClick={handleCloseModal}>Close</Button>
-                        <Button variant='primary' type='submit'>Save Changes</Button>
-                    </Form.Group>
-                </Form>  
-            </Modal.Body>
-            {message && (
-                <Modal.Footer>
-                    <Alert className='m-3 p-3 mx-auto text-center' variant={message.type}>{message.text}</Alert>  
-                </Modal.Footer>
-            )}
-        </Modal>
-    )
+    // return (
+    //     <Modal show={openEditProfile} onHide={handleCloseModal} centered>
+    //         <Modal.Header closeButton>
+    //             <Modal.Title>Edit Profile</Modal.Title>
+    //         </Modal.Header>
+    //         <Modal.Body>
+    //             <Form onSubmit={handleSubmitEditProfile}>
+    //                 <Form.Group>
+    //                     <Col className='mb-3'>
+    //                         <FloatingLabel controlid='formName' label='Name'>
+    //                             <Form.Control name='name' type='text' placeholder='Name' defaultValue={profileData.name}/>
+    //                         </FloatingLabel>
+    //                     </Col>
+    //                     <Col className='mb-3'>
+    //                         <FloatingLabel controlid='formBio' label='Bio'>
+    //                             <Form.Control name='bio' type='text' placeholder='Bio' defaultValue={profileData.bio}/>
+    //                         </FloatingLabel>
+    //                     </Col>
+    //                 </Form.Group>
+    //                 <Form.Group className='float-end'>
+    //                     <Button className='mx-2' variant='secondary' onClick={handleCloseModal}>Close</Button>
+    //                     <Button variant='primary' type='submit'>Save Changes</Button>
+    //                 </Form.Group>
+    //             </Form>  
+    //         </Modal.Body>
+    //         {message && (
+    //             <Modal.Footer>
+    //                 <Alert className='m-3 p-3 mx-auto text-center' variant={message.type}>{message.text}</Alert>  
+    //             </Modal.Footer>
+    //         )}
+    //     </Modal>
+    // )
 }

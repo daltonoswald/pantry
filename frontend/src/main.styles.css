@@ -194,6 +194,15 @@ textarea {
     cursor: pointer;
 }
 
+.delete-icon:hover {
+    color: var(--pantry-bold-red);
+    cursor: pointer;
+}
+
+.edit-icon:hover {
+    color: #7D2E4C;
+}
+
 .alert-modal {
     border-radius: 0.75rem;
     display: flex;

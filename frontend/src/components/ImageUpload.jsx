@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Form, Button, Image, Spinner } from 'react-bootstrap';
 
 export default function ImageUpload({ onUpload }) {
     const [preview, setPreview] = useState(null);
@@ -51,24 +50,24 @@ export default function ImageUpload({ onUpload }) {
         }
     };
 
-    return (
-        <Form.Group className='mb-3'>
-            <Form.Label>Recipe Image</Form.Label>
-            <Form.Control
-                type='file'
-                accept='image/jpeg, image/png, image/webp'
-                onChange={handleFileChange}
-            />
-            {isUploading && <Spinner animation='border' size='sm' className='mt-2' />}
-            {preview && !isUploading && (
-                <Image 
-                    src={preview}
-                    alt='Recipe preview'
-                    className='mt-2'
-                    style={{ maxHeight: '200px', objectFit: 'cover' }}
-                    thumbnail
-                />
-            )}
-        </Form.Group>
-    )
+    // return (
+    //     <Form.Group className='mb-3'>
+    //         <Form.Label>Recipe Image</Form.Label>
+    //         <Form.Control
+    //             type='file'
+    //             accept='image/jpeg, image/png, image/webp'
+    //             onChange={handleFileChange}
+    //         />
+    //         {isUploading && <Spinner animation='border' size='sm' className='mt-2' />}
+    //         {preview && !isUploading && (
+    //             <Image 
+    //                 src={preview}
+    //                 alt='Recipe preview'
+    //                 className='mt-2'
+    //                 style={{ maxHeight: '200px', objectFit: 'cover' }}
+    //                 thumbnail
+    //             />
+    //         )}
+    //     </Form.Group>
+    // )
 }

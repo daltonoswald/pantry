@@ -5,8 +5,10 @@ import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { GoHeart, GoHeartFill, GoShareAndroid } from 'react-icons/go'
+import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { toggleFavoriteRecipe } from '../../utils/utility';
 import './recipe.styles.css';
+import ConfirmDelete from '../../components/modals/ConfirmDelete';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -16,6 +18,7 @@ export default function Recipe() {
     const [myData, setMyData] = useState();
     const [recipeData, setRecipeData] = useState();
     const [message, setMessage] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
 
@@ -60,6 +63,14 @@ export default function Recipe() {
         }
         getRecipe();
     }, [params.recipe, navigate])
+
+    const handleIsDeleteModalOpen = () => {
+        console.log('working!');
+        console.log(isDeleteModalOpen)
+        setIsDeleteModalOpen(!isDeleteModalOpen);
+    }
+
+    const handleCloseDeleteModal = () => setIsDeleteModalOpen(false);
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
 
@@ -149,22 +160,31 @@ export default function Recipe() {
                             )}
                         </div>
                         <div className='recipe-info-right'>
-                            {(!isAuthor) && (
-                                <div className='recipe-info-containers'>
+                                    {(isAuthor) && (
+                                        <>
+                                            <div className='recipe-info-edit'>
+                                                <MdModeEdit className='edit-icon icon-link' />
+                                            </div>
+                                            <div className='recipe-info-delete'>
+                                                <MdDelete className='delete-icon icon-link' onClick={handleIsDeleteModalOpen} />
+                                            </div>
+                                        </>
+                                    )}
                                     <div className='recipe-info-favorite'>
-                                        {(isFavorited && myData && !isAuthor) && (
+                                        {(!isAuthor && isFavorited && myData && !isAuthor) && (
                                             <GoHeartFill className='favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
-                                        {(!isFavorited && myData && !isAuthor) && (
+                                        {(!isAuthor && !isFavorited && myData && !isAuthor) && (
                                             <GoHeart className='not-favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
-                                        {(!myData && (
+                                        {(!isAuthor && !myData && (
                                             <GoHeart className='not-favorited icon-link' onClick={() => navigate('/login')} />
                                         ))}
+                                        {(isAuthor && (  
+                                            <GoHeart className='not-favorited icon-link' />
+                                        ))}
+                                        <p>{recipeData._count.favorites}</p>
                                     </div>
-                                    <p>{recipeData._count.favorites}</p>
-                                </div>
-                            )}
                             <div className='recipe-info-share'>
                                 <GoShareAndroid className='share-icon icon-link' color='black' onClick={() => navigator.clipboard.writeText(window.location.href)} />
                             </div>
@@ -204,6 +224,7 @@ export default function Recipe() {
                             <Link className='recipe-tag' key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
                         ))}
                     </div>
+                    <ConfirmDelete isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen} onClose={handleCloseDeleteModal} itemToDelete={recipeData} />
                 </div>
             </div>
         )

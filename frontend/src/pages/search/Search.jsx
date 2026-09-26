@@ -1,4 +1,3 @@
-import { Container, Row, Col, Form, FloatingLabel, Button, InputGroup, Alert } from 'react-bootstrap';
 import Header from '../../components/header/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -63,7 +62,7 @@ export default function Search() {
     if (!isLoading) return (
         <div className='app'>
             <Header />
-            <Container className='my-auto main-content' fluid>
+            {/* <Container className='my-auto main-content' fluid>
                 <Form className='p-3' onSubmit={handleSearch}>
                     <Row>
                         <InputGroup className='w-50 mx-auto'>
@@ -135,7 +134,7 @@ export default function Search() {
                         </Col>
                     )}
                 </Row>
-            </Container>
+            </Container> */}
         </div>
     )
 }
