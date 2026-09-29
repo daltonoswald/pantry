@@ -12,7 +12,7 @@ import './newRecipe.css'
 export default function NewRecipe() {
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState(null);
-    const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: ''}]);
+    const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: 'tsp'}]);
     const [steps, setSteps] = useState(['']);
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken');
@@ -51,7 +51,12 @@ export default function NewRecipe() {
 
     const handleAddIngredient = () => {
         console.log('increased');
-        setIngredientList([...ingredientList, {ingredient: '' }]);
+        setIngredientList([...ingredientList, {
+            ingredient: '',
+            ingredientNote: '',
+            unitAmount: '',
+            unit: 'tsp' 
+        }]);
     }
 
     const handleRemoveIngredient = (index) => {
@@ -204,14 +209,16 @@ export default function NewRecipe() {
                                         name='ingredientNote'
                                         id='ingredientNote'
                                         className='form-input'
+                                        value={ingredient.ingredientNote}
                                         onChange={(e) => handleIngredientNoteChange(e, index)}
                                         placeholder='Notes (diced, thin-sliced, etc.)'
-                                        required />
+                                        />
                                     <input
                                         type='text'
                                         name='ingredient'
                                         id='ingredient'
                                         className='form-input form-ingredient-input'
+                                        value={ingredient.ingredient}
                                         onChange={(e) => handleIngredientChange(e, index)}
                                         placeholder='Ingredient name...'
                                         required />
@@ -252,6 +259,9 @@ export default function NewRecipe() {
                             placeholder='breakfast, lunch, dinner'
                             className='form-input'
                             required />
+                    </div>
+                    <div className='form-group'>
+                        <button className='submit-button' type='submit'>Create Recipe</button>
                     </div>
                     {message && (
                         <Alert message={message} />

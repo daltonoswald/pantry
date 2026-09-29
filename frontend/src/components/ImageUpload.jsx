@@ -70,4 +70,24 @@ export default function ImageUpload({ onUpload }) {
     //         )}
     //     </Form.Group>
     // )
+
+    return (
+        <div className='form-image-upload'>
+            <label>Recipe Image</label>
+            <input 
+                type='file'
+                accept='image/jpeg, image/png, image/webp'
+                onChange={handleFileChange} />
+            {isUploading && (
+                <div className='loading-spinner'></div>
+            )}
+            {preview && !isUploading && (
+                <img
+                    src={preview}
+                    alt='Recipe image preview'
+                    className='new-recipe-image-preview'
+                    thumbnail />
+            )}
+        </div>
+    )
 }

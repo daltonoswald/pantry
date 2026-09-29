@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
+import { useNavigate } from 'react-router-dom';
 // import { handleDeleteRecipe } from '../../utils/utility';
 
 export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose, itemToDelete }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
+    const navigate = useNavigate();
 
     const handleDeleteRecipe = async (itemToDelete) => {
         const url = `http://localhost:3000/recipe/delete/${itemToDelete.recipeId}`
@@ -24,7 +26,8 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
             const data = await response.json();
             if (response.ok) {
                 setMessage(data.message);
-                window.location.reload();
+                navigate('/');
+                // window.location.reload();
             } else {
                 setMessage(data.message);
             }
@@ -62,10 +65,11 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
             <div className='recipe-confirm-delete-modal-content' onClick={(e) => e.stopPropagation()}>
                 <MdDelete className='confirm-delete-icon' />
                 <h3>Delete this Recipe?</h3>
-                <p>This will permanently delete your recipe '{itemToDelete.title}' from Pantry. This action cannot be undone.</p>
+                <p>This will permanently delete your recipe '{itemToDelete.title}' from your collection and from Pantry.</p>
+                <p>This action cannot be undone.</p>
                 <div className='confirm-delete-button-container'>
-                    <button className='cancel-delete-button'>Cancel</button>
-                    <button className='confirm-delete-button'>Confirm</button>
+                    <button className='cancel-delete-button' onClick={handleCloseModal}>Cancel</button>
+                    <button className='confirm-delete-button' onClick={() => handleDeleteRecipe(itemToDelete.id)}>Confirm</button>
                 </div>
             </div>
         </div>

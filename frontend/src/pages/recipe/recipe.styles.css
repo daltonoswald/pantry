@@ -235,4 +235,63 @@
     max-width: 500px;
     width: 100%;
     box-shadow: 0 4px 7px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    text-align: center;
+}
+
+.confirm-delete-icon {
+    color: var(--pantry-bold-red);
+    background-color: var(--card);
+    height: 4rem;
+    width: 4rem;
+    border-radius: 9999px;
+    padding: 0.5rem;
+}
+
+.confirm-delete-button-container {
+    display: flex;
+    gap: 2rem;
+    width: 75%;
+    justify-content: center;
+}
+
+.cancel-delete-button,
+.confirm-delete-button {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.875rem;
+    letter-spacing: 0.1em;
+    line-height: 1.125rem;
+    padding: 1.125rem;
+    border-radius: 9999px;
+    border: 0 !important;
+    flex-grow: 1;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 250ms;
+}
+
+.cancel-delete-button {
+    background-color: rgb(236 224 215);
+    color: var(--black-subtle);
+}
+
+.cancel-delete-button:hover {
+    cursor: pointer;
+    background-color: rgb(212, 199, 189);
+}
+
+.confirm-delete-button {
+    cursor: pointer;
+    background-color: var(--pantry-bold-red);
+    color: white;
+}
+
+.confirm-delete-button:hover {
+    background-color: var(--primary);
+    color: black;
 }
