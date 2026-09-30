@@ -24,6 +24,8 @@ export default function Profile() {
     const token = localStorage.getItem('pantryAuthToken');
     const params = useParams();
 
+    const closeModal = () => setOpenEditProfile(false);
+
     useEffect(() => {
         const getProfile = async () => {
             const url = `http://localhost:3000/user/profile/${params.username}`;
@@ -270,7 +272,7 @@ export default function Profile() {
                         <ProfilePantry myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
                     </div>
                 </div>
-                <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} />
+                <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} onClose={closeModal} />
             </div>
         )
     }

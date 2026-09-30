@@ -1,6 +1,7 @@
 import Header from '../../components/header/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { MdOutlineSearch } from 'react-icons/md'
 import SearchIngredients from './searchComponents/SearchIngredients';
 import SearchRecipes from './searchComponents/SearchRecipes';
 import SearchUsers from './searchComponents/SearchUsers';
@@ -62,6 +63,21 @@ export default function Search() {
     if (!isLoading) return (
         <div className='app'>
             <Header />
+            <div className='search-container'>
+                <div className='search-bar-container'>
+                    <form className='search' onSubmit={handleSearch}>
+                        <MdOutlineSearch color='black' />
+                        <input  
+                            type='text'
+                            name='query'
+                            placeholder='Search...'
+                            aria-label='Search'
+                            defaultValue={searchQuery ? searchQuery: ''}
+                            required
+                        />
+                    </form>
+                </div>
+            </div>
             {/* <Container className='my-auto main-content' fluid>
                 <Form className='p-3' onSubmit={handleSearch}>
                     <Row>

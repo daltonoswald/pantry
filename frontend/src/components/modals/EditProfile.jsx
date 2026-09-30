@@ -1,13 +1,11 @@
 import { useEffect, useState } from 'react';
 import { updateProfile } from '../../utils/utility';
+import Alert from '../modals/Alert';
 
-export default function EditProfile({ profileData, openEditProfile, setOpenEditProfile }) {
+export default function EditProfile({ profileData, openEditProfile, setOpenEditProfile, onClose }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState(null);
-
-    function handleCloseModal() {
-        setOpenEditProfile(false);
-    }
+    const [success, setSuccess] = useState();
 
     const handleSubmitEditProfile = async (e) => {
         e.preventDefault();
@@ -19,10 +17,10 @@ export default function EditProfile({ profileData, openEditProfile, setOpenEditP
         const result = await updateProfile(editData);
 
         if (result.success) {
-            setMessage({ type: 'success', text: result.message });
+            setMessage(result.message);
+            setSuccess(result.success);
             const timer = setTimeout(() => {
-                console.log('goes off after 3 seconds');
-                handleCloseModal();
+                onClose();
                 window.location.reload();
             }, 3000)
             return () => clearTimeout(timer);
@@ -31,36 +29,46 @@ export default function EditProfile({ profileData, openEditProfile, setOpenEditP
         }
     }
 
-    // return (
-    //     <Modal show={openEditProfile} onHide={handleCloseModal} centered>
-    //         <Modal.Header closeButton>
-    //             <Modal.Title>Edit Profile</Modal.Title>
-    //         </Modal.Header>
-    //         <Modal.Body>
-    //             <Form onSubmit={handleSubmitEditProfile}>
-    //                 <Form.Group>
-    //                     <Col className='mb-3'>
-    //                         <FloatingLabel controlid='formName' label='Name'>
-    //                             <Form.Control name='name' type='text' placeholder='Name' defaultValue={profileData.name}/>
-    //                         </FloatingLabel>
-    //                     </Col>
-    //                     <Col className='mb-3'>
-    //                         <FloatingLabel controlid='formBio' label='Bio'>
-    //                             <Form.Control name='bio' type='text' placeholder='Bio' defaultValue={profileData.bio}/>
-    //                         </FloatingLabel>
-    //                     </Col>
-    //                 </Form.Group>
-    //                 <Form.Group className='float-end'>
-    //                     <Button className='mx-2' variant='secondary' onClick={handleCloseModal}>Close</Button>
-    //                     <Button variant='primary' type='submit'>Save Changes</Button>
-    //                 </Form.Group>
-    //             </Form>  
-    //         </Modal.Body>
-    //         {message && (
-    //             <Modal.Footer>
-    //                 <Alert className='m-3 p-3 mx-auto text-center' variant={message.type}>{message.text}</Alert>  
-    //             </Modal.Footer>
-    //         )}
-    //     </Modal>
-    // )
+    if (!openEditProfile) return null;
+
+    return (
+        <div className='edit-profile-modal' onClick={onClose}>
+            <div className='edit-profile-modal-content' onClick={(e) => e.stopPropagation()}>
+                <button className='modal-close-button' onClick={onClose}>
+                    &times;
+                </button>
+                <form className='edit-profile-form' onSubmit={handleSubmitEditProfile}>
+                    <div className='form-group'>
+                        <label htmlFor='name' className='form-label'>Name</label>
+                        <input
+                            type='text'
+                            id='name'
+                            name='name'
+                            className='form-input'
+                            placeholder={profileData.name}
+                            defaultValue={profileData.name}
+                            required />
+                    </div>
+                    <div className='form-group'>
+                        <label htmlFor='bio' className='form-label'>Bio</label>
+                        <input
+                            type='text'
+                            id='bio'
+                            name='bio'
+                            className='form-input'
+                            placeholder={profileData.bio}
+                            defaultValue={profileData.bio}
+                            required />
+                    </div>
+                    <div className='form-group modal-submit-container'>
+                        <button className='submit-button modal-submit-button' type='submit'>Save</button>
+                    </div>
+                </form>
+                    {message && (
+                        <Alert success={success} message={message} />
+                    )}
+            </div>
+
+        </div>
+    )
 }
