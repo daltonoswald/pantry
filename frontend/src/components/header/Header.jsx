@@ -3,7 +3,7 @@ import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-
 // import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.styles.css'
 import NewPantryItem from '../modals/NewPantryItem';
-import { MdAccountCircle, MdOutlineSearch } from 'react-icons/md'
+import { MdAccountCircle, MdArrowDropDown, MdOutlineSearch } from 'react-icons/md'
 
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,7 +90,7 @@ export default function Header() {
                                 <div className='pantry-heading nav-dropdown-container'>
                                     <MdAccountCircle size='1.5rem' color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
                                     <p className='nav-dropdown-button' onClick={toggleDropdown}>
-                                        {username} ▾
+                                        {username} <MdArrowDropDown color='black' />
                                     </p>
                                     {dropdownOpen && (
                                         <ul className='nav-dropdown-menu'>

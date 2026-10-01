@@ -1,11 +1,13 @@
 import Header from '../../components/header/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { MdOutlineSearch } from 'react-icons/md'
+import { MdArrowDropDown, MdOutlineSearch } from 'react-icons/md'
 import SearchIngredients from './searchComponents/SearchIngredients';
 import SearchRecipes from './searchComponents/SearchRecipes';
 import SearchUsers from './searchComponents/SearchUsers';
 import SearchTags from './searchComponents/SearchTags';
+import './search.styles.css';
+import { BiSlider } from 'react-icons/bi';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -65,16 +67,40 @@ export default function Search() {
             <Header />
             <div className='search-container'>
                 <div className='search-bar-container'>
-                    <form className='search' onSubmit={handleSearch}>
-                        <MdOutlineSearch color='black' />
-                        <input  
-                            type='text'
-                            name='query'
-                            placeholder='Search...'
-                            aria-label='Search'
-                            defaultValue={searchQuery ? searchQuery: ''}
-                            required
-                        />
+                    <h3 className='search-title'>Search the Pantry Archives</h3>
+                    <p>Browse recipes, seasonal ingredients, tags, and member profiles.</p>
+                    <form className='search-form' onSubmit={handleSearch}>
+                        <div className='search-form-group-select'>
+                            <BiSlider />
+                            <select
+                                name='type'
+                                aria-label='search-type'
+                                defaultValue={searchType ? searchType : 'All'}
+                                className='search-bar-type'>
+                                    <option value='all'>All</option>
+                                    <option value='recipes'>Recipes</option>
+                                    <option value='ingredients'>Ingredients</option>
+                                    <option value='tags'>Tags</option>
+                                    <option value='users'>Users</option>
+                            </select>
+                            {/* <MdArrowDropDown color='black' /> */}
+                        </div>
+                        <div className='search-form-group-input'>
+                            <MdOutlineSearch color='black' />
+                            <input  
+                                type='text'
+                                id='query'
+                                name='query'
+                                placeholder='Search...'
+                                aria-label='Search'
+                                defaultValue={searchQuery ? searchQuery: ''}
+                                required
+                                className='search-bar-query'
+                            />
+                        </div>
+                        <div className='search-form-group-submit'>
+                            <button className='submit-button' type='submit'>Search</button>
+                        </div>
                     </form>
                 </div>
             </div>
