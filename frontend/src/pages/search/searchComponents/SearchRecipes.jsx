@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
+import MediumRecipeCard from '../../../components/recipe-cards/MediumRecipeCard';
 
-export default function SearchRecipes({ recipe }) {
+export default function SearchRecipes({ recipe, userStats }) {
     const navigate = useNavigate();
 
     const handleNavigateToCard = () => {
@@ -21,4 +22,7 @@ export default function SearchRecipes({ recipe }) {
     //         </Card.Body>
     //     </Card>
     // )
+    return (
+        <MediumRecipeCard recipe={recipe} userStats={userStats} />
+    )
 }

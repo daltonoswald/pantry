@@ -11,6 +11,7 @@ import { BiSlider } from 'react-icons/bi';
 
 export default function Search() {
     const navigate = useNavigate();
+    const [userStats, setUserStats] = useState(null)
     const [message, setMessage] = useState();
     const [searchResults, setSearchResults] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +19,28 @@ export default function Search() {
     const [searchParams] = useSearchParams();
     let searchQuery = searchParams.get('q');
     let searchType = searchParams.get('t');
+
+    const fetchUserStats = async () => {
+        const url = `http://localhost:3000/user/stats`
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          mode: 'cors'
+        });
+        const data = await response.json();
+        console.log('userStats: ', data)
+        if (response.ok) {
+          setUserStats({
+            pantryItems: data.stats.pantryItems.length,
+            recipes: data.stats._count.recipes,
+            favorites: data.stats._count.recipeFavorites,
+            followers: data.stats._count.followedBy
+          });
+        }
+      }
 
     const handleSearch = async (e) => {
         if (e) {
@@ -28,8 +51,8 @@ export default function Search() {
         window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
         const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
         // const url = `http://localhost:3000/search?query=meat&type=all`
-        console.log('here');
         try {
+            fetchUserStats();
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -99,35 +122,19 @@ export default function Search() {
                             />
                         </div>
                         <div className='search-form-group-submit'>
-                            <button className='submit-button' type='submit'>Search</button>
+                            <button className='submit-button' type='submit'><MdOutlineSearch color='white' /> Search</button>
                         </div>
                     </form>
                 </div>
+                {(searchResults?.results.recipes) && (
+                    <div className='search-recipes-container'>
+                        {(searchResults.results.recipes.map(recipe => (
+                            <SearchRecipes key={recipe.id} recipe={recipe} userStats={userStats} />
+                        )))}
+                    </div>
+                )}
             </div>
             {/* <Container className='my-auto main-content' fluid>
-                <Form className='p-3' onSubmit={handleSearch}>
-                    <Row>
-                        <InputGroup className='w-50 mx-auto'>
-                            <FloatingLabel controlId='query' label='Search'>
-                                <Form.Control 
-                                    name='query' 
-                                    type='text' 
-                                    placeholder='Search' 
-                                    defaultValue={searchQuery ? searchQuery: ''}
-                                    required
-                                    />
-                            </FloatingLabel>
-                            <Form.Select name='type' aria-label='search-type' defaultValue={searchType ? searchType: 'All'}>
-                                <option value='all'>All</option>
-                                <option value='recipes'>Recipes</option>
-                                <option value='ingredients'>Ingredients</option>
-                                <option value='tags'>Tags</option>
-                                <option value='users'>Users</option>
-                            </Form.Select>
-                            <Button className='' type='submit'>Search</Button>
-                        </InputGroup>
-                    </Row>
-                </Form>
                 <Row className='mb-4'>
                     {(searchResults?.results.ingredients) && (
                         searchResults.results.ingredients.map(ingredient => (

@@ -79,3 +79,10 @@
     width: 100% !important;
     margin: 0 !important;
 }
+
+.search-recipes-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 4vh 10vw;
+}

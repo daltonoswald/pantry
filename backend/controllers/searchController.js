@@ -38,7 +38,7 @@ exports.search = asyncHandler(async (req, res, next) => {
                     }
                 },
                 // returns first 5, change later ?
-                take: 5
+                take: 4
             });
         }
 
@@ -62,31 +62,8 @@ exports.search = asyncHandler(async (req, res, next) => {
                                 }
                             }
                         }},
-                        // Potentially get rid of directions in search ?
-                        // { directions: { contains: searchTerm, mode: 'insensitive' } },
-                        
                     ]
                 },
-                // include: {
-                //     user: {
-                //         select: {
-                //             id: true,
-                //             username: true,
-                //             name: true,
-                //         }
-                //     },
-                //     recipeTags: {
-                //         include: {
-                //             tag: true
-                //         }
-                //     },
-                //     _count: {
-                //         select: {
-                //             favorites: true,
-                //             comments: true
-                //         }
-                //     }
-                // },
                 select: {
                     id: true,
                     title: true,
@@ -132,8 +109,8 @@ exports.search = asyncHandler(async (req, res, next) => {
                         }
                     }
                 },
-                // returns first 5, change later ?
-                take: 5
+                // returns first 4
+                take: 4
             });
         }
 

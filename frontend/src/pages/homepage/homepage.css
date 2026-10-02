@@ -81,7 +81,7 @@
 
 .large-recipe-image-container {
     overflow: hidden;
-    border-radius: 1.5rem;
+    border-radius: 1.5rem 1.5rem 0 0;
 }
 
 .large-recipe-image {
@@ -145,6 +145,7 @@
 .tag-container {
     display: flex;
     gap: 4px;
+    padding-bottom: 0.5rem;
     color: var(--on-surface);
     flex-wrap: wrap;
 }
@@ -316,7 +317,7 @@
 
 .medium-recipe-image-container {
     overflow: hidden;
-    border-radius: 1.5rem;
+    border-radius: 1.5rem 1.5rem 0 0;
 }
 
 .medium-recipe-image {
