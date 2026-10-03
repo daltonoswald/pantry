@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 
 exports.search = asyncHandler(async (req, res, next) => {
     const { query, type } = req.query;
+    const currentUser = req.user;
     if (!query || query.trim().length === 0) {
         return res.status(400).json({ message: 'Search query is required.' });
     }
@@ -44,7 +45,7 @@ exports.search = asyncHandler(async (req, res, next) => {
 
         // Search recipes (if term is all or recipes)
         if (!type || type === 'all' || type === 'recipes') {
-            results.recipes = await prisma.recipe.findMany({
+            const recipes = await prisma.recipe.findMany({
                 where: {
                     OR: [
                         { title: { contains: searchTerm, mode: 'insensitive' } },
@@ -68,6 +69,8 @@ exports.search = asyncHandler(async (req, res, next) => {
                     id: true,
                     title: true,
                     description: true,
+                    image: true,
+                    cookTime: true,
                     user: {
                         select: {
                             id: true,
@@ -107,11 +110,19 @@ exports.search = asyncHandler(async (req, res, next) => {
                             favorites: true,
                             comments: true,
                         }
-                    }
+                    },
+                    favorites: currentUser
+                        ? { where: { userId: currentUser.id }, select: { id: true } }
+                        : false
                 },
                 // returns first 4
                 take: 4
             });
+
+            results.recipes = recipes.map(({ favorites, ...recipe }) => ({
+                ...recipe,
+                isFavorited: !!favorites?.length
+            }))
         }
 
         // Search Ingredients (if term is all or ingredients)

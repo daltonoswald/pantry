@@ -61,7 +61,7 @@ export default function MediumRecipeCard({ recipe, userStats }) {
                 <p>{recipe.description}</p>
                 <div className='tag-container'>
                     {recipe.recipeTags.map(tag => (
-                        <Link className='recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
+                        <Link className='recipe-tag' to={`/search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
                     ))}
                 </div>
             </div>

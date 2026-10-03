@@ -40,7 +40,11 @@ export default function Search() {
             followers: data.stats._count.followedBy
           });
         }
-      }
+    }
+
+    useEffect(() => {
+        if (token) fetchUserStats();
+    }, [token]);
 
     const handleSearch = async (e) => {
         if (e) {
@@ -52,7 +56,7 @@ export default function Search() {
         const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
         // const url = `http://localhost:3000/search?query=meat&type=all`
         try {
-            fetchUserStats();
+            // fetchUserStats();
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
