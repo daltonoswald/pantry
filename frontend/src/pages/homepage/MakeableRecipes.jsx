@@ -4,9 +4,11 @@ import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { favoriteRecipe, toggleFavoriteRecipe, unfavoriteRecipe } from '../../utils/utility';
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import { MdArrowRightAlt } from 'react-icons/md'
+import useLoginRedirect from '../../utils/useLoginRedirect';
 
 export default function MakeableRecipes({ makeableRecipes, recipesByPantry, userStats }) {
     const navigate = useNavigate();
+    const goToLogin = useLoginRedirect();
     
     const handleToggleFavoriteRecipe = async (recipeId) => {
         // setMessage(null);
@@ -66,7 +68,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
+                                                    <GoHeart className='not-favorited' onClick={goToLogin} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
@@ -124,7 +126,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry, user
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
+                                                    <GoHeart className='not-favorited' onClick={goToLogin} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>

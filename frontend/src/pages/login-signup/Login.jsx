@@ -1,7 +1,6 @@
 import Header from '../../components/header/Header';
 import Alert from '../../components/modals/Alert';
-import { Link } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import vegetablesImg from '../../assets/temp-stock-photos/vegetables.jpg'
 import './login-signup.css'
@@ -10,12 +9,18 @@ export default function Login() {
     const navigate = useNavigate();
     const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken')
+    const location = useLocation();
+    const from = location.state?.from || '/';
 
     useEffect(() => {
-        if (token) {
-            navigate('/')
-        }
+        if (token) navigate(from, { replace: true });
     })
+
+    // useEffect(() => {
+    //     if (token) {
+    //         navigate('/')
+    //     }
+    // })
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -40,7 +45,8 @@ export default function Login() {
                 console.log(data);
                 localStorage.setItem('pantryAuthToken', data.token);
                 localStorage.setItem('pantryUsername', data.user.username);
-                navigate('/')
+                // navigate('/')
+                navigate(from, { replace: true });
             } else {
                 console.error("Error requesting authentication:", data.message);
                 setMessage(data.message)
@@ -90,7 +96,7 @@ export default function Login() {
                             <Alert message={message} />
                         )}
 
-                        <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up'>Sign up</Link></p>
+                        <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up' state={location.state}>Sign up</Link></p>
                     </form>
                 </div>
             </div>

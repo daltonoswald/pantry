@@ -1,12 +1,13 @@
 import Header from '../../components/header/Header';
 import Alert from '../../components/modals/Alert';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import doughImg from '../../assets/temp-stock-photos/dough.jpg'
 import './login-signup.css'
 
 export default function Signup() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [message, setMessage] = useState();
     // document.title = 'Pantry - Sign Up'
 
@@ -41,7 +42,7 @@ export default function Signup() {
             if (response.ok) {
                 console.log(data);
                 setMessage(data.message);
-                navigate('/login')
+                navigate('/login', { sate: location.state });
             } else {
                 console.error("Error requesting authentication:", data.message);
                 setMessage(data.message);
@@ -127,7 +128,7 @@ export default function Signup() {
                         {message && (
                             <Alert message={message} />
                         )}
-                        <p className='sign-up-login-link'>New to Pantry? <Link to='/login'>Log in</Link></p>
+                        <p className='sign-up-login-link'>New to Pantry? <Link to='/login' state={location.state}>Log in</Link></p>
                     </form>
                 </div>
             </div>

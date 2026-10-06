@@ -3,11 +3,13 @@ import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../ut
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import { MdArrowRightAlt } from 'react-icons/md'
+import useLoginRedirect from '../../utils/useLoginRedirect';
 
 
 export default function Recent({ recentRecipes, userStats }) {
 
     const navigate = useNavigate();
+    const goToLogin = useLoginRedirect();
     console.log('r', recentRecipes);
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
@@ -56,7 +58,7 @@ export default function Recent({ recentRecipes, userStats }) {
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
+                                                    <GoHeart className='not-favorited' onClick={goToLogin} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>

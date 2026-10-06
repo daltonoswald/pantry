@@ -9,6 +9,7 @@ import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { toggleFavoriteRecipe } from '../../utils/utility';
 import './recipe.styles.css';
 import ConfirmDelete from '../../components/modals/ConfirmDelete';
+import useLoginRedirect from '../../utils/useLoginRedirect';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ export default function Recipe() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
+    const goToLogin = useLoginRedirect();
 
     useEffect(() => {
         const getRecipe = async () => {
@@ -178,7 +180,7 @@ export default function Recipe() {
                                             <GoHeart className='not-favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
                                         {(!isAuthor && !myData && (
-                                            <GoHeart className='not-favorited icon-link' onClick={() => navigate('/login')} />
+                                            <GoHeart className='not-favorited icon-link' onClick={goToLogin} />
                                         ))}
                                         {(isAuthor && (  
                                             <GoHeart className='not-favorited icon-link' />

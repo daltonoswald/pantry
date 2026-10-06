@@ -3,11 +3,12 @@ import { GoClock, GoHeart, GoHeartFill } from 'react-icons/go'
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './homepage.css'
+import useLoginRedirect from '../../utils/useLoginRedirect';
 
 
 export default function Trending({trendingRecipes, popularTags, userStats }) {
     const navigate = useNavigate();
-    console.log('t', trendingRecipes);
+    const goToLogin = useLoginRedirect();
 
     const handleToggleFavoriteRecipe = async (recipeId) => {
 
@@ -50,7 +51,7 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                                                     <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                                                 )}
                                                 {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
+                                                    <GoHeart className='not-favorited' onClick={goToLogin} />
                                                 )}
                                                 <p>{recipe._count.favorites}</p>
                                             </div>
