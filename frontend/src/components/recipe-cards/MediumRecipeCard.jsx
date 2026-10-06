@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
@@ -8,21 +8,31 @@ import './recipe-cards.styles.css';
 
 export default function MediumRecipeCard({ recipe, userStats }) {
     const token = localStorage.getItem('pantryAuthToken');
+    const [isFavorited, setIsFavorited] = useState(!!recipe.isFavorited);
+    const [isPending, setIsPending] = useState(false);
     const [message, setMessage] = useState(null);
-
     const navigate = useNavigate();
 
-    const handleToggleFavoriteRecipe = async (recipeId) => {
-        // setMessage(null);
+    useEffect(() => {
+        setIsFavorited(!!recipe.isFavorited);
+    }, [recipe.isFavorited]);
 
-        console.log('toggling: ', recipeId)
-        const result = await toggleFavoriteRecipe(recipeId)
+    const favoriteCount = recipe._count.favorites + (isFavorited ? 1 : 0) - (recipe.isFavorited ? 1 : 0);
+
+    const handleToggleFavoriteRecipe = async () => {
+        if (isPending) return;
+        const previous = isFavorited;
+        setIsFavorited(!previous);
+        setIsPending(true);
+
+        const result = await toggleFavoriteRecipe(recipe.id)
+
+        setIsPending(false);
 
         if (result.success) {
-            // setMessage({ type: 'success', text: result.message });
-            window.location.reload();
+            setIsFavorited(result.isFavorited);
         } else {
-            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
+            setIsFavorited(previous);
         }
     }
 
@@ -38,7 +48,14 @@ export default function MediumRecipeCard({ recipe, userStats }) {
                     <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.username}</Link></p>
                     <div className='medium-recipe-counts'>
                         <div className='medium-recipe-favorites'>
-                            {(recipe.isFavorited && userStats) && (
+                            {userStats ? (
+                                isFavorited
+                                    ? <GoHeartFill className='favorited' onClick={handleToggleFavoriteRecipe} />
+                                    : <GoHeart className='not-favorited' onClick={handleToggleFavoriteRecipe} />
+                            ) : (
+                                <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
+                            )}
+                            {/* {(recipe.isFavorited && userStats) && (
                                 <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
                             )}
                             {(!recipe.isFavorited && userStats) && (
@@ -46,8 +63,8 @@ export default function MediumRecipeCard({ recipe, userStats }) {
                             )}
                             {(!recipe.isFavorited && !userStats) && (
                                 <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
-                            )}
-                            <p>{recipe._count.favorites}</p>
+                            )} */}
+                            <p>{favoriteCount}</p>
                         </div>
                         <div className='medium-recipe-time'>
                             <GoClock />
