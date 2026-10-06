@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
+import { Link } from 'react-router-dom';
+import { toggleFavoriteRecipe } from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import './recipe-cards.styles.css';
@@ -8,10 +8,8 @@ import useLoginRedirect from '../../utils/useLoginRedirect';
 
 
 export default function MediumRecipeCard({ recipe, userStats }) {
-    const token = localStorage.getItem('pantryAuthToken');
     const [isFavorited, setIsFavorited] = useState(!!recipe.isFavorited);
     const [isPending, setIsPending] = useState(false);
-    const [message, setMessage] = useState(null);
     const goToLogin = useLoginRedirect();
 
     useEffect(() => {
@@ -56,15 +54,6 @@ export default function MediumRecipeCard({ recipe, userStats }) {
                             ) : (
                                 <GoHeart className='not-favorited' onClick={goToLogin} />
                             )}
-                            {/* {(recipe.isFavorited && userStats) && (
-                                <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                            )}
-                            {(!recipe.isFavorited && userStats) && (
-                                <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                            )}
-                            {(!recipe.isFavorited && !userStats) && (
-                                <GoHeart className='not-favorited' onClick={() => navigate('/login')} />
-                            )} */}
                             <p>{favoriteCount}</p>
                         </div>
                         <div className='medium-recipe-time'>

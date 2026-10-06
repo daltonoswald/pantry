@@ -42,7 +42,7 @@ export default function Signup() {
             if (response.ok) {
                 console.log(data);
                 setMessage(data.message);
-                navigate('/login', { sate: location.state });
+                navigate('/login', { state: location.state });
             } else {
                 console.error("Error requesting authentication:", data.message);
                 setMessage(data.message);
