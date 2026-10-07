@@ -2,12 +2,12 @@ import Header from '../../components/header/Header';
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { MdArrowDropDown, MdOutlineSearch } from 'react-icons/md'
-import SearchIngredients from './searchComponents/SearchIngredients';
-import SearchRecipes from './searchComponents/SearchRecipes';
+import SearchIngredientCard from './searchComponents/SearchIngredientCard';
 import SearchUsers from './searchComponents/SearchUsers';
 import SearchTags from './searchComponents/SearchTags';
 import './search.styles.css';
 import { BiSlider } from 'react-icons/bi';
+import MediumRecipeCard from '../../components/recipe-cards/MediumRecipeCard';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -133,7 +133,14 @@ export default function Search() {
                 {(searchResults?.results.recipes) && (
                     <div className='search-recipes-container'>
                         {(searchResults.results.recipes.map(recipe => (
-                            <SearchRecipes key={recipe.id} recipe={recipe} userStats={userStats} />
+                            <MediumRecipeCard recipe={recipe} userStats={userStats} />
+                        )))}
+                    </div>
+                )}
+                {(searchResults?.results.ingredients) && (
+                    <div className='search-ingredients-container'>
+                        {(searchResults.results.ingredients.map(ingredient => (
+                            <SearchIngredientCard ingredient={ingredient} userStats={userStats} />
                         )))}
                     </div>
                 )}

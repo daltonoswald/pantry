@@ -86,3 +86,10 @@
     gap: 1rem;
     padding: 4vh 10vw;
 }
+
+.search-ingredients-container {
+        background-color: var(--card);
+        padding: 3rem;
+        margin: 3rem;
+        border-radius: 1.5rem;
+}

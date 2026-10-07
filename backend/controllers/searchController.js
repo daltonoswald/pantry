@@ -160,7 +160,7 @@ exports.search = asyncHandler(async (req, res, next) => {
                         }
                     }
                 },
-                take: 20
+                take: 5
             });
             results.ingredients = ingredients.map(ing => ({
                 id: ing.id,

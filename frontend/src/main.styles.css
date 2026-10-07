@@ -11,9 +11,10 @@
     --neutral: #4D463F;
     --background: rgb(255 248 244 / 1);
     --background-deeper: #fdf2e8;
-    --card: rgb(253 242 232 / 1);
-    --card-transparent: rgb(253 242 232 / 0.9);
-    /* --card: rgb(245 230 215); */
+    /* --card: rgb(253 242 232 / 1); */
+    --card: rgb(248 236 226);
+    --card-transparent: rgb(248 236 226 / 0.9);
+    /* --card-transparent: rgb(253 242 232 / 0.9); */
     --on-surface: rgb(86 66 61 / 0.5);
     --black-subtle: #48494b
 }
