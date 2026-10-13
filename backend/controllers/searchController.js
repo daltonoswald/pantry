@@ -153,6 +153,16 @@ exports.search = asyncHandler(async (req, res, next) => {
                         },
                         take: 5
                     },
+                    pantryItem: currentUser
+                        ? {
+                            select: {
+                                ownedBy: {
+                                    where: { userId: currentUser.id },
+                                    select: { id: true }
+                                }
+                            }
+                        }
+                        : false,
                     _count: {
                         select: {
                             recipeIngredients: true,
@@ -167,6 +177,7 @@ exports.search = asyncHandler(async (req, res, next) => {
                 name: ing.name,
                 recipeCount: ing._count.recipeIngredients,
                 pantryItemCount: ing._count.pantryItem,
+                inPantry: !!ing.pantryItem?.some(item => item.ownedBy.length > 0),
                 recipes: ing.recipeIngredients.map(ri => ri.recipe)
             }));
         }

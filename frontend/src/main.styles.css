@@ -189,6 +189,15 @@ textarea {
     cursor: pointer;
 }
 
+.remove-pantry-item-icon {
+    color: #A03F28;
+}
+
+.remove-pantry-item-icon:hover {
+    color: #7D2E1C;
+    cursor: pointer;
+}
+
 .recipe-info-favorite:hover .favorited,
 .favorited:hover {
     fill: #5D5755 !important;
