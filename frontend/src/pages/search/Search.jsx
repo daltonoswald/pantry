@@ -17,8 +17,8 @@ export default function Search() {
     const [isLoading, setIsLoading] = useState(true);
     const token = localStorage.getItem('pantryAuthToken');
     const [searchParams] = useSearchParams();
-    let searchQuery = searchParams.get('q');
-    let searchType = searchParams.get('t');
+    const searchQuery = searchParams.get('q');
+    const searchType = searchParams.get('t');
 
     const fetchUserStats = async () => {
         const url = `http://localhost:3000/user/stats`
@@ -46,15 +46,13 @@ export default function Search() {
         if (token) fetchUserStats();
     }, [token]);
 
-    const handleSearch = async (e) => {
-        if (e) {
-            e.preventDefault();
-            searchQuery = e.target.query.value;
-            searchType = e.target.type.value
-        }
-        window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
+    const handleSearch = (e) => {
+        e.preventDefault();
+        navigate(`/search?q=${encodeURIComponent(e.target.query.value)}&t=${e.target.type.value}`);
+    }
+
+    const runSearch = async () => {
         const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
-        // const url = `http://localhost:3000/search?query=meat&type=all`
         try {
             // fetchUserStats();
             const response = await fetch(url, {
@@ -67,8 +65,7 @@ export default function Search() {
             });
             const data = await response.json()
             if (response.ok) {
-                window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
-                console.log(searchQuery, searchType);
+                // window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
                 console.log(data);
                 setSearchResults(data)
             }
@@ -81,12 +78,8 @@ export default function Search() {
     }
 
     useEffect(() => {
-        if (searchQuery && searchType) {
-            handleSearch();
-        } else {
-            setIsLoading(false)
-            return
-        }
+        if (searchQuery && searchType) runSearch();
+        else setIsLoading(false)
     }, [searchParams])
 
     if (!isLoading) return (
@@ -100,9 +93,10 @@ export default function Search() {
                         <div className='search-form-group-select'>
                             <BiSlider />
                             <select
+                                key={searchType}
                                 name='type'
                                 aria-label='search-type'
-                                defaultValue={searchType ? searchType : 'All'}
+                                defaultValue={searchType || 'all'}
                                 className='search-bar-type'>
                                     <option value='all'>All</option>
                                     <option value='recipes'>Recipes</option>
@@ -114,13 +108,14 @@ export default function Search() {
                         </div>
                         <div className='search-form-group-input'>
                             <MdOutlineSearch color='black' />
-                            <input  
+                            <input
+                                key={searchQuery}
                                 type='text'
                                 id='query'
                                 name='query'
                                 placeholder='Search...'
                                 aria-label='Search'
-                                defaultValue={searchQuery ? searchQuery: ''}
+                                defaultValue={searchQuery || ''}
                                 required
                                 className='search-bar-query'
                             />
@@ -140,7 +135,7 @@ export default function Search() {
                 {(searchResults?.results.ingredients) && (
                     <div className='search-ingredients-container'>
                         {(searchResults.results.ingredients.map(ingredient => (
-                            <SearchIngredientCard ingredient={ingredient} userStats={userStats} />
+                            <SearchIngredientCard key={ingredient.id} ingredient={ingredient} userStats={userStats} />
                         )))}
                     </div>
                 )}

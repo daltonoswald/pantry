@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-// import 'bootstrap/dist/css/bootstrap.min.css'
 import './header.styles.css'
 import NewPantryItem from '../modals/NewPantryItem';
 import { MdAccountCircle, MdArrowDropDown, MdOutlineSearch } from 'react-icons/md'
@@ -72,6 +71,7 @@ export default function Header() {
                 <form className='pantry-nav-search' onSubmit={handleNavSearch}>
                     <MdOutlineSearch color='black' />
                     <input  
+                        key={query}
                         type='text'
                         name='query'
                         placeholder='Search...'

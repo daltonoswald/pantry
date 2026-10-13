@@ -88,8 +88,29 @@
 }
 
 .search-ingredients-container {
-        background-color: var(--card);
-        padding: 3rem;
-        margin: 3rem;
-        border-radius: 1.5rem;
+    background-color: var(--card);
+    padding: 3rem;
+    margin: 3rem;
+    border-radius: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+}
+
+.search-ingredient-card {
+    background-color: white;
+    border-radius: 1.5rem;
+    padding: 1rem;
+}
+
+.search-ingredient-card-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-ingredient-card-body a {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
 }

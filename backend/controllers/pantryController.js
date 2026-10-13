@@ -95,8 +95,7 @@ const { generateToken, verifyToken } = require('../middleware/middleware');
 exports.new_item = [
     body('item', 'Pantry items must not be empty')
             .trim()
-            .isLength({ min: 1, max: 250 })
-            .escape(),
+            .isLength({ min: 1, max: 250 }),
     
     async (req, res, next) => {
         const errors = validationResult(req);

@@ -102,6 +102,11 @@
     color: var(--neutral);
 } */
 
+.nav-dropdown-button,
+.pantry-heading-profile-icon {
+    transition: color 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .nav-dropdown-button:hover,
 .nav-dropdown-button:hover p {
     color: var(--primary);
