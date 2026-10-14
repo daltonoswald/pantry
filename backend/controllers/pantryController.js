@@ -170,17 +170,28 @@ exports.delete_from_pantry = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const token = req.headers.authorization.split(' ')[1];
     const authorizedUser = verifyToken(token);
+    const { pantryUsersToDelete, item } = req.body;
+
+    if (!pantryUsersToDelete && !item) {
+        return res.status(400).json({ message: 'Nothing to remove.' });
+    }
 
     try {
-        const pantryUsersToDelete = await prisma.pantryUsers.delete({
+        const result = await prisma.pantryUsers.deleteMany({
             where: {
-                id: req.body.pantryUsersToDelete,
-                userId: authorizedUser.user.id
+                userId: authorizedUser.user.id,
+                ...(pantryUsersToDelete
+                    ? { id: pantryUsersToDelete }
+                    : { pantryItem: { name: item.toLowerCase().trim() } })
             }
-        })
-        res.status(202).json({ message: 'Removed from your pantry'})
+        });
+
+        if (result.count === 0) {
+            return res.status(404).json({ message: 'That item was not in your pantry.' });
+        }
+        res.status(202).json({ message: `${item} removed from your pantry.`, success: true });
     } catch (err) {
         console.error(err);
-        res.json({ error: err });
+        res.status(500).json({ error: 'Could not remove that item.' });
     }
 })

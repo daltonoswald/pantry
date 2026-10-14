@@ -8,13 +8,15 @@ import TinyEditor from '../../components/tinyEditor/TinyEditor';
 import ImageUpload from '../../components/ImageUpload';
 import Alert from '../../components/modals/Alert';
 import './newRecipe.css'
+import { useToast } from '../../components/toast/ToastContext';
 
 export default function NewRecipe() {
     const navigate = useNavigate();
     const [imageUrl, setImageUrl] = useState(null);
     const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: 'tsp'}]);
     const [steps, setSteps] = useState(['']);
-    const [message, setMessage] = useState();
+    // const [message, setMessage] = useState();
+    const { showToast } = useToast();
     const token = localStorage.getItem('pantryAuthToken');
 
     const cookingUnits = [
@@ -110,15 +112,18 @@ export default function NewRecipe() {
             })
             const data = await response.json();
             if (response.ok) {
-                console.log(data.message);
-                navigate(`/recipe/${data.recipe.id}`)
+                // console.log(data.message);
+                showToast(data.message)
+                navigate(`/recipe/${data.recipe.id}`);
             } else {
                 console.error(data.message)
+                showToast(data.message || data.error, { type: 'error' });
                 // setMessage(data.message)
             }
         } catch (error) {
             console.error(`Error requesting:`, error);
-            setMessage(`There was an error adding your recipe. Please try again later.`)
+            showToast('Could not create a new recipe. Please try again.', {type: 'error'} );
+            // setMessage(`There was an error adding your recipe. Please try again later.`)
         }
     }
 
@@ -263,9 +268,9 @@ export default function NewRecipe() {
                     <div className='form-group'>
                         <button className='submit-button' type='submit'>Create Recipe</button>
                     </div>
-                    {message && (
+                    {/* {message && (
                         <Alert message={message} />
-                    )}
+                    )} */}
                 </form>
             </div>
         </div>

@@ -5,11 +5,13 @@ import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import './recipe-cards.styles.css';
 import useLoginRedirect from '../../utils/useLoginRedirect';
+import { useToast } from '../toast/ToastContext';
 
 
 export default function MediumRecipeCard({ recipe, userStats }) {
     const [isFavorited, setIsFavorited] = useState(!!recipe.isFavorited);
     const [isPending, setIsPending] = useState(false);
+    const { showToast } = useToast();
     const goToLogin = useLoginRedirect();
 
     useEffect(() => {
@@ -30,8 +32,10 @@ export default function MediumRecipeCard({ recipe, userStats }) {
 
         if (result.success) {
             setIsFavorited(result.isFavorited);
+            showToast(result.message);
         } else {
             setIsFavorited(previous);
+            showToast(result.message);
         }
     }
 

@@ -2,12 +2,13 @@ import { GoPlusCircle, GoArrowUpRight, GoXCircle } from 'react-icons/go';
 import { Link } from 'react-router-dom';
 import useLoginRedirect from '../../../utils/useLoginRedirect';
 import { useState, useEffect } from 'react';
+import { useToast } from '../../../components/toast/ToastContext';
 
 export default function SearchIngredientCard({ ingredient, userStats }) {
     const goToLogin = useLoginRedirect();
     const [isAdding, setIsAdding] = useState(false);
     const [added, setAdded] = useState(!!ingredient.inPantry);
-    const [message, setMessage] = useState(null);
+    const { showToast } = useToast();
 
     useEffect(() => {
         setAdded(!!ingredient.inPantry);
@@ -31,11 +32,14 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
                 body: JSON.stringify({ item: ingredient.name })
             });
             const data = await response.json();
-            setMessage(data.message || data.error);
-            if (response.ok) setAdded(true);
+            if (response.ok) {
+                setAdded(true);
+                showToast(data.message);
+            } else {
+                showToast(data.message || data.error, { type: 'error' });
+            }
         } catch (error) {
             console.error(error);
-            setMessage('Could not add to your pantry. Please try again.');
         } finally {
             setIsAdding(false);
         }
@@ -43,7 +47,7 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
 
     const handleRemoveFromPantry = async () => {
         if (!userStats) return goToLogin();
-        // if (isAdding || added) return;
+        if (isAdding) return;
 
         const url = 'http://localhost:3000/pantry/delete-from-pantry'
 
@@ -61,13 +65,17 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
             });
             const data = await response.json();
             console.log(data)
-            // setMessage(data.message || data.error);
-            // if (response.ok) setAdded(true);
+            if (response.ok) {
+                setAdded(false);
+                showToast(data.message);
+            } else {
+                showToast(data.message || data.error, { type: 'error' });
+            }
         } catch (error) {
             console.error(error);
-            setMessage('Could not add to your pantry. Please try again.');
+            showToast('Could not add to your pantry. Please try again.', { type: 'error' });
         } finally {
-            // setIsAdding(false);
+            setIsAdding(false);
         }
     }
 
@@ -88,7 +96,6 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
                     <p>Explore more uses</p>
                     <GoArrowUpRight />
                 </Link>
-                {message && <p>{message}</p>}
             </div>
         </div>
     )

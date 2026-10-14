@@ -4,11 +4,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import doughImg from '../../assets/temp-stock-photos/dough.jpg'
 import './login-signup.css'
+import { useToast } from '../../components/toast/ToastContext';
 
 export default function Signup() {
     const navigate = useNavigate();
     const location = useLocation();
-    const [message, setMessage] = useState();
+    // const [message, setMessage] = useState();
+    const { showToast } = useToast();
     // document.title = 'Pantry - Sign Up'
 
     useEffect(() => {
@@ -40,16 +42,17 @@ export default function Signup() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log(data);
-                setMessage(data.message);
+                showToast(data.message || 'Account created. Please log in.');
                 navigate('/login', { state: location.state });
             } else {
                 console.error("Error requesting authentication:", data.message);
-                setMessage(data.message);
+                // setMessage(data.message);
+                showToast(data.message || data.error, { type: 'error', duration: 5000 });
             }
         } catch (error) {
             console.error('Error requesting authentication:', error)
-            setMessage(error)
+            // setMessage('Something went wrong. Please try again.')
+            showToast('Could not sign up. Please try again.', { type: 'error' });
         }
     }
 
@@ -125,9 +128,9 @@ export default function Signup() {
                         <div className='form-group'>
                             <button className='submit-button' type='submit'>Sign up</button>
                         </div>
-                        {message && (
+                        {/* {message && (
                             <Alert message={message} />
-                        )}
+                        )} */}
                         <p className='sign-up-login-link'>New to Pantry? <Link to='/login' state={location.state}>Log in</Link></p>
                     </form>
                 </div>

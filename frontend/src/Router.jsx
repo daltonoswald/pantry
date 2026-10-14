@@ -8,6 +8,7 @@ import Profile from './pages/profile/Profile';
 import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/newRecipe/NewRecipe';
 import Search from './pages/search/Search';
+import { ToastProvider } from './components/toast/ToastContext';
 
 function Root() {
     return (
@@ -68,5 +69,11 @@ export default function Router() {
     //         element: <Search />
     //     }
     // ])
-    return <RouterProvider router={router} />
+
+    // return <RouterProvider router={router} />
+    return (
+        <ToastProvider>
+            <RouterProvider router={router} />
+        </ToastProvider>
+    )
 }

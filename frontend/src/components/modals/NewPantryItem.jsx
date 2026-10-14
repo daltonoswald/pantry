@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import Alert from '../modals/Alert';
+import { useToast } from '../toast/ToastContext';
 
 export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
+    const { showToast } = useToast();
     const [success, setSuccess] = useState();
 
     // function handleCloseModal() {
@@ -30,22 +32,28 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
             if (response.ok) {
                 // window.location.reload();
                 console.log(data.message);
-                setMessage(data.message);
-                setSuccess(data.success);
-                const timer = setTimeout(() => {
-                    setIsModalOpen(false);
-                    setMessage(null)
-                    setSuccess(null);
-                }, 3000)
-                return () => clearTimeout(timer);
+                // setMessage(data.message);
+                // setSuccess(data.success);
+                // const timer = setTimeout(() => {
+                //     setIsModalOpen(false);
+                //     setMessage(null)
+                //     setSuccess(null);
+                // }, 3000)
+                // return () => clearTimeout(timer);
+
+                showToast(data.message);
+                setSuccess(null);
+                setIsModalOpen(false);
             } else {
                 console.error(data.message)
-                setMessage(data.message)
+                showToast(data.message || data.error, { type: 'error' });
+                // setMessage(data.message)
                 setSuccess(data.success);
             }
         } catch (error) {
             console.error(`Error requesting:`, error);
-            setMessage(`There was an error adding your pantry item. Please try again later.`);
+            // setMessage(`There was an error adding your pantry item. Please try again later.`);
+            showToast('Could not add to your pantry. Please try again', { type: 'error' });
             setSuccess(false);
         }
     }

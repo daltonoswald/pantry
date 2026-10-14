@@ -4,23 +4,19 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import vegetablesImg from '../../assets/temp-stock-photos/vegetables.jpg'
 import './login-signup.css'
+import { useToast } from '../../components/toast/ToastContext';
 
 export default function Login() {
     const navigate = useNavigate();
-    const [message, setMessage] = useState();
+    // const [message, setMessage] = useState();
     const token = localStorage.getItem('pantryAuthToken')
     const location = useLocation();
+    const { showToast } = useToast();
     const from = location.state?.from || '/';
 
     useEffect(() => {
         if (token) navigate(from, { replace: true });
     })
-
-    // useEffect(() => {
-    //     if (token) {
-    //         navigate('/')
-    //     }
-    // })
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -49,12 +45,13 @@ export default function Login() {
                 navigate(from, { replace: true });
             } else {
                 console.error("Error requesting authentication:", data.message);
-                setMessage(data.message)
+                showToast(data.message || data.error, { type: 'error', duration: 5000 });
                 console.log(data.message);
             }
         } catch (error) {
             console.error('Error requesting authentication:', error)
             console.log(error)
+            showToast('Could not log in. Please try again.', { type: 'error' });
         }
     }
 
@@ -92,9 +89,9 @@ export default function Login() {
                             <button className='submit-button' type='submit'>Log in</button>
                         </div>
                         
-                        {message && (
+                        {/* {message && (
                             <Alert message={message} />
-                        )}
+                        )} */}
 
                         <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up' state={location.state}>Sign up</Link></p>
                     </form>

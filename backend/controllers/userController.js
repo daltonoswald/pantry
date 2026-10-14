@@ -108,7 +108,7 @@ exports.sign_up = [
                             bio: req.body.bio,
                         }
                     })
-                    res.json({ message: 'User successfully created.' });
+                    res.json({ message: 'User successfully created. Please log in.' });
                     res.redirect('/');
                 }
             }

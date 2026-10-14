@@ -10,6 +10,7 @@ import { toggleFavoriteRecipe } from '../../utils/utility';
 import './recipe.styles.css';
 import ConfirmDelete from '../../components/modals/ConfirmDelete';
 import useLoginRedirect from '../../utils/useLoginRedirect';
+import { useToast } from '../../components/toast/ToastContext';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function Recipe() {
     const [myData, setMyData] = useState();
     const [recipeData, setRecipeData] = useState();
     const [message, setMessage] = useState(null);
+    const { showToast } = useToast();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
@@ -42,10 +44,11 @@ export default function Recipe() {
                 })
                 const data = await response.json();
                 if (!response.ok) {
-                    const errorData = await response.json();
+                    console.log('in !response.ok', data);
                     setIsLoading(false);
-                    console.error(`Error Data: `, errorData.error);
-                    setMessage(errorData.error.message);
+                    console.error(`Error Data: `, data.error);
+                    // setMessage(errorData.error.message);
+                    showToast(data.message || data.error, {type: 'error' })
                 } else {
                     console.log(data);
                     setRecipeData(data.recipeData);

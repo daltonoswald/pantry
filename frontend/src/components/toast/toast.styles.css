@@ -1,0 +1,29 @@
+.toast-container {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end
+}
+
+.toast {
+    max-width: 320px;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    color: #fff;
+    background-color: var(--primary);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    animation: toast-in 200ms ease-out;
+}
+
+.toast-error {
+    background-color: #b3261e;
+}
+
+@keyframes toast-in {
+    from    { opacity: 0; transform: translateY(8px); }
+    to      { opacity: 1; transform: none; }
+}

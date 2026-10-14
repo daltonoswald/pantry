@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from '../toast/ToastContext';
 // import { handleDeleteRecipe } from '../../utils/utility';
 
 export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose, itemToDelete }) {
     const token = localStorage.getItem('pantryAuthToken');
-    const [message, setMessage] = useState();
+    // const [message, setMessage] = useState();
+    const { showToast } = useToast();
     const navigate = useNavigate();
 
     const handleDeleteRecipe = async (itemToDelete) => {
@@ -25,15 +27,17 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
             });
             const data = await response.json();
             if (response.ok) {
-                setMessage(data.message);
+                // setMessage(data.message);
+                showToast(data.message);
                 navigate('/');
                 // window.location.reload();
             } else {
-                setMessage(data.message);
+                // setMessage(data.message);
+                showToast(data.message || data.error, { type: 'error' });
             }
         } catch (error) {
             console.error(`Error requesting: `, error);
-            setMessage(error);
+            showToast('Could not delete this recipe. Please try again.')
         }
     }
 
