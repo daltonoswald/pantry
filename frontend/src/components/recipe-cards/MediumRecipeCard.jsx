@@ -1,43 +1,14 @@
-import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { toggleFavoriteRecipe } from '../../utils/utility';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import './recipe-cards.styles.css';
 import useLoginRedirect from '../../utils/useLoginRedirect';
-import { useToast } from '../toast/ToastContext';
+import useFavoriteRecipe from '../../utils/useFavoriteRecipes';
 
 
 export default function MediumRecipeCard({ recipe, userStats }) {
-    const [isFavorited, setIsFavorited] = useState(!!recipe.isFavorited);
-    const [isPending, setIsPending] = useState(false);
-    const { showToast } = useToast();
     const goToLogin = useLoginRedirect();
-
-    useEffect(() => {
-        setIsFavorited(!!recipe.isFavorited);
-    }, [recipe.isFavorited]);
-
-    const favoriteCount = recipe._count.favorites + (isFavorited ? 1 : 0) - (recipe.isFavorited ? 1 : 0);
-
-    const handleToggleFavoriteRecipe = async () => {
-        if (isPending) return;
-        const previous = isFavorited;
-        setIsFavorited(!previous);
-        setIsPending(true);
-
-        const result = await toggleFavoriteRecipe(recipe.id)
-
-        setIsPending(false);
-
-        if (result.success) {
-            setIsFavorited(result.isFavorited);
-            showToast(result.message);
-        } else {
-            setIsFavorited(previous);
-            showToast(result.message);
-        }
-    }
+    const { isFavorited, favoriteCount, toggle } = useFavoriteRecipe(recipe);
 
     return (
         <div className='medium-recipe-card'>
@@ -53,8 +24,8 @@ export default function MediumRecipeCard({ recipe, userStats }) {
                         <div className='medium-recipe-favorites'>
                             {userStats ? (
                                 isFavorited
-                                    ? <GoHeartFill className='favorited' onClick={handleToggleFavoriteRecipe} />
-                                    : <GoHeart className='not-favorited' onClick={handleToggleFavoriteRecipe} />
+                                    ? <GoHeartFill className='favorited' onClick={toggle} />
+                                    : <GoHeart className='not-favorited' onClick={toggle} />
                             ) : (
                                 <GoHeart className='not-favorited' onClick={goToLogin} />
                             )}

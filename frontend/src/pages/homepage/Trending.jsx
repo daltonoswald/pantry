@@ -4,6 +4,7 @@ import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../ut
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './homepage.css'
 import useLoginRedirect from '../../utils/useLoginRedirect';
+import LargeRecipeCard from '../../components/recipe-cards/LargeRecipeCard';
 
 
 export default function Trending({trendingRecipes, popularTags, userStats }) {
@@ -33,45 +34,7 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (
-                            <div className='large-recipe-card'>
-                                <div className='large-recipe-image-container'>
-                                    <Link to={`/recipe/${recipe.id}`}> 
-                                        <img src={recipe.image || kitchenImg} className='large-recipe-image' alt='recipe image' />
-                                    </Link>
-                                </div>
-                                <div className='large-recipe-about'>
-                                    <div className='large-recipe-about-stats'>
-                                        <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
-                                        <div className='large-recipe-favorites-time'>
-                                            <div className='large-recipe-favorites'>
-                                                {(recipe.isFavorited && userStats) && (
-                                                    <GoHeartFill className='favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                                                )}
-                                                {(!recipe.isFavorited && userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={() => handleToggleFavoriteRecipe(recipe.id)} />
-                                                )}
-                                                {(!recipe.isFavorited && !userStats) && (
-                                                    <GoHeart className='not-favorited' onClick={goToLogin} />
-                                                )}
-                                                <p>{recipe._count.favorites}</p>
-                                            </div>
-                                            <div className='large-recipe-time'>
-                                                <GoClock />
-                                                <p>{recipe.cookTime} mins</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <h3 className='large-recipe-title'>
-                                        <Link to={`/recipe/${recipe.id}`} className='large-recipe-title-link'>{recipe.title}</Link>
-                                    </h3>
-                                    <p>{recipe.description}</p>
-                                    <div className='tag-container'>
-                                        {recipe.recipeTags.map(tag => (
-                                            <Link className='recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
+                            <LargeRecipeCard recipe={recipe} userStats={userStats} />
                         ))}
                     </div>
                 </section>

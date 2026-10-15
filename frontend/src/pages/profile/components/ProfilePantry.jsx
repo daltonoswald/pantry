@@ -14,7 +14,7 @@ export default function ProfilePantry({ myData, profileData, isOwnProfile, isLoa
             {(profileData.pantryItems.length > 0 && (
                 <div className='profile-pantry-list'>
                     {profileData.pantryItems.map((item) => (
-                        <div classname='profile-pantry-item'>
+                        <div className='profile-pantry-item'>
                             <h4>{capFirst(item.pantryItem.name)}</h4>
                         </div>
                     ))}

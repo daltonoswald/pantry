@@ -178,6 +178,7 @@
     width: 10rem;
     border-radius: 1.5rem;
     aspect-ratio: 1 /1;
+    flex-shrink: 0;
 }
 
 .small-recipe-image-container a {

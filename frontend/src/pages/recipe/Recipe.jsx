@@ -44,7 +44,6 @@ export default function Recipe() {
                 })
                 const data = await response.json();
                 if (!response.ok) {
-                    console.log('in !response.ok', data);
                     setIsLoading(false);
                     console.error(`Error Data: `, data.error);
                     // setMessage(errorData.error.message);
