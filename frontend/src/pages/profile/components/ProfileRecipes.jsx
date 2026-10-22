@@ -1,17 +1,12 @@
-import { handleDeleteRecipe, favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe} from '../../../utils/utility';
 import { Link } from 'react-router-dom';
 import ConfirmDelete from '../../../components/modals/ConfirmDelete'
 import { useState } from 'react';
 import { MdArrowRightAlt } from 'react-icons/md';
-import { FiClock } from 'react-icons/fi';
-import { GoHeart, GoHeartFill } from 'react-icons/go'
-import kitchenImg from '../../../assets/temp-stock-photos/kitchen.jpg'
 import ProfileRecipeCard from './ProfileRecipeCard';
 
 export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLoading }) {
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
-
 
     return (
         <>

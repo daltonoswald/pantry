@@ -163,68 +163,6 @@ export default function Profile() {
         )
     }
 
-
-    // if (!isLoading && !message) {
-    //     return (
-    //         <div className='app'>
-    //             <Header />
-    //             <Container>
-    //                 <Row className='profile-header'>
-    //                     <Col>
-    //                         <Col className='profile-header-left'>
-    //                             <Row className='profile-info'>
-    //                                 <Col className='profile-picture'>
-    //                                     <PersonSquare />
-    //                                 </Col>
-    //                                 <Col className='profile-names'>
-    //                                     <h1>{profileData.username}</h1>
-    //                                     <h2>{profileData.name}</h2>
-    //                                 </Col>
-    //                                 <Col>
-    //                                     {(isFollowing && !isOwnProfile) && (
-    //                                         <PersonFillDash onClick={handleUnFollow} />
-    //                                     )}
-    //                                     {(!isFollowing && !isOwnProfile) && (
-    //                                         <PersonFillAdd onClick={handleFollow} />
-    //                                     )}
-    //                                     {(isOwnProfile) && (
-    //                                         <Button onClick={handleOpenEditProfile}>Edit Profile</Button>
-    //                                     )}
-    //                                 </Col>
-    //                             </Row>
-    //                             <Row className='profile-follows'>
-    //                                 <Col>
-    //                                     <p>{profileData._count.following} Following</p>
-    //                                 </Col>
-    //                                 <Col>
-    //                                     <p>{profileData._count.followedBy} Followers</p>
-    //                                 </Col>
-    //                             </Row>
-    //                         </Col>
-    //                     </Col>
-    //                     <Col>
-    //                         <p>{profileData.bio}</p>
-    //                     </Col>
-    //                     <Col>
-    //                         <Col>
-    //                             <p>{profileData.recipes.length} Recipes</p>
-    //                         </Col>
-    //                     </Col>
-    //                 </Row>
-    //                 <Row>
-    //                     <Col>
-    //                         <ProfilePantry myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
-    //                     </Col>
-    //                     <Col>
-    //                         <ProfileRecipes myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
-    //                     </Col> 
-    //                 </Row>
-    //             </Container>
-    //             <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} />
-    //         </div>
-    //     )
-    // }
-
     if (!isLoading && !message) {
         return (
             <div className='app'>

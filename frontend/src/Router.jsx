@@ -9,6 +9,7 @@ import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/newRecipe/NewRecipe';
 import Search from './pages/search/Search';
 import { ToastProvider } from './components/toast/ToastContext';
+import ProfileAllRecipes from './pages/profile/ProfileAllRecipes';
 
 function Root() {
     return (
@@ -30,6 +31,7 @@ export default function Router() {
                 { path: '/login', element: <Login /> },
                 { path: '/sign-up', element: <Signup /> },
                 { path: '/user/:username', element: <Profile /> },
+                { path: '/user/:username/all-recipes', element: <ProfileAllRecipes />},
                 { path: '/recipe/:recipeId', element: <Recipe /> },
                 { path: '/new-recipe', element: <NewRecipe /> },
                 { path: '/search', element: <Search /> },

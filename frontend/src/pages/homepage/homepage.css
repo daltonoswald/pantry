@@ -157,7 +157,8 @@
     font-size: 0.875rem;
 }
 
-.makeable-container {
+.makeable-container,
+.by-pantry-container {
     width: 100%;
     padding: 4vh 10vw;
     /* padding-top: 4vh; */
@@ -193,10 +194,6 @@
     transition-duration: 700ms;
 }
 
-/* .small-recipe-card:hover .small-recipe-image {
-    transform: scale(1.05)
-} */
-
 .small-recipe-card {
     display: flex;
     border-radius: 1.5rem;
@@ -210,9 +207,9 @@
     background-color: var(--card);
 }
 
-/* .by-pantry-card:hover {
-    background-color: #f2e6dc;
-} */
+.by-pantry-container .small-recipe-card:hover {
+    background-color: var(--background) !important;
+}
 
 .small-recipe-about {
     /* flex-grow: 1;
