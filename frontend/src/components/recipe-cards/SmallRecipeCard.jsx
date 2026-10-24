@@ -4,9 +4,12 @@ import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import './recipe-cards.styles.css';
 import useLoginRedirect from '../../utils/useLoginRedirect';
 import useFavoriteRecipe from '../../utils/useFavoriteRecipes';
-export default function SmallRecipeCard({ recipe, userStats }) {
+import { useAuth } from '../../context/AuthContext';
+
+export default function SmallRecipeCard({ recipe }) {
         const goToLogin = useLoginRedirect();
         const { isFavorited, favoriteCount, toggle } = useFavoriteRecipe(recipe);
+        const { isLoggedIn } = useAuth();
     
 
     return (
@@ -24,7 +27,7 @@ export default function SmallRecipeCard({ recipe, userStats }) {
                             {recipe.matchPercentage}% Match
                         </p>
                         <div className='small-recipe-favorites'>
-                            {userStats ? (
+                            {isLoggedIn ? (
                                 isFavorited
                                     ? <GoHeartFill className='favorited' onClick={toggle} />
                                     : <GoHeart className='not-favorited' onClick={toggle} />

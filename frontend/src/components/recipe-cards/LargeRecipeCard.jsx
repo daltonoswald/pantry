@@ -4,10 +4,12 @@ import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
 import './recipe-cards.styles.css';
 import useLoginRedirect from '../../utils/useLoginRedirect';
 import useFavoriteRecipe from '../../utils/useFavoriteRecipes';
+import { useAuth } from '../../context/AuthContext';
 
-export default function LargeRecipeCard ({ recipe, userStats }) {
+export default function LargeRecipeCard ({ recipe }) {
     const goToLogin = useLoginRedirect();
     const { isFavorited, favoriteCount, toggle } = useFavoriteRecipe(recipe);
+    const { isLoggedIn } = useAuth();
     
     return (
         <div className='large-recipe-card'>
@@ -21,7 +23,7 @@ export default function LargeRecipeCard ({ recipe, userStats }) {
                     <p>From <Link to={`/user/${recipe.user.username}`}>{recipe.user.name}</Link></p>
                     <div className='large-recipe-favorites-time'>
                         <div className='large-recipe-favorites'>
-                            {userStats ? (
+                            {isLoggedIn ? (
                                 isFavorited
                                     ? <GoHeartFill className='favorited' onClick={toggle} />
                                     : <GoHeart className='not-favorited' onClick={toggle} />

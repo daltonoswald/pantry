@@ -7,10 +7,12 @@ import { MdArrowRightAlt } from 'react-icons/md';
 import { FiClock } from 'react-icons/fi';
 import { GoHeart, GoHeartFill } from 'react-icons/go'
 import kitchenImg from '../../../assets/temp-stock-photos/kitchen.jpg'
+import { useAuth } from '../../../context/AuthContext';
 
-export default function ProfileRecipeCard({ item, myData, isOwnProfile }) {
+export default function ProfileRecipeCard({ item, isOwnProfile }) {
     const goToLogin = useLoginRedirect();
     const { isFavorited, favoriteCount, toggle } = useFavoriteRecipe(item);
+    const { isLoggedIn } = useAuth();
 
     return (
         <div className='profile-recipe-card'>
@@ -22,7 +24,7 @@ export default function ProfileRecipeCard({ item, myData, isOwnProfile }) {
             <div className='profile-recipe-about'>
                 <div className='profile-recipe-about-favorites-time'>
                     <div className='profile-recipe-favorites'>
-                        {myData ? (
+                        {isLoggedIn ? (
                             isFavorited
                                 ? <GoHeartFill className='favorited' onClick={isOwnProfile ? undefined : toggle} />
                                 : <GoHeart className='not-favorited' onClick={isOwnProfile ? undefined : toggle} />

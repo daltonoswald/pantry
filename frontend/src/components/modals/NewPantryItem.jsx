@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import Alert from '../modals/Alert';
 import { useToast } from '../toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
     const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
-    const { showToast } = useToast();
     const [success, setSuccess] = useState();
+    const { showToast } = useToast();
+    const { refreshUser } = useAuth();
+
 
     // function handleCloseModal() {
     //     setOpenNewPantryItem(false);
@@ -30,29 +33,18 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
             })
             const data = await response.json();
             if (response.ok) {
-                // window.location.reload();
                 console.log(data.message);
-                // setMessage(data.message);
-                // setSuccess(data.success);
-                // const timer = setTimeout(() => {
-                //     setIsModalOpen(false);
-                //     setMessage(null)
-                //     setSuccess(null);
-                // }, 3000)
-                // return () => clearTimeout(timer);
-
                 showToast(data.message);
+                refreshUser();
                 setSuccess(null);
                 setIsModalOpen(false);
             } else {
                 console.error(data.message)
                 showToast(data.message || data.error, { type: 'error' });
-                // setMessage(data.message)
                 setSuccess(data.success);
             }
         } catch (error) {
             console.error(`Error requesting:`, error);
-            // setMessage(`There was an error adding your pantry item. Please try again later.`);
             showToast('Could not add to your pantry. Please try again', { type: 'error' });
             setSuccess(false);
         }

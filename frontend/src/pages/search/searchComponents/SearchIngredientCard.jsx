@@ -3,19 +3,21 @@ import { Link } from 'react-router-dom';
 import useLoginRedirect from '../../../utils/useLoginRedirect';
 import { useState, useEffect } from 'react';
 import { useToast } from '../../../components/toast/ToastContext';
+import { useAuth } from '../../../context/AuthContext';
 
-export default function SearchIngredientCard({ ingredient, userStats }) {
+export default function SearchIngredientCard({ ingredient }) {
     const goToLogin = useLoginRedirect();
     const [isAdding, setIsAdding] = useState(false);
     const [added, setAdded] = useState(!!ingredient.inPantry);
     const { showToast } = useToast();
+    const { isLoggedIn, refreshUser } = useAuth();
 
     useEffect(() => {
         setAdded(!!ingredient.inPantry);
     }, [ingredient.inPantry])
 
     const handleAddToPantry = async () => {
-        if (!userStats) return goToLogin();
+        if (!isLoggedIn) return goToLogin();
         if (isAdding || added) return;
 
         const url = 'http://localhost:3000/pantry/new-item'
@@ -35,6 +37,7 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
             if (response.ok) {
                 setAdded(true);
                 showToast(data.message);
+                refreshUser();
             } else {
                 showToast(data.message || data.error, { type: 'error' });
             }
@@ -46,7 +49,7 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
     }
 
     const handleRemoveFromPantry = async () => {
-        if (!userStats) return goToLogin();
+        if (!isLoggedIn) return goToLogin();
         if (isAdding) return;
 
         const url = 'http://localhost:3000/pantry/delete-from-pantry'
@@ -68,6 +71,7 @@ export default function SearchIngredientCard({ ingredient, userStats }) {
             if (response.ok) {
                 setAdded(false);
                 showToast(data.message);
+                refreshUser();
             } else {
                 showToast(data.message || data.error, { type: 'error' });
             }

@@ -9,6 +9,7 @@ import ImageUpload from '../../components/ImageUpload';
 import Alert from '../../components/modals/Alert';
 import './newRecipe.css'
 import { useToast } from '../../components/toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function NewRecipe() {
     const navigate = useNavigate();
@@ -17,7 +18,8 @@ export default function NewRecipe() {
     const [steps, setSteps] = useState(['']);
     // const [message, setMessage] = useState();
     const { showToast } = useToast();
-    const token = localStorage.getItem('pantryAuthToken');
+    const { token, refreshUser } = useAuth();
+    // const token = localStorage.getItem('pantryAuthToken');
 
     const cookingUnits = [
         "tsp", "tbsp", "fl oz", "cup", "pt", "qt", "gal", "ml", "l",
@@ -115,6 +117,7 @@ export default function NewRecipe() {
                 // console.log(data.message);
                 showToast(data.message)
                 navigate(`/recipe/${data.recipe.id}`);
+                refreshUser();
             } else {
                 console.error(data.message)
                 showToast(data.message || data.error, { type: 'error' });

@@ -17,7 +17,6 @@ export default function Recipe() {
     const params = useParams();
     const token = localStorage.getItem('pantryAuthToken');
     const [isLoading, setIsLoading] = useState(true);
-    const [myData, setMyData] = useState();
     const [recipeData, setRecipeData] = useState();
     const [message, setMessage] = useState(null);
     const { showToast } = useToast();
@@ -52,7 +51,6 @@ export default function Recipe() {
                     console.log(data);
                     setRecipeData(data.recipeData);
                     if (data.currentUser) {
-                        setMyData(data.currentUser)
                         setIsAuthor(data.isAuthor)
                         setIsFavorited(data.isFavorited)
                     }
@@ -175,13 +173,13 @@ export default function Recipe() {
                                         </>
                                     )}
                                     <div className='recipe-info-favorite'>
-                                        {(!isAuthor && isFavorited && myData && !isAuthor) && (
+                                        {(!isAuthor && isFavorited && !isAuthor) && (
                                             <GoHeartFill className='favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
-                                        {(!isAuthor && !isFavorited && myData && !isAuthor) && (
+                                        {(!isAuthor && !isFavorited && !isAuthor) && (
                                             <GoHeart className='not-favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
-                                        {(!isAuthor && !myData && (
+                                        {(!isAuthor && (
                                             <GoHeart className='not-favorited icon-link' onClick={goToLogin} />
                                         ))}
                                         {(isAuthor && (  

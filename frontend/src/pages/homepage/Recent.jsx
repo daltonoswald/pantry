@@ -7,7 +7,7 @@ import useLoginRedirect from '../../utils/useLoginRedirect';
 import MediumRecipeCard from '../../components/recipe-cards/MediumRecipeCard';
 
 
-export default function Recent({ recentRecipes, userStats }) {
+export default function Recent({ recentRecipes }) {
 
     console.log('r', recentRecipes);
 
@@ -25,7 +25,7 @@ export default function Recent({ recentRecipes, userStats }) {
                     </div>
                     <div className='recent-recipe-card-container'>
                         {recentRecipes.map(recipe => (
-                            <MediumRecipeCard recipe={recipe} userStats={userStats} />
+                            <MediumRecipeCard recipe={recipe} />
                         ))}
                     </div>
                 </section>

@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation, useNavigate, useSearchParams } from 'react-
 import './header.styles.css'
 import NewPantryItem from '../modals/NewPantryItem';
 import { MdAccountCircle, MdArrowDropDown, MdOutlineSearch } from 'react-icons/md'
+import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,8 +12,7 @@ export default function Header() {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const query = searchParams.get('q');
-    const token = localStorage.getItem('pantryAuthToken');
-    const username = localStorage.getItem('pantryUsername');
+    const { isLoggedIn, username, logout } = useAuth();
 
     const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -32,16 +32,14 @@ export default function Header() {
         };
     }, [dropdownOpen]);
 
-    // const openModal = () => setIsModalOpen(true);
     const openModal = function() {
         setIsModalOpen(true);
         setDropdownOpen(false);
     }
     const closeModal = () => setIsModalOpen(false);
 
-    function logout() {
-        localStorage.removeItem('pantryAuthToken');
-        localStorage.removeItem('pantryUsername');
+    function handleLogout() {
+        logout();
         navigate('/');
     }
 
@@ -79,13 +77,13 @@ export default function Header() {
                         aria-label='Search'
                     />
                 </form>
-                    {!token && (
+                    {!isLoggedIn && (
                             <div className='pantry-nav-unauthenticated'>
                                 <Link to={'/login'}>Log in</Link>
                                 <Link to={'/sign-up'}>Sign up</Link>
                             </div>
                     )}
-                    {token && (
+                    {isLoggedIn && (
                         <div className='pantry-heading-user'>
                                 <div className='pantry-heading nav-dropdown-container'>
                                     <MdAccountCircle size='1.5rem' color='black' className='pantry-heading-profile-icon' onClick={() => navigate(`/user/${username}`)} />
@@ -98,7 +96,7 @@ export default function Header() {
                                             <li><Link to={`/search`} className='pantry-heading'>Search</Link></li>
                                             <li><Link to={`/new-recipe`} className='pantry-heading'>New Recipe</Link></li>
                                             <li onClick={openModal} className='pantry-heading'>New Pantry Item</li>
-                                            <li onClick={logout}>Logout</li>
+                                            <li onClick={handleLogout}>Logout</li>
                                         </ul>
                                     )}
                                 </div>

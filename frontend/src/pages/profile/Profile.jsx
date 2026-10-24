@@ -13,7 +13,6 @@ import './profile.styles.css'
 
 export default function Profile() {
     const navigate = useNavigate();
-    const [myData, setMyData] = useState();
     const [message, setMessage] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [profileData, setProfileData] = useState();
@@ -53,19 +52,12 @@ export default function Profile() {
                 } else {
                     console.log(data);
                     setProfileData(data.userProfile);
-                    if (data.currentUser) {
-                        setMyData(data.currentUser)
-                    }
                     if (data.isOwnProfile) {
                         setIsOwnProfile(data.isOwnProfile)
                     }
                     setIsFollowing(data.isFollowing)
                     setFollowedBy(data.followsYou)
                     setMessage(null);
-                    // setProfileData(profileData.profile);
-                    // setMyData(profileData.user.user)
-                    // setMessage(null);
-                    // setIsLoading(false)
                 }
             } catch (error) {
                 console.error(`Errors: ${error.error.message}`);
@@ -206,8 +198,8 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className='profile-body'>
-                        <ProfileRecipes myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
-                        <ProfilePantry myData={myData || null} profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
+                        <ProfileRecipes profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
+                        <ProfilePantry profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
                     </div>
                 </div>
                 <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} onClose={closeModal} />

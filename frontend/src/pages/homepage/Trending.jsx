@@ -7,22 +7,7 @@ import useLoginRedirect from '../../utils/useLoginRedirect';
 import LargeRecipeCard from '../../components/recipe-cards/LargeRecipeCard';
 
 
-export default function Trending({trendingRecipes, popularTags, userStats }) {
-    const navigate = useNavigate();
-    const goToLogin = useLoginRedirect();
-
-    const handleToggleFavoriteRecipe = async (recipeId) => {
-
-        console.log('toggling: ', recipeId)
-        const result = await toggleFavoriteRecipe(recipeId)
-
-        if (result.success) {
-            // setMessage({ type: 'success', text: result.message });
-            window.location.reload();
-        } else {
-            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
-        }
-    }
+export default function Trending({trendingRecipes, popularTags }) {
 
     return (
         <>
@@ -34,7 +19,7 @@ export default function Trending({trendingRecipes, popularTags, userStats }) {
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (
-                            <LargeRecipeCard recipe={recipe} userStats={userStats} />
+                            <LargeRecipeCard recipe={recipe} />
                         ))}
                     </div>
                 </section>

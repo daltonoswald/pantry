@@ -8,8 +8,9 @@ import Profile from './pages/profile/Profile';
 import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/newRecipe/NewRecipe';
 import Search from './pages/search/Search';
-import { ToastProvider } from './components/toast/ToastContext';
 import ProfileAllRecipes from './pages/profile/ProfileAllRecipes';
+import { ToastProvider } from './components/toast/ToastContext';
+import { AuthProvider } from './context/AuthContext';
 
 function Root() {
     return (
@@ -39,43 +40,11 @@ export default function Router() {
         }
     ])
 
-    // const router = createBrowserRouter([
-    //     {
-    //         path: '/',
-    //         element: <Homepage />,
-    //         errorElement: <Error />
-    //     },
-    //     {
-    //         path: '/login',
-    //         element: <Login />,
-    //     },
-    //     {
-    //         path: '/user/:username',
-    //         element: <Profile />
-    //     },
-    //     {
-    //         path: '/sign-up',
-    //         element: <Signup />
-    //     },
-    //     {
-    //         path: '/recipe/:recipeId',
-    //         element: <Recipe />
-    //     },
-    //     {
-    //         path: '/new-recipe',
-    //         // element: <NewRecipe />
-    //         element: <NewRecipe />
-    //     },
-    //     {
-    //         path: '/search',
-    //         element: <Search />
-    //     }
-    // ])
-
-    // return <RouterProvider router={router} />
     return (
-        <ToastProvider>
-            <RouterProvider router={router} />
-        </ToastProvider>
+        <AuthProvider>
+            <ToastProvider>
+                <RouterProvider router={router} />
+            </ToastProvider>
+        </AuthProvider>
     )
 }

@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 // import { handleDeleteRecipe } from '../../utils/utility';
 
 export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose, itemToDelete }) {
-    const token = localStorage.getItem('pantryAuthToken');
+    // const token = localStorage.getItem('pantryAuthToken');
     // const [message, setMessage] = useState();
     const { showToast } = useToast();
+    const { token, refreshUser } = useAuth();
     const navigate = useNavigate();
 
     const handleDeleteRecipe = async (itemToDelete) => {
@@ -29,6 +31,7 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
             if (response.ok) {
                 // setMessage(data.message);
                 showToast(data.message);
+                refreshUser();
                 navigate('/');
                 // window.location.reload();
             } else {

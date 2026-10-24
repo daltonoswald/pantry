@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import vegetablesImg from '../../assets/temp-stock-photos/vegetables.jpg'
 import './login-signup.css'
 import { useToast } from '../../components/toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -12,11 +13,12 @@ export default function Login() {
     const token = localStorage.getItem('pantryAuthToken')
     const location = useLocation();
     const { showToast } = useToast();
+    const { login, isLoggedIn } = useAuth();
     const from = location.state?.from || '/';
 
     useEffect(() => {
-        if (token) navigate(from, { replace: true });
-    })
+        if (isLoggedIn) navigate(from, { replace: true });
+    }, [isLoggedIn]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,9 +41,7 @@ export default function Login() {
 
             if (response.ok) {
                 console.log(data);
-                localStorage.setItem('pantryAuthToken', data.token);
-                localStorage.setItem('pantryUsername', data.user.username);
-                // navigate('/')
+                login(data.token, data.user.username);
                 navigate(from, { replace: true });
             } else {
                 console.error("Error requesting authentication:", data.message);

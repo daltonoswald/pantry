@@ -1,24 +1,21 @@
-import { useNavigate } from 'react-router-dom'
 import Header from '../../components/header/Header';
 import MakeableRecipes from './MakeableRecipes';
 import { useState, useEffect } from 'react';
 import Recent from './Recent';
 import Trending from './Trending';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Homepage() {
-  const navigate = useNavigate();
-  const token = localStorage.getItem('pantryAuthToken');
-  const username = localStorage.getItem('pantryUsername');
+  const { token, username } = useAuth();
+  // const token = localStorage.getItem('pantryAuthToken');
+  // const username = localStorage.getItem('pantryUsername');
   const [isLoading, setIsLoading] = useState(true);
   const [makeableRecipes, setMakeableRecipes] = useState([]);
   const [recipesByPantry, setRecipesByPantry] = useState([]);
   const [trendingRecipes, setTrendingRecipes] = useState([]);
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [popularTags, setPopularTags] = useState([]);
-  const [userStats, setUserStats] = useState(null);
-  // const [favoriteStatus, setFavoriteStatus] = useState({});
-
-  // const [searchQuery, setSearchQuery] = useState('');
+  // const [userStats, setUserStats] = useState(null);
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -29,7 +26,6 @@ export default function Homepage() {
           await Promise.all([
             fetchMakeableRecipes(),
             getRecipesByPantry(),
-            fetchUserStats(),
             fetchTrendingRecipes(),
             fetchRecentRecipes(),
             fetchPopularTags()
@@ -66,9 +62,7 @@ export default function Homepage() {
           });
   
           const data = await response.json();
-          // console.log('makeable: ', data)
           if (response.ok) {
-              // console.log(data);
               setMakeableRecipes(data.recipes || []);
               if (data.recipes) {
                 // console.log('data.recipes', data.recipes)
@@ -107,27 +101,27 @@ export default function Homepage() {
     }
 }
   
-  const fetchUserStats = async () => {
-    const url = `http://localhost:3000/user/stats`
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      mode: 'cors'
-    });
-    const data = await response.json();
-    console.log('userStats: ', data)
-    if (response.ok) {
-      setUserStats({
-        pantryItems: data.stats.pantryItems.length,
-        recipes: data.stats._count.recipes,
-        favorites: data.stats._count.recipeFavorites,
-        followers: data.stats._count.followedBy
-      });
-    }
-  }
+  // const fetchUserStats = async () => {
+  //   const url = `http://localhost:3000/user/stats`
+  //   const response = await fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`
+  //     },
+  //     mode: 'cors'
+  //   });
+  //   const data = await response.json();
+  //   console.log('userStats: ', data)
+  //   if (response.ok) {
+  //     setUserStats({
+  //       pantryItems: data.stats.pantryItems.length,
+  //       recipes: data.stats._count.recipes,
+  //       favorites: data.stats._count.recipeFavorites,
+  //       followers: data.stats._count.followedBy
+  //     });
+  //   }
+  // }
 
   const fetchTrendingRecipes = async () => {
     const url = `http://localhost:3000/recipe/trending?limit=3`
@@ -180,37 +174,6 @@ export default function Homepage() {
     }
   }
 
-  // const checkFavoriteStatus = async (recipes) => {
-  //   const url = `http://localhost:3000/recipe/batch-check-favorites`;
-  //   if (!token || !recipes || recipes.length === 0) return;
-
-  //   const recipeIds = recipes.map(r => r.id);
-  //   console.log('recipes:', recipeIds);
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       body: JSON.stringify({ recipeIds }),
-  //       mode: 'cors'
-  //     });
-  //     const data = await response.json();
-  //     console.log('response', response);
-  //     console.log('data', data);
-
-  //     if (response.ok) {
-  //       setFavoriteStatus(prev => ({ ...prev, ...data.favoriteStatus }));
-  //       console.log('favorite data', data);
-  //       console.log('favorites', data.favoriteStatus);
-  //     }
-  //   } catch (error) {
-  //     console.error('Error checking favorite status:', error);
-  //   }
-  // }
-
   if (isLoading) return (
     <div className='app'>
       <Header />
@@ -227,21 +190,13 @@ export default function Homepage() {
         <Trending 
             trendingRecipes={trendingRecipes}
             popularTags={popularTags}
-            userStats={userStats}
-            // favoriteStatus={favoriteStatus}
           />
-          {/* {userStats && ( */}
             <MakeableRecipes 
             makeableRecipes={makeableRecipes}
             recipesByPantry={recipesByPantry}
-            userStats={userStats}
-            // favoriteStatus={favoriteStatus} 
             />
-          {/* )} */}
           <Recent 
             recentRecipes={recentRecipes}
-            userStats={userStats}
-            // favoriteStatus={favoriteStatus}
           />
       </div>
     </div>

@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { toggleFavoriteRecipe } from './utility';
 import { useToast } from '../components/toast/ToastContext';
+import { useAuth } from '../context/AuthContext';
 
 export default function useFavoriteRecipe(recipe) {
     const { showToast } = useToast();
+    const { refreshUser } = useAuth();
     const [isFavorited, setIsFavorited] = useState(!!recipe.isFavorited);
     const [isPending, setIsPending] = useState(false);
 
@@ -24,6 +26,8 @@ export default function useFavoriteRecipe(recipe) {
         setIsPending(false);
         setIsFavorited(result.success ? result.isFavorited : previous);
         showToast(result.message, { type: result.success ? 'success' : 'error' });
+
+        if (result.success) refreshUser();
     };
 
     return { isFavorited, favoriteCount, toggle };

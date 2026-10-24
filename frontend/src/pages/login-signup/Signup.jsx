@@ -5,19 +5,20 @@ import { useState, useEffect } from 'react';
 import doughImg from '../../assets/temp-stock-photos/dough.jpg'
 import './login-signup.css'
 import { useToast } from '../../components/toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Signup() {
     const navigate = useNavigate();
     const location = useLocation();
     // const [message, setMessage] = useState();
     const { showToast } = useToast();
+    const { login, isLoggedIn } = useAuth();
+    const from = location.state?.from || '/';
     // document.title = 'Pantry - Sign Up'
 
     useEffect(() => {
-        if (localStorage.getItem('pantryAuthToken')) {
-            navigate('/')
-        }
-    })
+        if (isLoggedIn) navigate(from, { replace: true });
+    }, [isLoggedIn]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
