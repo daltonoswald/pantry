@@ -1,6 +1,6 @@
 const express = require('express');
 const userController = require('../controllers/userController');
-const { optionalAuth } = require('../middleware/middleware');
+const { optionalAuth, requiredAuth } = require('../middleware/middleware');
 
 const router = express.Router();
 
@@ -10,6 +10,6 @@ router.post('/profile/:username', optionalAuth, userController.profile);
 router.post('/follow-user', userController.follow_user);
 router.delete('/unfollow-user', userController.unfollow_user);
 router.put('/edit-profile', userController.edit_profile);
-router.get('/stats', userController.get_user_stats);
+router.get('/stats', requiredAuth, userController.get_user_stats);
 
 module.exports = router;

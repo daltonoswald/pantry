@@ -10,7 +10,6 @@ import { useAuth } from '../../context/AuthContext';
 export default function Login() {
     const navigate = useNavigate();
     // const [message, setMessage] = useState();
-    const token = localStorage.getItem('pantryAuthToken')
     const location = useLocation();
     const { showToast } = useToast();
     const { login, isLoggedIn } = useAuth();
@@ -42,7 +41,6 @@ export default function Login() {
             if (response.ok) {
                 console.log(data);
                 login(data.token, data.user.username);
-                navigate(from, { replace: true });
             } else {
                 console.error("Error requesting authentication:", data.message);
                 showToast(data.message || data.error, { type: 'error', duration: 5000 });

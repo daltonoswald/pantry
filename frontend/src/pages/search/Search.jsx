@@ -8,43 +8,17 @@ import SearchTags from './searchComponents/SearchTags';
 import './search.styles.css';
 import { BiSlider } from 'react-icons/bi';
 import MediumRecipeCard from '../../components/recipe-cards/MediumRecipeCard';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Search() {
     const navigate = useNavigate();
-    const [userStats, setUserStats] = useState(null)
     const [message, setMessage] = useState();
     const [searchResults, setSearchResults] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
-    const token = localStorage.getItem('pantryAuthToken');
     const [searchParams] = useSearchParams();
     const searchQuery = searchParams.get('q');
     const searchType = searchParams.get('t');
-
-    const fetchUserStats = async () => {
-        const url = `http://localhost:3000/user/stats`
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`
-          },
-          mode: 'cors'
-        });
-        const data = await response.json();
-        console.log('userStats: ', data)
-        if (response.ok) {
-          setUserStats({
-            pantryItems: data.stats.pantryItems.length,
-            recipes: data.stats._count.recipes,
-            favorites: data.stats._count.recipeFavorites,
-            followers: data.stats._count.followedBy
-          });
-        }
-    }
-
-    useEffect(() => {
-        if (token) fetchUserStats();
-    }, [token]);
+    const { token } = useAuth();
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -54,7 +28,6 @@ export default function Search() {
     const runSearch = async () => {
         const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
         try {
-            // fetchUserStats();
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
@@ -65,7 +38,6 @@ export default function Search() {
             });
             const data = await response.json()
             if (response.ok) {
-                // window.history.replaceState(null, '', `search?q=${searchQuery}&t=${searchType}`)
                 console.log(data);
                 setSearchResults(data)
             }
@@ -128,14 +100,14 @@ export default function Search() {
                 {(searchResults?.results.recipes) && (
                     <div className='search-recipes-container'>
                         {(searchResults.results.recipes.map(recipe => (
-                            <MediumRecipeCard recipe={recipe} userStats={userStats} />
+                            <MediumRecipeCard recipe={recipe}  />
                         )))}
                     </div>
                 )}
                 {(searchResults?.results.ingredients) && (
                     <div className='search-ingredients-container'>
                         {(searchResults.results.ingredients.map(ingredient => (
-                            <SearchIngredientCard key={ingredient.id} ingredient={ingredient} userStats={userStats} />
+                            <SearchIngredientCard key={ingredient.id} ingredient={ingredient}  />
                         )))}
                     </div>
                 )}

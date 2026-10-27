@@ -16,7 +16,7 @@ const optionalAuth = (req, res, next) => {
             req.user = authorizedUser.user; // Attach user to request
         } catch (error) {
             // Invalid token, continue without user
-            req.user == null
+            req.user = null
         }
     } else {
         req.user = null;
@@ -25,4 +25,20 @@ const optionalAuth = (req, res, next) => {
     next();
 }
 
-module.exports = { generateToken, verifyToken, optionalAuth };
+const requiredAuth = (req,res, next) => {
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ error: 'Authorization required.' });
+    }
+
+    try {
+        const decoded = verifyToken(authHeader.split(' ')[1]);
+        req.user = decoded.user;
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid or expired token.' });
+    }
+};
+
+module.exports = { generateToken, verifyToken, optionalAuth, requiredAuth };

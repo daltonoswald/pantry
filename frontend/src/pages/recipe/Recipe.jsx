@@ -11,18 +11,19 @@ import './recipe.styles.css';
 import ConfirmDelete from '../../components/modals/ConfirmDelete';
 import useLoginRedirect from '../../utils/useLoginRedirect';
 import { useToast } from '../../components/toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Recipe() {
     const navigate = useNavigate();
     const params = useParams();
-    const token = localStorage.getItem('pantryAuthToken');
     const [isLoading, setIsLoading] = useState(true);
     const [recipeData, setRecipeData] = useState();
     const [message, setMessage] = useState(null);
-    const { showToast } = useToast();
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
     const [isFavorited, setIsFavorited] = useState(false);
+    const { showToast } = useToast();
+    const { token } = useAuth();
     const goToLogin = useLoginRedirect();
 
     useEffect(() => {

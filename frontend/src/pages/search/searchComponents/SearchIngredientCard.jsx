@@ -10,7 +10,7 @@ export default function SearchIngredientCard({ ingredient }) {
     const [isAdding, setIsAdding] = useState(false);
     const [added, setAdded] = useState(!!ingredient.inPantry);
     const { showToast } = useToast();
-    const { isLoggedIn, refreshUser } = useAuth();
+    const { token, isLoggedIn, refreshUser } = useAuth();
 
     useEffect(() => {
         setAdded(!!ingredient.inPantry);
@@ -24,7 +24,7 @@ export default function SearchIngredientCard({ ingredient }) {
 
         setIsAdding(true);
         try {
-            const token = localStorage.getItem('pantryAuthToken');
+            // const token = localStorage.getItem('pantryAuthToken');
             const response = await fetch (url, {
                 method: 'POST',
                 headers: {
@@ -57,7 +57,7 @@ export default function SearchIngredientCard({ ingredient }) {
         setIsAdding(true);
         try {
             console.log('trying')
-            const token = localStorage.getItem('pantryAuthToken');
+            // const token = localStorage.getItem('pantryAuthToken');
             const response = await fetch (url, {
                 method: 'POST',
                 headers: {

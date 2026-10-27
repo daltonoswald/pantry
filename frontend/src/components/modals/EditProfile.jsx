@@ -2,12 +2,13 @@ import { useEffect, useState } from 'react';
 import { updateProfile } from '../../utils/utility';
 import Alert from '../modals/Alert';
 import { useToast } from '../toast/ToastContext';
+import { useAuth } from '../../context/AuthContext';
 
 export default function EditProfile({ profileData, openEditProfile, setOpenEditProfile, onClose }) {
-    const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState(null);
-    const { showToast } = useToast();
     const [success, setSuccess] = useState();
+    const { showToast } = useToast();
+    const { token } = useAuth();
 
     const handleSubmitEditProfile = async (e) => {
         e.preventDefault();

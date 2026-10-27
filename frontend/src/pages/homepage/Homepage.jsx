@@ -7,15 +7,12 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function Homepage() {
   const { token, username } = useAuth();
-  // const token = localStorage.getItem('pantryAuthToken');
-  // const username = localStorage.getItem('pantryUsername');
   const [isLoading, setIsLoading] = useState(true);
   const [makeableRecipes, setMakeableRecipes] = useState([]);
   const [recipesByPantry, setRecipesByPantry] = useState([]);
   const [trendingRecipes, setTrendingRecipes] = useState([]);
   const [recentRecipes, setRecentRecipes] = useState([]);
   const [popularTags, setPopularTags] = useState([]);
-  // const [userStats, setUserStats] = useState(null);
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -64,11 +61,6 @@ export default function Homepage() {
           const data = await response.json();
           if (response.ok) {
               setMakeableRecipes(data.recipes || []);
-              if (data.recipes) {
-                // console.log('data.recipes', data.recipes)
-                // console.log('checking favorites...')
-                // checkFavoriteStatus(data.recipes);
-              }
           }
       } catch (error) {
           console.error('Error', error);
@@ -89,10 +81,8 @@ export default function Homepage() {
         });
 
         const data = await response.json();
-        // console.log('by pantry: ', data)
 
         if (response.ok) {
-            // console.log(data);
             setRecipesByPantry(data.recipes || [])
         }
     } catch (error) {
@@ -100,28 +90,6 @@ export default function Homepage() {
         return { success: false, message: 'An error occured.' };
     }
 }
-  
-  // const fetchUserStats = async () => {
-  //   const url = `http://localhost:3000/user/stats`
-  //   const response = await fetch(url, {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Authorization: `Bearer ${token}`
-  //     },
-  //     mode: 'cors'
-  //   });
-  //   const data = await response.json();
-  //   console.log('userStats: ', data)
-  //   if (response.ok) {
-  //     setUserStats({
-  //       pantryItems: data.stats.pantryItems.length,
-  //       recipes: data.stats._count.recipes,
-  //       favorites: data.stats._count.recipeFavorites,
-  //       followers: data.stats._count.followedBy
-  //     });
-  //   }
-  // }
 
   const fetchTrendingRecipes = async () => {
     const url = `http://localhost:3000/recipe/trending?limit=3`
@@ -134,7 +102,6 @@ export default function Homepage() {
       mode: 'cors'
     });
     const data = await response.json();
-    // console.log('trending: ', data)
     if (response.ok) {
       setTrendingRecipes(data.recipes || []);
     }
@@ -151,7 +118,6 @@ export default function Homepage() {
       mode: 'cors'
     });
     const data = await response.json();
-    // console.log('recent: ', data)
     if (response.ok) {
       setRecentRecipes(data.recipes || []);
     }

@@ -21,24 +21,24 @@ function Root() {
     )
 }
 
-export default function Router() {
+const router = createBrowserRouter([
+    {
+        element: <Root />,
+        errorElement: <Error />,
+        children: [
+            { path: '/', element: <Homepage /> },
+            { path: '/login', element: <Login /> },
+            { path: '/sign-up', element: <Signup /> },
+            { path: '/user/:username', element: <Profile /> },
+            { path: '/user/:username/all-recipes', element: <ProfileAllRecipes />},
+            { path: '/recipe/:recipeId', element: <Recipe /> },
+            { path: '/new-recipe', element: <NewRecipe /> },
+            { path: '/search', element: <Search /> },
+        ]
+    }
+])
 
-    const router = createBrowserRouter([
-        {
-            element: <Root />,
-            errorElement: <Error />,
-            children: [
-                { path: '/', element: <Homepage /> },
-                { path: '/login', element: <Login /> },
-                { path: '/sign-up', element: <Signup /> },
-                { path: '/user/:username', element: <Profile /> },
-                { path: '/user/:username/all-recipes', element: <ProfileAllRecipes />},
-                { path: '/recipe/:recipeId', element: <Recipe /> },
-                { path: '/new-recipe', element: <NewRecipe /> },
-                { path: '/search', element: <Search /> },
-            ]
-        }
-    ])
+export default function Router() {
 
     return (
         <AuthProvider>

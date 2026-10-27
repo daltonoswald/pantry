@@ -4,16 +4,10 @@ import { useToast } from '../toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
-    const token = localStorage.getItem('pantryAuthToken');
     const [message, setMessage] = useState();
     const [success, setSuccess] = useState();
     const { showToast } = useToast();
-    const { refreshUser } = useAuth();
-
-
-    // function handleCloseModal() {
-    //     setOpenNewPantryItem(false);
-    // }
+    const { token, refreshUser } = useAuth();
 
     async function handleSubmitPantryItem(e) {
         e.preventDefault()

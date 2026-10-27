@@ -12,7 +12,7 @@ export default function Signup() {
     const location = useLocation();
     // const [message, setMessage] = useState();
     const { showToast } = useToast();
-    const { login, isLoggedIn } = useAuth();
+    const { isLoggedIn } = useAuth();
     const from = location.state?.from || '/';
     // document.title = 'Pantry - Sign Up'
 

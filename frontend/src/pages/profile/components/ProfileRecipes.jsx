@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { MdArrowRightAlt } from 'react-icons/md';
 import ProfileRecipeCard from './ProfileRecipeCard';
 
-export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLoading }) {
+export default function ProfileRecipes({ myData, profileData, isOwnProfile }) {
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
 
@@ -18,7 +18,7 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile, isLo
             {(profileData.recipes.length > 0) && (
                 <div className='profile-recipes-list'>
                 {profileData.recipes.map((item) => (
-                    <ProfileRecipeCard key={item.id} item={item} myData={myData} isOwnProfile={isOwnProfile} />
+                    <ProfileRecipeCard key={item.id} item={item} isOwnProfile={isOwnProfile} />
                 ))}
                 </div>
             )}

@@ -1,14 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export default function ErrorModal({ error }) {
-
+    const { logout } = useAuth();
     const navigate = useNavigate();
-
-    function logout() {
-        localStorage.removeItem('pantryAuthToken');
-        localStorage.removeItem('pantryUsername');
-        navigate('/');
-    }
 
     console.log(error)
 

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { capFirst, handleDeleteFromPantry } from '../../../utils/utility'
 import { MdArrowRightAlt } from 'react-icons/md';
 
-export default function ProfilePantry({ myData, profileData, isOwnProfile, isLoading }) {
+export default function ProfilePantry({ profileData, isOwnProfile  }) {
     
     return (
     <>

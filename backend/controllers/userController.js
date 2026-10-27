@@ -268,9 +268,8 @@ exports.profile = asyncHandler(async (req, res, next) => {
 })
 
 exports.get_user_stats = asyncHandler(async (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    const currentUser = authorizedUser.user
+    const currentUser = req.user;
+
     try {
         const stats = await prisma.user.findFirst({
             where: {

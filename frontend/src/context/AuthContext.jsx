@@ -3,13 +3,13 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 const AuthContext = createContext(null);
 const TOKEN_KEY = 'pantryAuthToken';
 const USERNAME_KEY = 'pantryUsername';
+const url = `http://localhost:3000/user/stats`;
 
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
     const [username, setUsername] = useState(() => localStorage.getItem(USERNAME_KEY));
     const [user, setUser] = useState(null);
     const [isLoading, setIsLoading] = useState(!!localStorage.getItem(TOKEN_KEY));
-    const url = `http://localhost:3000/user/stats`;
 
     const logout = useCallback(() => {
         localStorage.removeItem(TOKEN_KEY);
@@ -39,8 +39,11 @@ export function AuthProvider({ children }) {
                     Authorization: `Bearer ${activeToken}`
                 },
             });
-            if (!response.ok) {
+            if (response.status === 401 || response.status === 404) {
                 logout();
+                return;
+            }
+            if (!response.ok) {
                 return;
             }
             const { stats } = await response.json();

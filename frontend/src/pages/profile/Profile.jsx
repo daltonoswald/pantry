@@ -9,6 +9,7 @@ import ProfileRecipes from './components/ProfileRecipes';
 import EditProfile from '../../components/modals/EditProfile';
 import { LuChefHat } from 'react-icons/lu';
 import './profile.styles.css'
+import { useAuth } from '../../context/AuthContext';
 
 
 export default function Profile() {
@@ -20,8 +21,8 @@ export default function Profile() {
     const [isFollowing, setIsFollowing] = useState(null);
     const [followedBy, setFollowedBy] = useState(null);
     const [openEditProfile, setOpenEditProfile] = useState(false);
-    const token = localStorage.getItem('pantryAuthToken');
     const params = useParams();
+    const { token } = useAuth();
 
     const closeModal = () => setOpenEditProfile(false);
 
@@ -198,8 +199,8 @@ export default function Profile() {
                         </div>
                     </div>
                     <div className='profile-body'>
-                        <ProfileRecipes profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
-                        <ProfilePantry profileData={profileData} isOwnProfile={isOwnProfile} isLoading={isLoading} />
+                        <ProfileRecipes profileData={profileData} isOwnProfile={isOwnProfile} />
+                        <ProfilePantry profileData={profileData} isOwnProfile={isOwnProfile} />
                     </div>
                 </div>
                 <EditProfile profileData={profileData} openEditProfile={openEditProfile} setOpenEditProfile={setOpenEditProfile} onClose={closeModal} />
