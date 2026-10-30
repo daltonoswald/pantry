@@ -4,7 +4,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { generateToken, verifyToken } = require('../middleware/middleware');
 const { authorize } = require('passport');
 
 
@@ -23,16 +22,21 @@ exports.log_in = asyncHandler(async (req, res, next) => {
     try {
         bcryptjs.compare(req.body.password, user.password, (err, isMatch) => {
             if (err) return next(err);
-
-            const options = {};
-            options.expiresIn = '7d';
-            const token = jwt.sign({ user }, process.env.TOKEN_KEY || TOKEN_KEY, options);
-
+            // const options = {};
+            // options.expiresIn = '7d';
+            // const token = jwt.sign({ user }, process.env.TOKEN_KEY || TOKEN_KEY, options);
+            // if (!isMatch) {
+            //     res.status(404).json({ message: "Incorrect username or password." });
+            // } else {
+            //     res.json({ message: 'User logged in sucessfully', token, user });
+            // }
             if (!isMatch) {
                 res.status(404).json({ message: "Incorrect username or password." });
-            } else {
-                res.json({ message: 'User logged in sucessfully', token, user });
             }
+
+            const publicUser = { id: user.id, username: user.username };
+            const token = jwt.sign({ user: publicUser }, process.env.TOKEN_KEY || TOKEN_KEY, { expiresIn: '7d' });
+            res.json({ message: 'User logged in sucessfully', token, user: publicUser });
         })
     } catch (error) {
         return res.status(500).json({ message: 'Internal Server Error.' });

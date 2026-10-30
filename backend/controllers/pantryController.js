@@ -4,7 +4,6 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { generateToken, verifyToken } = require('../middleware/middleware');
 
 exports.new_item = [
     body('item', 'Pantry items must not be empty')
@@ -13,8 +12,6 @@ exports.new_item = [
     
     async (req, res, next) => {
         const errors = validationResult(req);
-        // const token = req.headers.authorization.split(' ')[1];
-        // const authorizedUser = verifyToken(token);
         const currentUser = req.user;
         const tokenUserId = req.user.id
         const pantryItemName = req.body.item.toLowerCase();
@@ -83,8 +80,6 @@ exports.new_item = [
 
 exports.delete_from_pantry = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    // const token = req.headers.authorization.split(' ')[1];
-    // const authorizedUser = verifyToken(token);
     const currentUser = req.user;
     const tokenUserId = req.user.id;
     const { pantryUsersToDelete, item } = req.body;

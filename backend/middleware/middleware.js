@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const opts = { expiresIn: '7d' };
 const secret = process.env.TOKEN_KEY || TOKEN_KEY;
 
-const generateToken = (user) => jwt.sign({ id: user.id, username: user.username }, secret, opts);
+const generateToken = (user) => jwt.sign({ user: { id: user.id, username: user.username } }, secret, opts);
 
 const verifyToken = (token) => jwt.verify(token, secret);
 
@@ -29,7 +29,7 @@ const requiredAuth = (req,res, next) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ error: 'Authorization required.' });
+        return res.status(401).json({ message: 'Authorization is required. Please log in.', error: 'Authorization required.' });
     }
 
     try {
