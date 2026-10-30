@@ -229,18 +229,6 @@ exports.profile = asyncHandler(async (req, res, next) => {
         if (!userProfile) {
             return res.status(404).json({ error: 'User not found.' })
         } else {
-            // res.json({
-            //     userProfile,
-            //     ...(currentUser && {
-            //         currentUser: {
-            //             id: currentUser.id,
-            //             username: currentUser.username
-            //         },
-            //         isOwnProfile: userProfile.id === currentUser.id,
-            //         isFollowing: userProfile.followedBy?.length > 0,
-            //         followsYou: userProfile.following?.length > 0
-            //     })
-            // });
             res.json({
                 userProfile: {
                     ...userProfile,
@@ -319,8 +307,10 @@ exports.get_user_stats = asyncHandler(async (req, res, next) => {
 
 exports.follow_user = asyncHandler(async (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    const currentUser = authorizedUser.user
+    // const authorizedUser = verifyToken(token);
+    // const currentUser = authorizedUser.user;
+    const currentUser = req.user;
+    const tokenUserId = req.user.id;
     const usernameToFollow = req.body.userToFollow
 
     try {
@@ -391,8 +381,10 @@ exports.follow_user = asyncHandler(async (req, res, next) => {
 
 exports.unfollow_user = asyncHandler(async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    const currentUser = authorizedUser.user
+    // const authorizedUser = verifyToken(token);
+    // const currentUser = authorizedUser.user
+    const currentUser = req.user;
+    const tokenUserId = req.user.id;
     const usernameToUnfollow = req.body.userToFollow;
 
     try {
@@ -470,10 +462,10 @@ exports.edit_profile =[
                 errors: errors.array()
             });
         }
-
-        const token = req.headers.authorization.split(' ')[1];
-        const authorizedUser = verifyToken(token);
-        const currentUser = authorizedUser.user;
+        // const authorizedUser = verifyToken(token);
+        // const currentUser = authorizedUser.user;
+        const currentUser = req.user;
+        const tokenUserId = req.user.id;
         const { name, bio } = req.body;
         console.log(req.body.editData);
 

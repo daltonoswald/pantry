@@ -37,7 +37,7 @@ const requiredAuth = (req,res, next) => {
         req.user = decoded.user;
         next();
     } catch (error) {
-        return res.status(401).json({ error: 'Invalid or expired token.' });
+        return res.status(401).json({ message: 'Your session has expired. Please log in again.', error: 'Invalid or expired token.' });
     }
 };
 

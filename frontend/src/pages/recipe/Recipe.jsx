@@ -180,9 +180,12 @@ export default function Recipe() {
                                         {(!isAuthor && !isFavorited && !isAuthor) && (
                                             <GoHeart className='not-favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
                                         )}
-                                        {(!isAuthor && (
+                                        {/* {(!isAuthor && (
+                                            <>
                                             <GoHeart className='not-favorited icon-link' onClick={goToLogin} />
-                                        ))}
+                                            <p>HERE</p>
+                                            </>
+                                        ))} */}
                                         {(isAuthor && (  
                                             <GoHeart className='not-favorited icon-link' />
                                         ))}

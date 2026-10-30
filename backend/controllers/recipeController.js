@@ -40,8 +40,10 @@ exports.new_item = [
     async (req, res, next) => {
         const errors = validationResult(req);
         const token = req.headers.authorization.split(' ')[1];
-        const authorizedUser = verifyToken(token);
-        const tokenUserId = authorizedUser.user.id;
+        // const authorizedUser = verifyToken(token);
+        // const tokenUserId = authorizedUser.user.id;
+        const currentUser = req.user;
+        const tokenUserId = req.user.id;
         const recipeData = req.body;
 
         try {
@@ -131,7 +133,9 @@ exports.new_item = [
 
 exports.upload_image = asyncHandler(async (req, res) => {
     const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
+    // const authorizedUser = verifyToken(token);
+    const currentUser = req.user;
+    const tokenUserId = req.user.id;
 
     if (!req.file) {
         return res.status(400).json({ error: 'No file uploaded.' });
@@ -169,7 +173,7 @@ exports.upload_image = asyncHandler(async (req, res) => {
                 return res.status(404).json({ error: 'Recipe not found.' });
             }
 
-            if (recipe.userId !== authorizedUser.user.id) {
+            if (recipe.userId !== req.user.id) {
                 return res.status(403).json({ error: 'Unauthorized.' });
             }
 
@@ -206,7 +210,8 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
     try {
         // const token = req.headers.authorization.split(' ')[1];
         // const authorizedUser = verifyToken(token);
-        const currentUser = req.user; // Set by optionalAuth middleware
+        const currentUser = req.user;
+        const tokenUserId = req.user.id;
         const recipeToFind = req.body.recipeToFind;
         const recipeData = await prisma.recipe.findFirst({
             where: {
@@ -302,7 +307,9 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
 exports.delete_recipe = asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
     const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
+    // const authorizedUser = verifyToken(token);
+    const currentUser = req.user;
+    const tokenUserId = req.user.id;
     const recipeId = req.body.recipeToDelete
 
     try {
@@ -324,7 +331,7 @@ exports.delete_recipe = asyncHandler(async (req, res, next) => {
         }
 
         // if the recipe exists but the author isn't the one attempting to delete (shouldn't happen)
-        if (recipe.userId !== authorizedUser.user.id) {
+        if (recipe.userId !== req.user.id) {
             return res.status(403).json({ message: 'You do not have permission to delete this recipe.' });
         }
 
@@ -344,142 +351,147 @@ exports.delete_recipe = asyncHandler(async (req, res, next) => {
     }
 })
 
-exports.favorite_recipe = asyncHandler(async (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    console.log('auth-', authorizedUser);
-    const currentUser = authorizedUser.user;
-    const recipeId = req.body.recipeId;
+// exports.favorite_recipe = asyncHandler(async (req, res, next) => {
+//     // const token = req.headers.authorization.split(' ')[1];
+//     // const authorizedUser = verifyToken(token);
+//     // const currentUser = authorizedUser.user;
+//     const currentUser = req.user;
+//     const tokenUserId = req.user.id;
+//     const recipeId = req.body.recipeId;
 
-    try {
-        const recipeToFavorite = await prisma.recipe.findFirst({
-            where: {
-                id: {
-                    equals: recipeId,
-                    mode: 'insensitive'
-                }
-            },
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        username: true,
-                    }
-                }
-            }
-        });
+//     try {
+//         const recipeToFavorite = await prisma.recipe.findFirst({
+//             where: {
+//                 id: {
+//                     equals: recipeId,
+//                     mode: 'insensitive'
+//                 }
+//             },
+//             include: {
+//                 user: {
+//                     select: {
+//                         id: true,
+//                         username: true,
+//                     }
+//                 }
+//             }
+//         });
 
-        if (!recipeToFavorite) {
-            return res.status(404).json({
-                message: 'Recipe not found.'
-            })
-        }
+//         if (!recipeToFavorite) {
+//             return res.status(404).json({
+//                 message: 'Recipe not found.'
+//             })
+//         }
 
-        // Check to see if trying to favorite own recipe
-        if (currentUser.id === recipeToFavorite.userId) {
-            return res.status(400).json({
-                message: 'You cannot favorite your own recipes.'
-            });
-        }
+//         // Check to see if trying to favorite own recipe
+//         if (currentUser.id === recipeToFavorite.userId) {
+//             return res.status(400).json({
+//                 message: 'You cannot favorite your own recipes.'
+//             });
+//         }
 
-        const existingFavorite = await prisma.recipeFavorite.findFirst({
-            where: {
-                userId: currentUser.id,
-                recipeId: recipeId
-            }
-        })
+//         const existingFavorite = await prisma.recipeFavorite.findFirst({
+//             where: {
+//                 userId: currentUser.id,
+//                 recipeId: recipeId
+//             }
+//         })
 
-        if (existingFavorite) {
-            return res.status(400).json({
-                message: 'You have already favorited this recipe.'
-            })
-        }
+//         if (existingFavorite) {
+//             return res.status(400).json({
+//                 message: 'You have already favorited this recipe.'
+//             })
+//         }
 
-        const favorite = await prisma.recipeFavorite.create({
-            data: {
-                userId: currentUser.id,
-                recipeId: recipeId
-            },
-            include: {
-                recipe: {
-                    select: {
-                        id: true,
-                        title: true,
-                        description: true,
-                        user: {
-                            select: {
-                                id: true,
-                                username: true,
-                                name: true
-                            }
-                        }
-                    }
-                }
-            }
-        });
+//         const favorite = await prisma.recipeFavorite.create({
+//             data: {
+//                 userId: currentUser.id,
+//                 recipeId: recipeId
+//             },
+//             include: {
+//                 recipe: {
+//                     select: {
+//                         id: true,
+//                         title: true,
+//                         description: true,
+//                         user: {
+//                             select: {
+//                                 id: true,
+//                                 username: true,
+//                                 name: true
+//                             }
+//                         }
+//                     }
+//                 }
+//             }
+//         });
 
-        res.status(201).json({
-            message: `You have favorited "${recipeToFavorite.title}".`,
-            favorite
-        })
+//         res.status(201).json({
+//             message: `You have favorited "${recipeToFavorite.title}".`,
+//             favorite
+//         })
 
-    } catch (error) {
-        console.error('Error following user:', error);
-        res.status(500).json({
-            error: 'An error occured while following the user.'
-        })
-    }
-})
+//     } catch (error) {
+//         console.error('Error following user:', error);
+//         res.status(500).json({
+//             error: 'An error occured while following the user.'
+//         })
+//     }
+// })
 
-exports.unfavorite_recipe = asyncHandler(async (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    const currentUser = authorizedUser.user;
-    const recipeId = req.body.recipeId;
+// exports.unfavorite_recipe = asyncHandler(async (req, res, next) => {
+//     // const token = req.headers.authorization.split(' ')[1];
+//     // const authorizedUser = verifyToken(token);
+//     // const currentUser = authorizedUser.user;
+//     const currentUser = req.user;
+//     const tokenUserId = req.user.id;
+//     const recipeId = req.body.recipeId;
 
-    try {
-        const existingFavorite = await prisma.recipeFavorite.findFirst({
-            where: {
-                userId: currentUser.id,
-                recipeId: recipeId
-            },
-            include: {
-                recipe: {
-                    select: {
-                        title: true
-                    }
-                }
-            }
-        });
+//     try {
+//         const existingFavorite = await prisma.recipeFavorite.findFirst({
+//             where: {
+//                 userId: currentUser.id,
+//                 recipeId: recipeId
+//             },
+//             include: {
+//                 recipe: {
+//                     select: {
+//                         title: true
+//                     }
+//                 }
+//             }
+//         });
 
-        if (!existingFavorite) {
-            return res.status(400).json({
-                message: `You have not favorited this recipe.`
-            })
-        }
+//         if (!existingFavorite) {
+//             return res.status(400).json({
+//                 message: `You have not favorited this recipe.`
+//             })
+//         }
 
-        await prisma.recipeFavorite.delete({
-            where: {
-                id: existingFavorite.id
-            }
-        });
+//         await prisma.recipeFavorite.delete({
+//             where: {
+//                 id: existingFavorite.id
+//             }
+//         });
 
-        res.status(201).json({
-            message: `You have removed "${existingFavorite.recipe.title}" from your favorites.`,
-        })
+//         res.status(201).json({
+//             message: `You have removed "${existingFavorite.recipe.title}" from your favorites.`,
+//         })
 
-    } catch (error) {
-        console.error('Error following user:', error);
-        res.status(500).json({
-            error: 'An error occured while following the user.'
-        })
-    }
-})
+//     } catch (error) {
+//         console.error('Error following user:', error);
+//         res.status(500).json({
+//             error: 'An error occured while following the user.'
+//         })
+//     }
+// })
 
 exports.toggle_favorite = asyncHandler(async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    const currentUser = authorizedUser.user;
+    // const token = req.headers.authorization.split(' ')[1];
+    // const authorizedUser = verifyToken(token);
+    // const currentUser = authorizedUser.user;
+    const currentUser = req.user;
+    const tokenUserId = req.user.id;
 
     const { recipeId } = req.params;
 
@@ -504,7 +516,7 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
         // Check if already favorited
         const existingFavorite = await prisma.recipeFavorite.findFirst({
             where: {
-                userId: authorizedUser.user.id,
+                userId: req.user.id,
                 recipeId: recipeId
             }
         });
@@ -526,7 +538,7 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
             // Favorite
             const favorite = await prisma.recipeFavorite.create({
                 data: {
-                    userId: authorizedUser.user.id,
+                    userId: req.user.id,
                     recipeId: recipeId
                 }
             });
@@ -544,9 +556,10 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
 });
 
 exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
+    // const token = req.headers.authorization.split(' ')[1];
+    // const authorizedUser = verifyToken(token);
     const currentUser = req.user;
+    const tokenUserId = req.user.id;
     const limit = parseInt(req.query.limit) || 5;
     const minMatchPercent = parseInt(req.query.minMatch) || 0; // Minimum match percentage, considering 5-10
 
@@ -554,7 +567,7 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
         // Get user's pantry items
         const userPantry = await prisma.pantryUsers.findMany({
             where: {
-                userId: authorizedUser.user.id
+                userId: req.user.id
             },
             include: {
                 pantryItem: {
@@ -683,16 +696,17 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
 });
 
 exports.get_makeable_recipes = asyncHandler(async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
+    // const token = req.headers.authorization.split(' ')[1];
+    // const authorizedUser = verifyToken(token);
     const currentUser = req.user;
+    const tokenUserId = req.user.id;
     const limit = parseInt(req.query.limit) || 5;
 
     try {
         // get user's pantry ingredient IDs
         const userPantry = await prisma.pantryUsers.findMany({
             where: {
-                userId: authorizedUser.user.id
+                userId: req.user.id
             },
             include: {
                 pantryItem: true,
@@ -883,37 +897,39 @@ exports.get_recent_recipes = asyncHandler(async (req, res) => {
      });
 });
 
-exports.batch_check_favorites = asyncHandler(async (req, res) => {
-    const token = req.headers.authorization.split(' ')[1];
-    const authorizedUser = verifyToken(token);
-    const { recipeIds } = req.body;
+// exports.batch_check_favorites = asyncHandler(async (req, res) => {
+//     // const token = req.headers.authorization.split(' ')[1];
+//     // const authorizedUser = verifyToken(token);
+//     const currentUser = req.user;
+//     const tokenUserId = req.user.id;
+//     const { recipeIds } = req.body;
 
-    if (!recipeIds || !Array.isArray(recipeIds)) {
-        return res.status(400).json({ message: 'recipeIds must be an array' });
-    }
+//     if (!recipeIds || !Array.isArray(recipeIds)) {
+//         return res.status(400).json({ message: 'recipeIds must be an array' });
+//     }
 
-    try {
-        const favorites = await prisma.recipeFavorite.findMany({
-            where: {
-                userId: authorizedUser.user.id,
-                recipeId: {
-                    in: recipeIds
-                }
-            },
-            select: {
-                recipeId: true,
-            }
-        });
+//     try {
+//         const favorites = await prisma.recipeFavorite.findMany({
+//             where: {
+//                 userId: req.user.id,
+//                 recipeId: {
+//                     in: recipeIds
+//                 }
+//             },
+//             select: {
+//                 recipeId: true,
+//             }
+//         });
 
-        // Convert to object for easy lookup
-        const favoriteStatus = {};
-        recipeIds.forEach(id => {
-            favoriteStatus[id] = favorites.some(fav => fav.recipeId === id);
-        });
+//         // Convert to object for easy lookup
+//         const favoriteStatus = {};
+//         recipeIds.forEach(id => {
+//             favoriteStatus[id] = favorites.some(fav => fav.recipeId === id);
+//         });
 
-        res.json({ favoriteStatus });
-    } catch (error) {
-        console.error('Error checking favorite status:', error);
-        res.status(500).json({ error: 'An error occured.' });
-    }
-});
+//         res.json({ favoriteStatus });
+//     } catch (error) {
+//         console.error('Error checking favorite status:', error);
+//         res.status(500).json({ error: 'An error occured.' });
+//     }
+// });
