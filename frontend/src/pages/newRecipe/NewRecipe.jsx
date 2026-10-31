@@ -10,6 +10,7 @@ import Alert from '../../components/modals/Alert';
 import './newRecipe.css'
 import { useToast } from '../../components/toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function NewRecipe() {
     const navigate = useNavigate();
@@ -132,6 +133,7 @@ export default function NewRecipe() {
 
     return (
         <div className='app'>
+            <PageTitle title='New recipe' />
             <Header />
             <div className='new-recipe-container'>
                 <form className='new-recipe-form' onSubmit={handleSubmit}>

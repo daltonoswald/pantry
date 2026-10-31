@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Recent from './Recent';
 import Trending from './Trending';
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function Homepage() {
   const { token, username } = useAuth();
@@ -151,6 +152,7 @@ export default function Homepage() {
 
   if (!isLoading) return (
     <div className='app'>
+      <PageTitle />
       <Header />
       <div className='homepage-container'>
         <Trending 

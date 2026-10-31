@@ -9,6 +9,7 @@ import './search.styles.css';
 import { BiSlider } from 'react-icons/bi';
 import MediumRecipeCard from '../../components/recipe-cards/MediumRecipeCard';
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function Search() {
     const navigate = useNavigate();
@@ -56,6 +57,7 @@ export default function Search() {
 
     if (!isLoading) return (
         <div className='app'>
+            <PageTitle title={searchQuery ? `Search: ${searchQuery}` : 'Search' } />
             <Header />
             <div className='search-container'>
                 <div className='search-bar-container'>

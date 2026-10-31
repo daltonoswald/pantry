@@ -6,6 +6,7 @@ import doughImg from '../../assets/temp-stock-photos/dough.jpg'
 import './login-signup.css'
 import { useToast } from '../../components/toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function Signup() {
     const navigate = useNavigate();
@@ -59,6 +60,7 @@ export default function Signup() {
 
     return (
         <div className='app'>
+            <PageTitle title='Sign up' />
             <Header />
             <div className='signup-container'>
                 <div className='signup-column-left'>

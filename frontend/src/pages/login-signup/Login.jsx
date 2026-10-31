@@ -6,6 +6,7 @@ import vegetablesImg from '../../assets/temp-stock-photos/vegetables.jpg'
 import './login-signup.css'
 import { useToast } from '../../components/toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function Login() {
     const navigate = useNavigate();
@@ -55,6 +56,7 @@ export default function Login() {
 
     return (
         <div className='app'>
+            <PageTitle title='Log in' />
             <Header />
             <div className='login-container'>
                 <div className='login-column-left'>

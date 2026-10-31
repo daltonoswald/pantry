@@ -10,6 +10,7 @@ import EditProfile from '../../components/modals/EditProfile';
 import { LuChefHat } from 'react-icons/lu';
 import './profile.styles.css'
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 
 export default function Profile() {
@@ -159,6 +160,7 @@ export default function Profile() {
     if (!isLoading && !message) {
         return (
             <div className='app'>
+                <PageTitle title={`${params.username}'s profile`} />
                 <Header />
                 <div className='profile-container'>
                     <div className='profile-heading'>

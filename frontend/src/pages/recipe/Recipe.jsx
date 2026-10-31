@@ -8,10 +8,12 @@ import { GoHeart, GoHeartFill, GoShareAndroid } from 'react-icons/go'
 import { MdDelete, MdModeEdit } from 'react-icons/md';
 import { toggleFavoriteRecipe } from '../../utils/utility';
 import './recipe.styles.css';
+import RecipeFavorite from './RecipeFavorite';
 import ConfirmDelete from '../../components/modals/ConfirmDelete';
 import useLoginRedirect from '../../utils/useLoginRedirect';
 import { useToast } from '../../components/toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
+import PageTitle from '../../components/PageTitle';
 
 export default function Recipe() {
     const navigate = useNavigate();
@@ -21,7 +23,7 @@ export default function Recipe() {
     const [message, setMessage] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
-    const [isFavorited, setIsFavorited] = useState(false);
+    // const [isFavorited, setIsFavorited] = useState(false);
     const { showToast } = useToast();
     const { token } = useAuth();
     const goToLogin = useLoginRedirect();
@@ -50,11 +52,13 @@ export default function Recipe() {
                     showToast(data.message || data.error, {type: 'error' })
                 } else {
                     console.log(data);
-                    setRecipeData(data.recipeData);
-                    if (data.currentUser) {
-                        setIsAuthor(data.isAuthor)
-                        setIsFavorited(data.isFavorited)
-                    }
+                    // setRecipeData(data.recipeData);
+                    // if (data.currentUser) {
+                    //     setIsAuthor(data.isAuthor)
+                    //     setIsFavorited(data.isFavorited)
+                    // }
+                    setRecipeData({ ...data.recipeData, isFavorited: !!data.isFavorited });
+                    setIsAuthor(!!data.isAuthor);
                     setMessage(null);
                 }
             } catch (error) {
@@ -75,19 +79,6 @@ export default function Recipe() {
 
     const handleCloseDeleteModal = () => setIsDeleteModalOpen(false);
 
-    const handleToggleFavoriteRecipe = async (recipeId) => {
-
-        console.log('toggling: ', recipeId)
-        const result = await toggleFavoriteRecipe(recipeId)
-
-        if (result.success) {
-            // setMessage({ type: 'success', text: result.message });
-            window.location.reload();
-        } else {
-            // setMessage({ type: 'danger', text: result.message || 'Failed to favorite recipe.'})
-        }
-    }
-
     const handleCompleteStep = (e) => {
         e.currentTarget.classList.toggle('step-completed');
     }
@@ -95,6 +86,7 @@ export default function Recipe() {
     if (isLoading) {
         return (
             <div className='app'>
+                <PageTitle title='Recipe' />
                 <Header />
                 <div className='spinner-container'>
                     <div className='loading-spinner'></div>
@@ -102,10 +94,25 @@ export default function Recipe() {
             </div>
         )
     }
+
+    if (!recipeData) {
+        return (
+            <div className='app'>
+                <PageTitle title='Recipe' />
+                <Header />
+                <div className='reicpe-error'>
+                    <h2>Recipe not found.</h2>
+                    <Link to='/'>Back to home</Link>
+                </div>
+            </div>
+        )
+    }
+
     if (!isLoading && message) {
         console.log(message)
         return (
             <div className='app'>
+                <PageTitle title='Recipe' />
                 <Header />
                 <ErrorModal error={message} />
             </div>
@@ -115,6 +122,7 @@ export default function Recipe() {
     if (!isLoading && !message) {
         return (
             <div className='app'>
+                <PageTitle title={recipeData.title} />
                 <Header />
                 <div className='recipe-page'>
                     <div className='recipe-image-container'>
@@ -173,24 +181,7 @@ export default function Recipe() {
                                             </div>
                                         </>
                                     )}
-                                    <div className='recipe-info-favorite'>
-                                        {(!isAuthor && isFavorited && !isAuthor) && (
-                                            <GoHeartFill className='favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
-                                        )}
-                                        {(!isAuthor && !isFavorited && !isAuthor) && (
-                                            <GoHeart className='not-favorited icon-link' onClick={() => handleToggleFavoriteRecipe(params.recipeId)} />
-                                        )}
-                                        {/* {(!isAuthor && (
-                                            <>
-                                            <GoHeart className='not-favorited icon-link' onClick={goToLogin} />
-                                            <p>HERE</p>
-                                            </>
-                                        ))} */}
-                                        {(isAuthor && (  
-                                            <GoHeart className='not-favorited icon-link' />
-                                        ))}
-                                        <p>{recipeData._count.favorites}</p>
-                                    </div>
+                                    <RecipeFavorite recipe={recipeData} isAuthor={isAuthor} />
                             <div className='recipe-info-share'>
                                 <GoShareAndroid className='share-icon icon-link' color='black' onClick={() => navigator.clipboard.writeText(window.location.href)} />
                             </div>
