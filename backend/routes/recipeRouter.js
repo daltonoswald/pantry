@@ -12,6 +12,7 @@ router.get('/by-pantry', requiredAuth, recipeController.get_recipes_by_pantry);
 router.get('/makeable', requiredAuth, recipeController.get_makeable_recipes);
 router.get('/recent', optionalAuth, recipeController.get_recent_recipes);
 router.get('/trending', optionalAuth, recipeController.get_trending_recipes);
+router.get('/by-user/:username', optionalAuth, recipeController.get_recipes_by_user);
 
 router.post('/delete/:recipeId', requiredAuth, recipeController.delete_recipe);
 // router.post('/favorite/:recipeId', requiredAuth, recipeController.favorite_recipe);

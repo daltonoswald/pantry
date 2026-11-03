@@ -748,3 +748,78 @@ exports.get_recent_recipes = asyncHandler(async (req, res) => {
         }))
      });
 });
+
+exports.get_recipes_by_user = asyncHandler(async (req, res) => {
+    const currentUser = req.user;
+    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const limit = Math.min(Math.max(parseInt(req.query.limit) || 8, 1), 24);
+
+    const author = await prisma.user.findFirst({
+        where: {
+            username: {
+                equals: req.params.username,
+                mode: 'insensitive'
+            }
+        },
+        select: {
+            id: true,
+            username: true,
+            name: true,
+        }
+    });
+    if (!author) return res.status(404).json({ error: 'User not found.' });
+
+    const where = { userId: author.id };
+
+    const [recipes, total] = await Promise.all([
+        prisma.recipe.findMany({
+            where,
+            orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
+            skip: (page - 1) * limit,
+            take: limit,
+            include: {
+                user: {
+                    select: {
+                        id: true,
+                        username: true,
+                        name: true,
+                    }
+                },
+                recipeTags: {
+                    select: {
+                        tag: {
+                            select: {
+                                id: true,
+                                name: true,
+                            }
+                        }
+                    }
+                },
+                _count: {
+                    select: {
+                        favorites: true,
+                        comments: true,
+                    }
+                },
+                favorites: currentUser ? {
+                    where: { 
+                        userId: currentUser.id 
+                    } 
+                } : false
+                }
+            }),
+            prisma.recipe.count({ where })
+    ]);
+
+    res.json({
+        user: author,
+        recipes: recipes.map(recipe => ({
+            ...recipe,
+            isFavorited: recipe.favorites?.length > 0,
+            favorites: undefined
+        })),
+        total,
+        page,
+        totalPages: Math.ceil(total / limit)
+    });
+});

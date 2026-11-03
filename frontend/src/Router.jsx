@@ -8,7 +8,7 @@ import Profile from './pages/profile/Profile';
 import Recipe from './pages/recipe/Recipe';
 import NewRecipe from './pages/newRecipe/NewRecipe';
 import Search from './pages/search/Search';
-import ProfileAllRecipes from './pages/profile/ProfileAllRecipes';
+import ProfileAllRecipes from './pages/profileAllRecipes/ProfileAllRecipes';
 import { ToastProvider } from './components/toast/ToastContext';
 import { AuthProvider } from './context/AuthContext';
 
