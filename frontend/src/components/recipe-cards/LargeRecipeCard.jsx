@@ -44,7 +44,7 @@ export default function LargeRecipeCard ({ recipe }) {
                 <p>{recipe.description}</p>
                 <div className='tag-container'>
                     {recipe.recipeTags.map(tag => (
-                        <Link className='recipe-tag' to={`search?q=${tag.tag.name}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
+                        <Link className='recipe-tag' to={`/search?q=${encodeURIComponent(tag.tag.name)}&t=tags`} key={tag.tag.name}>{tag.tag.name}</Link>
                     ))}
                 </div>
             </div>

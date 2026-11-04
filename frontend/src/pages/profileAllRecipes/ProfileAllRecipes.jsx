@@ -6,7 +6,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useEffect, useState } from 'react';
 import './profileAllRecipes.styles.css';
 
-const PAGE_SIZE = 0;
+const PAGE_SIZE = 8;
 
 
 export default function ProfileAllRecipes() {
@@ -18,10 +18,10 @@ export default function ProfileAllRecipes() {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const url = `http://localhost:3000/recipe/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`;
 
     useEffect(() => {
         const controller = new AbortController();
+        const url = `http://localhost:3000/recipe/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`;
 
         const getRecipes = async () => {
             setIsLoading(true);
@@ -49,7 +49,7 @@ export default function ProfileAllRecipes() {
 
         getRecipes();
         return () => controller.abort();
-    }, [username, page, token, url]);
+    }, [username, page, token]);
 
     const goToPage = (n) => {
         setSearchParams({ page: n });
@@ -78,9 +78,9 @@ export default function ProfileAllRecipes() {
 
             {!isLoading && data && (
                 <div className='all-recipes-page'>
-                    <h2>
+                    <h2 className='all-recipes-title'>
                         <Link to={`/user/${data.user.username}`}>{data.user.username}</Link>
-                        {' '}({data.total})
+                        {`'s Recipes`}({data.total})
                     </h2>
 
                     {data.recipes.length === 0 ? (

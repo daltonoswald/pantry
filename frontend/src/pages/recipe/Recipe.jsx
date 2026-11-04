@@ -100,7 +100,7 @@ export default function Recipe() {
             <div className='app'>
                 <PageTitle title='Recipe' />
                 <Header />
-                <div className='reicpe-error'>
+                <div className='recipe-error'>
                     <h2>Recipe not found.</h2>
                     <Link to='/'>Back to home</Link>
                 </div>

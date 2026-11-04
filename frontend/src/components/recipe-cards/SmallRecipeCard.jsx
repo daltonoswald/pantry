@@ -7,9 +7,9 @@ import useFavoriteRecipe from '../../utils/useFavoriteRecipes';
 import { useAuth } from '../../context/AuthContext';
 
 export default function SmallRecipeCard({ recipe }) {
-        const goToLogin = useLoginRedirect();
-        const { isFavorited, favoriteCount, toggle } = useFavoriteRecipe(recipe);
-        const { isLoggedIn } = useAuth();
+    const goToLogin = useLoginRedirect();
+    const { isFavorited, favoriteCount, toggle } = useFavoriteRecipe(recipe);
+    const { isLoggedIn } = useAuth();
     
 
     return (
@@ -48,7 +48,7 @@ export default function SmallRecipeCard({ recipe }) {
                 <p>{recipe.description}</p>
                 <div className='tag-container'>
                     {recipe.recipeTags.map(tag => (
-                        <Link className='recipe-tag' to={`search?q=${tag.name}&t=tags`} key={tag.name}>{tag.name}</Link>
+                        <Link className='recipe-tag' to={`/search?q=${encodeURIComponent(tag.name)}&t=tags`} key={tag.name}>{tag.name}</Link>
                     ))}
                 </div>
             </div>

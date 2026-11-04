@@ -5,6 +5,7 @@ const prisma = new PrismaClient();
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { cloudinary } = require('../config/cloudinary');
+const { recipeCardInclude, toRecipeCard } = require('../helpers/recipeCard');
 
 exports.new_item = [
     body('title', 'Title must not be empty')
@@ -408,10 +409,7 @@ exports.toggle_favorite = asyncHandler(async (req, res) => {
 });
 
 exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
-    // const token = req.headers.authorization.split(' ')[1];
-    // const authorizedUser = verifyToken(token);
     const currentUser = req.user;
-    const tokenUserId = req.user.id;
     const limit = parseInt(req.query.limit) || 5;
     const minMatchPercent = parseInt(req.query.minMatch) || 0; // Minimum match percentage, considering 5-10
 
@@ -421,10 +419,10 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
             where: {
                 userId: req.user.id
             },
-            include: {
+            select: {
                 pantryItem: {
-                    include: {
-                        ingredient: true
+                    select: {
+                        ingredientId: true
                     }
                 }
             }
@@ -439,73 +437,61 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
 
         // Get ingredient IDs from user's pantry
         const userIngredientIds = userPantry.map(p => p.pantryItem.ingredientId);
+        const pantryIds = new Set(userIngredientIds);
 
-        // Get all recipes with their ingredients
-        const allRecipes = await prisma.recipe.findMany({
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        username: true,
-                        name: true
+        // Only partial matches: at least one ingredient in the pantry AND at least one missing
+
+        const candidateRecipes = await prisma.recipe.findMany({
+            where: {
+                AND: [
+                    {
+                        ingredients: {
+                            some: {
+                                ingredientId: {
+                                    in: userIngredientIds
+                                }
+                            }
+                        }
+                    },
+                    {
+                        ingredients: {
+                            some: {
+                                ingredientId: {
+                                    notIn: userIngredientIds
+                                }
+                            }
+                        }
                     }
-                },
+                ]
+            },
+            include: {
+                ...recipeCardInclude(currentUser),
                 ingredients: {
                     include: {
                         ingredient: true
                     }
-                },
-                recipeTags: {
-                    select: {
-                        tag: {
-                            select: {
-                                id: true,
-                                name: true,
-                            }
-                        }
-                    }
-                },
-                _count: {
-                    select: {
-                        favorites: true,
-                        comments: true
-                    }
-                },
-                favorites: currentUser ? {
-                    where: { userId: currentUser.id }
-                } : false 
+                }
             }
         });
 
-        // Calculate match percentage for each recipe
-        const recipesWithMatch = allRecipes.map(recipe => {
-            const recipeIngredientIds = recipe.ingredients.map(ing => ing.ingredientId);
-            const totalIngredients = recipeIngredientIds.length;
+        const toIngredientDetail = ing => ({
+            id: ing.ingredient.id,
+            name: ing.ingredient.name,
+            quantity: ing.quantity,
+            measurement: ing.measurement
+        });
 
-            // Count matching ingredients
-            const matchingIngredients = recipeIngredientIds.filter(id => 
-                userIngredientIds.includes(id)
-            );
+        // Match percentage for each recipe
+        const recipesWithMatch = candidateRecipes.map(recipe => {
+            const matchingIngredients = [];
+            const missingIngredients = [];
+            for (const ing of recipe.ingredients) {
+                (pantryIds.has(ing.ingredientId) ? matchingIngredients : missingIngredients).push(toIngredientDetail(ing));
+            }
+
+            const totalIngredients = recipe.ingredients.length;
             const matchCount = matchingIngredients.length;
-
-            // Calculate percentage
-            const matchPercentage = totalIngredients > 0 ? Math.round((matchCount / totalIngredients) * 100) : 0;
-
-            // Get missing ingredients
-            const missingIngredients = recipe.ingredients.filter(ing => !userIngredientIds.includes(ing.ingredientId)).map(ing => ({
-                id: ing.ingredient.id,
-                name: ing.ingredient.name,
-                quantity: ing.quantity,
-                measurement: ing.measurement
-            }));
-
-            // Get matching ingredient details
-            const matchingIngredientsDetails = recipe.ingredients.filter(ing => userIngredientIds.includes(ing.ingredientId)).map(ing => ({
-                id: ing.ingredient.id,
-                name: ing.ingredient.name,
-                quantity: ing.quantity,
-                measurement: ing.measurement
-            }));
+            const matchPercentage = Math.round((matchCount / totalIngredients) * 100);
 
             return {
                 id: recipe.id,
@@ -517,25 +503,21 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
                 totalIngredients,
                 matchCount,
                 matchPercentage,
-                matchingIngredients: matchingIngredientsDetails,
+                matchingIngredients,
                 missingIngredients,
                 isFavorited: recipe.favorites?.length > 0,
                 _count: recipe._count
-            };
+            }
         });
 
-        // Filter by minimum match percentage and sort by match percentage (highest first)
-        // Added check to remove anything at 100% which is shown in Makeable - maybe delete ?
-        const filteredRecipes = recipesWithMatch.filter(recipe => recipe.matchPercentage >= minMatchPercent && recipe.matchPercentage < 100).sort((a,b) => {
-            // Primary sort: match percentage (descending)
-            if (b.matchPercentage !== a.matchPercentage) {
-                return b.matchPercentage - a.matchPercentage;
-            }
-            // Secondary sort: fewer missing ingredients
-            return a.missingIngredients.length - b.missingIngredients.length;
-        })
-        .slice(0,limit)
-
+        const filteredRecipes = recipesWithMatch
+            .filter(recipe => recipe.matchPercentage >= minMatchPercent && recipe.matchPercentage < 100)
+            .sort((a, b) =>
+                b.matchPercentage - a.matchPercentage ||
+                a.missingIngredients.length - b.missingIngredients.length
+            )
+            .slice(0, limit);
+        
         res.json({
             pantryItemCount: userPantry.length,
             recipeCount: filteredRecipes.length,
@@ -548,10 +530,7 @@ exports.get_recipes_by_pantry = asyncHandler(async (req, res) => {
 });
 
 exports.get_makeable_recipes = asyncHandler(async (req, res) => {
-    // const token = req.headers.authorization.split(' ')[1];
-    // const authorizedUser = verifyToken(token);
     const currentUser = req.user;
-    const tokenUserId = req.user.id;
     const limit = parseInt(req.query.limit) || 5;
 
     try {
@@ -575,47 +554,32 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
         const userIngredientIds = userPantry.map(p => p.pantryItem.ingredientId);
 
         // Find recipes where ALL ingredients are in user's pantry
-        const allRecipes = await prisma.recipe.findMany({
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        username: true,
-                        name: true
+        const recipes = await prisma.recipe.findMany({
+            where: {
+                ingredients: {
+                    some: {},
+                    every: {
+                        ingredientId: {
+                            in: userIngredientIds
+                        }
                     }
-                },
+                }
+            },
+            orderBy: { 
+                createdAt: 'desc' 
+            },
+            take: limit,
+            include: {
+                ...recipeCardInclude(currentUser),
                 ingredients: {
                     include: {
                         ingredient: true
                     }
-                },
-                recipeTags: {
-                    select: {
-                        tag: {
-                            select: {
-                                id: true,
-                                name: true
-                            }
-                        }
-                    }
-                },
-                _count: {
-                    select: {
-                        favorites: true,
-                        comments: true
-                    }
-                },
-                favorites: currentUser ? {
-                    where: { userId: currentUser.id }
-                } : false
+                }
             }
         });
 
-        const makeableRecipes = allRecipes.filter(recipe => {
-            const recipeIngredientIds = recipe.ingredients.map(ing => ing.ingredientId);
-            return recipeIngredientIds.every(id => userIngredientIds.includes(id));
-        }).slice(0, limit)
-        .map(recipe => ({
+        const makeableRecipes = recipes.map(recipe => ({
             id: recipe.id,
             description: recipe.description,
             user: recipe.user,
@@ -627,7 +591,7 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
             matchPercentage: 100,
             ingredients: recipe.ingredients.map(ing => ({
                 id: ing.ingredient.id,
-                name: ing. ingredient.name,
+                name: ing.ingredient.name,
                 quantity: ing.quantity,
                 measurement: ing.measurement
             })),
@@ -639,8 +603,8 @@ exports.get_makeable_recipes = asyncHandler(async (req, res) => {
             pantryItemCount: userPantry.length,
             recipeCount: makeableRecipes.length,
             recipes: makeableRecipes
-        })
-
+        });
+        
     } catch (error) {
         console.error('Error finding makeable recipes:', error);
         res.status(500).json({ error: 'An error occured.' });
@@ -657,46 +621,11 @@ exports.get_trending_recipes = asyncHandler(async (req, res) => {
                 _count: 'desc'
             }
         },
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    username: true,
-                    name: true,
-                }
-            },
-            recipeTags: {
-                select: {
-                    tag: {
-                        select: {
-                            id: true,
-                            name: true
-                        }
-                    }
-                }
-            },
-            _count: {
-                select: {
-                    favorites: true,
-                    comments: true
-                }
-            },
-            favorites: currentUser ? {
-                where: {
-                    userId: currentUser.id
-                }
-            } : false
-        },
+        include: recipeCardInclude(currentUser),
         take: limit
     });
 
-    res.json({ 
-        recipes: recipes.map(recipe => ({
-            ...recipe,
-            isFavorited: recipe.favorites?.length > 0,
-            favorites: undefined
-        }))
-     });
+    res.json({ recipes: recipes.map(toRecipeCard) });
 });
 
 exports.get_recent_recipes = asyncHandler(async (req, res) => {
@@ -707,51 +636,15 @@ exports.get_recent_recipes = asyncHandler(async (req, res) => {
         orderBy: {
             createdAt: 'desc'
         },
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    username: true,
-                    name: true
-                }
-            },
-            recipeTags: {
-                select: {
-                    tag: {
-                        select: {
-                            id: true,
-                            name: true
-                        }
-                    }
-                }
-            },
-            _count: {
-                select: {
-                    favorites: true,
-                    comments: true
-                }
-            },
-            favorites: currentUser ? {
-                where: {
-                    userId: currentUser.id
-                }
-            } : false
-        },
+        include: recipeCardInclude(currentUser),
         take: limit
     });
-
-    res.json({ 
-        recipes: recipes.map(recipe => ({
-            ...recipe,
-            isFavorited: recipe.favorites?.length > 0,
-            favorites: undefined
-        }))
-     });
+    res.json({ recipes: recipes.map(toRecipeCard) });
 });
 
 exports.get_recipes_by_user = asyncHandler(async (req, res) => {
     const currentUser = req.user;
-    const page = Math.max(parseInt(req.query.page) || 1, 1);
+    const page = Math.min(Math.max(parseInt(req.query.page) || 1, 1), 100000);
     const limit = Math.min(Math.max(parseInt(req.query.limit) || 8, 1), 24);
 
     const author = await prisma.user.findFirst({
@@ -777,38 +670,9 @@ exports.get_recipes_by_user = asyncHandler(async (req, res) => {
             orderBy: [{ createdAt: 'desc' }, { id: 'asc' }],
             skip: (page - 1) * limit,
             take: limit,
-            include: {
-                user: {
-                    select: {
-                        id: true,
-                        username: true,
-                        name: true,
-                    }
-                },
-                recipeTags: {
-                    select: {
-                        tag: {
-                            select: {
-                                id: true,
-                                name: true,
-                            }
-                        }
-                    }
-                },
-                _count: {
-                    select: {
-                        favorites: true,
-                        comments: true,
-                    }
-                },
-                favorites: currentUser ? {
-                    where: { 
-                        userId: currentUser.id 
-                    } 
-                } : false
-                }
+            include: recipeCardInclude(currentUser)
             }),
-            prisma.recipe.count({ where })
+        prisma.recipe.count({ where })
     ]);
 
     res.json({

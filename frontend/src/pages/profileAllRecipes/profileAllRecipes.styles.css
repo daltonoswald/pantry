@@ -2,9 +2,17 @@
     padding: 4vh 10vw;
 }
 
+.all-recipes-title {
+    margin-bottom: 1rem !important;
+}
+
+.all-recipes-title > a {
+    color: #201b15 !important;
+}
+
 .recipe-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    grid-template-columns: repeat(4, minmax(260px, 1fr));
     gap: 1rem;
 }
 
