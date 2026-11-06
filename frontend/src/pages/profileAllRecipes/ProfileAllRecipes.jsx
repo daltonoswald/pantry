@@ -69,9 +69,10 @@ export default function ProfileAllRecipes() {
             )}
 
             {!isLoading && error && (
-                <div className='recipe-error'>
-                    <h2>{error.status === 404 ? 'User not found' : 'Something went wrong.'}</h2>
+                <div className='all-recipes-error'>
+                    <h2>{error.status === 404 ? 'User not found.' : 'Something went wrong.'}</h2>
                     <p>{error.text}</p>
+                    <p>Return to <Link to={`/user/${username}`}>{username}</Link>{`'s Profile.`}</p>
                     <Link to='/'>Back to home</Link>
                 </div>
             )}

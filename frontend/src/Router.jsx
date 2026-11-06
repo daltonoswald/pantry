@@ -11,6 +11,7 @@ import Search from './pages/search/Search';
 import ProfileAllRecipes from './pages/profileAllRecipes/ProfileAllRecipes';
 import { ToastProvider } from './components/toast/ToastContext';
 import { AuthProvider } from './context/AuthContext';
+import ProfilePantry from './pages/profilePantry/ProfilePantry';
 
 function Root() {
     return (
@@ -31,6 +32,7 @@ const router = createBrowserRouter([
             { path: '/sign-up', element: <Signup /> },
             { path: '/user/:username', element: <Profile /> },
             { path: '/user/:username/all-recipes', element: <ProfileAllRecipes />},
+            { path: '/user/:username/pantry', element: <ProfilePantry />},
             { path: '/recipe/:recipeId', element: <Recipe /> },
             { path: '/new-recipe', element: <NewRecipe /> },
             { path: '/search', element: <Search /> },

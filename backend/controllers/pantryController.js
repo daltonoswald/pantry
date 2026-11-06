@@ -106,4 +106,51 @@ exports.delete_from_pantry = asyncHandler(async (req, res, next) => {
         console.error(err);
         res.status(500).json({ error: 'Could not remove that item.' });
     }
+});
+
+exports.get_pantry_by_user = asyncHandler(async (req, res) => {
+    const currentUser = req.user;
+    const page = Math.min(Math.max(parseInt(req.query.page) || 1, 1), 100000);
+    const limit = Math.min(Math.max(parseInt(req.query.limit) || 16, 1), 24);
+
+    const owner = await prisma.user.findFirst({
+        where: {
+            username: {
+                equals: req.params.username,
+                mode: 'insensitive'
+            }
+        },
+        select: {
+            id: true,
+            username: true,
+            name: true,
+        }
+    });
+
+    if (!owner) return res.status(404).json({ error: 'User not found.' });
+
+    const where = {userId: owner.id };
+
+    const [items, total] = await Promise.all([
+        prisma.pantryUsers.findMany({
+            where,
+            orderBy: [{ pantryItem: { name: 'asc' } }, { id: 'asc' }],
+            skip: (page - 1) * limit,
+            take: limit,
+            select: {
+                id: true,
+                pantryItem: { select: { id: true, name: true } }
+            }
+        }),
+        prisma.pantryUsers.count({ where })
+    ]);
+
+    res.json({ 
+        user: owner,
+        isOwnProfile: currentUser?.id === owner.id,
+        items, 
+        total,
+        page,
+        totalPages: Math.ceil(total / limit)
+    });
 })
