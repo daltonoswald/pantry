@@ -2,8 +2,11 @@ import Header from '../../components/header/Header';
 import PageTitle from '../../components/PageTitle';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useToast } from '../../components/toast/ToastContext';
+import { capFirst, handleDeleteFromPantry } from '../../utils/utility';
 import { useEffect, useState } from 'react';
-import './profilePantry.styles.css';
+import './profileAllPantry.styles.css';
+import PantryItemCard from './PantryItemCard';
 
 const PAGE_SIZE = 16;
 
@@ -11,11 +14,13 @@ export default function ProfilePantry() {
     const { username } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const page = Math.max(parseInt(searchParams.get('page')) || 1, 1);
-    const { token } = useAuth();
+    const { token, refreshUser } = useAuth();
+    const { showToast } = useToast();
 
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [reloadKey, setReloadKey] = useState(0);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -28,14 +33,14 @@ export default function ProfilePantry() {
 
             try {
                 const response = await fetch(url, {
-                    headers: token ? { Authorization: `Bearer ${token}` } : {}
+                    headers: token ? { Authorization: `Bearer ${token}` } : {},
+                    signal: controller.signal,
                 });
                 const result = await response.json();
                 if (!response.ok) {
-                    setError({ status: response.status, text: result.error || 'Somethign went wrong. Please try again.' });
+                    setError({ status: response.status, text: result.error || 'Something went wrong. Please try again.' });
                 } else {
                     setData(result);
-                    console.log(result);
                 }
             } catch (err) {
                 if (err.name === 'AbortError') return;
@@ -47,12 +52,24 @@ export default function ProfilePantry() {
 
         getPantry();
         return () => controller.abort();
-    }, [username, page, token]);
+    }, [username, page, token, reloadKey]);
 
     const goToPage = (n) => {
         setSearchParams({ page: n });
         window.scrollTo({ top: 0 });
     };
+
+    const handleRemove = async (item) => {
+        const removed = await handleDeleteFromPantry(item.id);
+        if (!removed) {
+            showToast('Could not remove that item. Please try again.', { type: 'error' });
+            return;
+        }
+        showToast(`Removed ${capFirst(item.pantryItem.name)} from your pantry.`);
+        refreshUser();
+        if (data.items.length === 1 && page > 1) goToPage(page -1);
+        else setReloadKey(key => key + 1);
+    }
 
     const displayName = data?.user.username ?? username;
     const title = `${displayName}'s pantry${(page > 1 ? ` (page ${page})` : '')}`;
@@ -79,10 +96,38 @@ export default function ProfilePantry() {
                 <div className='profile-pantry-page'>
                     <h2 className='profile-pantry-title'>
                         <Link to={`/user/${data.user.username}`}>{data.user.username}</Link>
-                        {`'s Pantry`}({data.total})
+                        {`'s Pantry `}({data.total})
                     </h2>
+
+                    {data.items.length === 0 ? (
+                        <p>
+                            {data.total === 0
+                                ? 'No pantry items yet...'
+                                : <>No pantry items on this page. <Link to='?page=1'>Go to the first page.</Link></>
+                            }
+                        </p>
+                    ) : (
+                        <div className='profile-pantry-grid'>
+                            {data.items.map(item => (
+                                <PantryItemCard
+                                    key={item.id}
+                                    item={item}
+                                    isOwnProfile={data.isOwnProfile}
+                                    onRemove={handleRemove}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {data.totalPages > 1 && (
+                        <nav className='pagination' aria-label='Pagination'>
+                            <button onClick={() => goToPage(page - 1)} disabled={page <= 1}>Previous</button>
+                            <span>Page {page} of {data.totalPages}</span>
+                            <button onClick={() => goToPage(page + 1)} disabled={page >= data.totalPages}>Next</button>
+                        </nav>
+                    )}
                 </div>
             )}
         </div>
-    )
+    );
 }

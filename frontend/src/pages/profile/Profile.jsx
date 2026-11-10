@@ -3,7 +3,6 @@ import { Link, useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import ErrorModal from '../../components/ErrorModal';
-import { capFirst, handleDeleteFromPantry } from '../../utils/utility';
 import ProfilePantry from './components/ProfilePantry'
 import ProfileRecipes from './components/ProfileRecipes';
 import EditProfile from '../../components/modals/EditProfile';

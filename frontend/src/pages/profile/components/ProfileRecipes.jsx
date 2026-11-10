@@ -12,7 +12,7 @@ export default function ProfileRecipes({ myData, profileData, isOwnProfile }) {
         <>
         <div className='profile-recipes-container'>
             <div className='profile-recipes-header'>
-                <h3>My Recipes</h3>
+                <h3>{isOwnProfile ? 'My Recipes' : `${profileData.username}'s Recipes`}</h3>
                 <Link to={`/user/${profileData.username}/all-recipes`}>View All ({profileData._count.recipes}) <MdArrowRightAlt /></Link>
             </div>
             {(profileData.recipes.length > 0) && (

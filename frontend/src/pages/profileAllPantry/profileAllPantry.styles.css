@@ -1,0 +1,76 @@
+.profile-pantry-page {
+    padding: 4vh 10vw;
+}
+
+.profile-pantry-title {
+    margin-bottom: 1rem !important;
+}
+
+.profile-pantry-title > a {
+    color: #201b15 !important;
+}
+
+.profile-pantry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+}
+
+.profile-pantry-error {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 4vh;
+}
+
+.profile-pantry-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.pantry-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    border-radius: 1.5rem;
+}
+
+.pantry-item:hover {
+    background-color: var(--card);
+}
+
+.pantry-item-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #A03F28;
+}
+
+.pantry-item-remove:hover {
+    color: #7D2E1C;
+}
+
+.pantry-item-add,
+.pantry-item-in-pantry {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.pantry-item-add {
+    cursor: pointer;
+    color: #53643A;
+}
+
+.pantry-item-add:hover {
+    color: #43522E;
+}
+
+.pantry-item-add:disabled {
+    opacity: 0.5;
+    cursor: defaut;
+}

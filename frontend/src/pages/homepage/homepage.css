@@ -56,7 +56,7 @@
 
 .trending-recipe-card-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
 }
 
@@ -169,7 +169,7 @@
 
 .makeable-recipe-card-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
 }
 
@@ -293,7 +293,7 @@
 
 .recent-recipe-card-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 1rem;
 }
 
@@ -325,13 +325,6 @@
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
     transition-duration: 700ms;
 }
-
-/* .medium-recipe-about {
-    flex-grow: 1;
-    display: grid;
-    grid-template-rows: 1fr 1fr 1.5fr 1fr;
-    align-items: start;
-} */
 
 .medium-recipe-stats {
     display: flex;

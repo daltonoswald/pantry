@@ -145,10 +145,27 @@ exports.get_pantry_by_user = asyncHandler(async (req, res) => {
         prisma.pantryUsers.count({ where })
     ]);
 
+    const isOwnProfile = currentUser?.id === owner.id;
+
+    let viewerItemIds = new Set();
+    if (currentUser && !isOwnProfile && items.length > 0) {
+        const viewerItems = await prisma.pantryUsers.findMany({
+            where: {
+                userId: currentUser.id,
+                pantryItem: { in: items.map(item => item.pantryItem.id) }
+            },
+            select: { pantryItemId: true }
+        });
+        viewerItemIds = new Set(viewerItems.map(v => v.pantryItemId));
+    }
+
     res.json({ 
         user: owner,
-        isOwnProfile: currentUser?.id === owner.id,
-        items, 
+        isOwnProfile,
+        items: items.map(item => ({
+            ...item,
+            inMyPantry: viewerItemIds.has(item.pantryItem.id)
+        })),
         total,
         page,
         totalPages: Math.ceil(total / limit)

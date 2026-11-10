@@ -81,14 +81,14 @@ export default function ProfileAllRecipes() {
                 <div className='all-recipes-page'>
                     <h2 className='all-recipes-title'>
                         <Link to={`/user/${data.user.username}`}>{data.user.username}</Link>
-                        {`'s Recipes`}({data.total})
+                        {`'s Recipes `}({data.total})
                     </h2>
 
                     {data.recipes.length === 0 ? (
                         <p>
                             {data.total === 0
                                 ? 'No recipes yet...'
-                                : <>No recipes on this page. <Link to='?page=1'>Go to the first page</Link></>}
+                                : <>No recipes on this page. <Link to='?page=1'>Go to the first page.</Link></>}
                         </p>
                     ) : (
                         <div className='recipe-grid'>
