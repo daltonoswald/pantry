@@ -152,7 +152,7 @@ exports.get_pantry_by_user = asyncHandler(async (req, res) => {
         const viewerItems = await prisma.pantryUsers.findMany({
             where: {
                 userId: currentUser.id,
-                pantryItem: { in: items.map(item => item.pantryItem.id) }
+                pantryItemId: { in: items.map(item => item.pantryItem.id) }
             },
             select: { pantryItemId: true }
         });

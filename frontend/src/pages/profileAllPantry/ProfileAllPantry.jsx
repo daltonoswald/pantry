@@ -2,7 +2,7 @@ import Header from '../../components/header/Header';
 import PageTitle from '../../components/PageTitle';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './profileAllPantry.styles.css';
 import PantryItemCard from './PantryItemCard';
 
@@ -19,6 +19,7 @@ export default function ProfilePantry() {
     const [error, setError] = useState(null);
     const [reloadKey, setReloadKey] = useState(0);
     const [removedCount, setRemovedCount] = useState(0);
+    const refreshInBackground = useRef(false);
 
     useEffect(() => {
         setRemovedCount(0);
@@ -26,22 +27,31 @@ export default function ProfilePantry() {
 
     const handleRemoved = () => {
         const nowRemoved = removedCount + 1;
+        refreshInBackground.current = true;
         setRemovedCount(nowRemoved);
+        setReloadKey(key => key + 1)
         // if nothing left on current page, pull in the next item(s)
-        if (nowRemoved === data.items.length) {
-            if (page > 1) goToPage(page - 1);
-            else setReloadKey(key => key + 1);
-        }
+        // if (nowRemoved === data.items.length) {
+        //     if (page > 1) goToPage(page - 1);
+        //     else setReloadKey(key => key + 1);
+        // }
     }
 
     useEffect(() => {
         const controller = new AbortController();
         const url = `http://localhost:3000/pantry/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`;
 
+        const background = refreshInBackground.current;
+        refreshInBackground.current = false;
+
         const getPantry = async() => {
-            setIsLoading(true);
-            setError(null);
-            setData(null);
+            let redirected = false;
+
+            if (!background) {
+                setIsLoading(true);
+                setError(null);
+                setData(null);
+            }
 
             try {
                 const response = await fetch(url, {
@@ -50,7 +60,10 @@ export default function ProfilePantry() {
                 });
                 const result = await response.json();
                 if (!response.ok) {
-                    setError({ status: response.status, text: result.error || 'Something went wrong. Please try again.' });
+                    if (!background) setError({ status: response.status, text: result.error || 'Something went wrong. Please try again.' });
+                } else if (result.items.length === 0 && result.totalPages > 0 && page > result.totalPages) {
+                    redirected = true
+                    setSearchParams({ page: result.totalPages } , { replace: true });
                 } else {
                     setData(result);
                 }
@@ -58,7 +71,7 @@ export default function ProfilePantry() {
                 if (err.name === 'AbortError') return;
                 setError({ status: 0, text: 'Could not reach the server. Please try again.' });
             } finally {
-                if (!controller.signal.aborted) setIsLoading(false);
+                if (!controller.signal.aborted && !background && !redirected) setIsLoading(false);
             }
         };
 
@@ -96,7 +109,7 @@ export default function ProfilePantry() {
                 <div className='profile-pantry-page'>
                     <h2 className='profile-pantry-title'>
                         <Link to={`/user/${data.user.username}`}>{data.user.username}</Link>
-                        {`'s Pantry `}({data.total})
+                        {`'s Pantry `}({data.total - removedCount})
                     </h2>
 
                     {data.items.length === 0 ? (
