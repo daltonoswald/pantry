@@ -2,8 +2,6 @@ import Header from '../../components/header/Header';
 import PageTitle from '../../components/PageTitle';
 import { useParams, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { useToast } from '../../components/toast/ToastContext';
-import { capFirst, handleDeleteFromPantry } from '../../utils/utility';
 import { useEffect, useState } from 'react';
 import './profileAllPantry.styles.css';
 import PantryItemCard from './PantryItemCard';
@@ -14,13 +12,27 @@ export default function ProfilePantry() {
     const { username } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const page = Math.max(parseInt(searchParams.get('page')) || 1, 1);
-    const { token, refreshUser } = useAuth();
-    const { showToast } = useToast();
+    const { token } = useAuth();
 
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
     const [reloadKey, setReloadKey] = useState(0);
+    const [removedCount, setRemovedCount] = useState(0);
+
+    useEffect(() => {
+        setRemovedCount(0);
+    }, [data]);
+
+    const handleRemoved = () => {
+        const nowRemoved = removedCount + 1;
+        setRemovedCount(nowRemoved);
+        // if nothing left on current page, pull in the next item(s)
+        if (nowRemoved === data.items.length) {
+            if (page > 1) goToPage(page - 1);
+            else setReloadKey(key => key + 1);
+        }
+    }
 
     useEffect(() => {
         const controller = new AbortController();
@@ -58,18 +70,6 @@ export default function ProfilePantry() {
         setSearchParams({ page: n });
         window.scrollTo({ top: 0 });
     };
-
-    const handleRemove = async (item) => {
-        const removed = await handleDeleteFromPantry(item.id);
-        if (!removed) {
-            showToast('Could not remove that item. Please try again.', { type: 'error' });
-            return;
-        }
-        showToast(`Removed ${capFirst(item.pantryItem.name)} from your pantry.`);
-        refreshUser();
-        if (data.items.length === 1 && page > 1) goToPage(page -1);
-        else setReloadKey(key => key + 1);
-    }
 
     const displayName = data?.user.username ?? username;
     const title = `${displayName}'s pantry${(page > 1 ? ` (page ${page})` : '')}`;
@@ -113,7 +113,7 @@ export default function ProfilePantry() {
                                     key={item.id}
                                     item={item}
                                     isOwnProfile={data.isOwnProfile}
-                                    onRemove={handleRemove}
+                                    onRemoved={handleRemoved}
                                 />
                             ))}
                         </div>
