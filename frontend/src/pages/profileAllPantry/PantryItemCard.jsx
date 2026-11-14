@@ -1,4 +1,4 @@
-import { GoPlusCircle, GoCheckCircle } from 'react-icons/go';
+import { GoPlusCircle, GoCheckCircle, GoXCircle } from 'react-icons/go';
 import { MdClose } from 'react-icons/md';
 import { capFirst } from '../../utils/utility';
 import usePantryItem from '../../utils/usePantryItem';
@@ -31,9 +31,24 @@ export default function PantryItemCard({ item, isOwnProfile, onRemoved }) {
                     <MdClose />
                 </button>
             ) : inPantry ? (
-                <span className='pantry-item-in-pantry' title='In your pantry'>
-                    <GoCheckCircle aria-label='In your pantry' />
-                </span>
+                // <span className='pantry-item-in-pantry' title='In your pantry'>
+                //     <GoCheckCircle aria-label='In your pantry' />
+                // </span>
+
+                // <button
+                //     className='pantry-item-remove'
+                //     aria-label={`Remove ${name} from your pantry`}
+                //     title='In your pantry. Click to remove.'
+                //     onClick={remove}
+                //     disabled={isPending}
+                // >
+                //     <GoXCircle />
+                // </button>
+
+                <button className='pantry-item-toggle' onClick={remove} disabled={isPending} aria-label={`Remove ${name} from your pantry`}>
+                    <GoCheckCircle className='icon-have' />
+                    <GoXCircle className='icon-remove' />
+                </button>
             ) : (
                 <button
                     className='pantry-item-add'
