@@ -1,7 +1,6 @@
 import Header from '../../components/header/Header';
-import Alert from '../../components/modals/Alert';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import vegetablesImg from '../../assets/temp-stock-photos/vegetables.jpg'
 import './login-signup.css'
 import { useToast } from '../../components/toast/ToastContext';
@@ -10,7 +9,6 @@ import PageTitle from '../../components/PageTitle';
 
 export default function Login() {
     const navigate = useNavigate();
-    // const [message, setMessage] = useState();
     const location = useLocation();
     const { showToast } = useToast();
     const { login, isLoggedIn } = useAuth();
@@ -18,7 +16,7 @@ export default function Login() {
 
     useEffect(() => {
         if (isLoggedIn) navigate(from, { replace: true });
-    }, [isLoggedIn]);
+    }, [isLoggedIn, from, navigate]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -88,11 +86,6 @@ export default function Login() {
                         <div className='form-group'>
                             <button className='submit-button' type='submit'>Log in</button>
                         </div>
-                        
-                        {/* {message && (
-                            <Alert message={message} />
-                        )} */}
-
                         <p className='sign-up-login-link'>New to Pantry? <Link to='/sign-up' state={location.state}>Sign up</Link></p>
                     </form>
                 </div>

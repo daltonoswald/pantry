@@ -1,5 +1,5 @@
 .profile-pantry-page {
-    padding: 4vh 10vw;
+    padding: var(--page-padding);
 }
 
 .profile-pantry-title {
@@ -35,6 +35,10 @@
     align-items: center;
     padding: 0.5rem 0.75rem;
     border-radius: 1.5rem;
+}
+
+.pantry-item h4 {
+    margin: 0;
 }
 
 .pantry-item:hover {

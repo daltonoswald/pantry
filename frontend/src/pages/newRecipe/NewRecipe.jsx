@@ -1,12 +1,9 @@
 import Header from '../../components/header/Header';
-import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { GoPlusCircle } from 'react-icons/go';
 import { MdClose } from 'react-icons/md';
-import TinyEditor from '../../components/tinyEditor/TinyEditor';
 import ImageUpload from '../../components/ImageUpload';
-import Alert from '../../components/modals/Alert';
 import './newRecipe.css'
 import { useToast } from '../../components/toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
@@ -17,10 +14,8 @@ export default function NewRecipe() {
     const [imageUrl, setImageUrl] = useState(null);
     const [ingredientList, setIngredientList] = useState([{ingredient: '', ingredientNote: '', unitAmount: '', unit: 'tsp'}]);
     const [steps, setSteps] = useState(['']);
-    // const [message, setMessage] = useState();
     const { showToast } = useToast();
     const { token, refreshUser } = useAuth();
-    // const token = localStorage.getItem('pantryAuthToken');
 
     const cookingUnits = [
         "tsp", "tbsp", "fl oz", "cup", "pt", "qt", "gal", "ml", "l",
@@ -115,19 +110,16 @@ export default function NewRecipe() {
             })
             const data = await response.json();
             if (response.ok) {
-                // console.log(data.message);
                 showToast(data.message)
                 navigate(`/recipe/${data.recipe.id}`);
                 refreshUser();
             } else {
                 console.error(data.message)
                 showToast(data.message || data.error, { type: 'error' });
-                // setMessage(data.message)
             }
         } catch (error) {
             console.error(`Error requesting:`, error);
             showToast('Could not create a new recipe. Please try again.', {type: 'error'} );
-            // setMessage(`There was an error adding your recipe. Please try again later.`)
         }
     }
 
@@ -241,7 +233,7 @@ export default function NewRecipe() {
                     <div className='form-method-container'>
                         <div className='form-method-title-container'>
                             <h2 className='form-title'>Method</h2>
-                            <p className='add-ingredient' onClick={handleAddStep}><GoPlusCircle /> Add Step</p>
+                            <p className='add-step' onClick={handleAddStep}><GoPlusCircle /> Add Step</p>
                         </div>
                         <div className='form-group-step-container'>
                             {steps.map((step, index) => (

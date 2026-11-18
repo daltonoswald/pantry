@@ -11,7 +11,7 @@
     align-items: center;
     justify-content: center;
     background-color: var(--card);
-    padding: 4vh 10vw;
+    padding: var(--page-padding);
     gap: 1rem;
 }
 
@@ -84,7 +84,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
-    padding: 4vh 10vw;
+    padding: var(--page-padding);
 }
 
 .search-ingredients-container {

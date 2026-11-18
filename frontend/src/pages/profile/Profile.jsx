@@ -69,7 +69,7 @@ export default function Profile() {
             }
         }
         getProfile();
-    }, [params.username, navigate]);
+    }, [params.username, navigate, token]);
 
     const handleFollow = async (e) => {
         e.preventDefault();

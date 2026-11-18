@@ -4,7 +4,6 @@ import { useToast } from '../toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 
 export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
-    const [message, setMessage] = useState();
     const [success, setSuccess] = useState();
     const { showToast } = useToast();
     const { token, refreshUser } = useAuth();
@@ -68,10 +67,6 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
                         <button className='submit-button modal-submit-button' type='submit'>Add</button>
                     </div>
                 </form>
-
-                {message && (
-                    <Alert success={success} message={message} />
-                )}
             </div>
         </div>
     )

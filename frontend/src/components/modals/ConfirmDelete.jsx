@@ -1,13 +1,9 @@
-import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
-// import { handleDeleteRecipe } from '../../utils/utility';
 
-export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose, itemToDelete }) {
-    // const token = localStorage.getItem('pantryAuthToken');
-    // const [message, setMessage] = useState();
+export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose }) {
     const { showToast } = useToast();
     const { token, refreshUser } = useAuth();
     const navigate = useNavigate();
@@ -29,13 +25,10 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
             });
             const data = await response.json();
             if (response.ok) {
-                // setMessage(data.message);
                 showToast(data.message);
                 refreshUser();
                 navigate('/');
-                // window.location.reload();
             } else {
-                // setMessage(data.message);
                 showToast(data.message || data.error, { type: 'error' });
             }
         } catch (error) {
@@ -51,23 +44,6 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
     if (!isDeleteModalOpen) return null
 
     return (
-        // <Modal show={openConfirmDelete} onHide={handleCloseModal} centered>
-        //     <Modal.Header closeButton>
-        //         <Modal.Title>Delete Recipe</Modal.Title>
-        //     </Modal.Header>
-        //     <Modal.Body>
-        //         <p>Are you sure you want to delete the recipe for {itemToDelete.title}?</p>
-        //     </Modal.Body>
-        //     <Modal.Footer>
-        //         <Button variant='secondary' onClick={() => setOpenConfirmDelete(false)}>Close</Button>
-        //         <Button variant='danger' onClick={() => handleDeleteRecipe(itemToDelete.id)}>Delete</Button>
-        //     </Modal.Footer>
-        //     {message && (
-        //         <Modal.Footer>
-        //             <Alert className='m-3 p-3 mx-auto text-center' variant='danger'>{message}</Alert>  
-        //         </Modal.Footer>
-        //     )}
-        // </Modal>
         <div className='recipe-confirm-delete-modal' onClick={onClose}>
             <div className='recipe-confirm-delete-modal-content' onClick={(e) => e.stopPropagation()}>
                 <MdDelete className='confirm-delete-icon' />

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { updateProfile } from '../../utils/utility';
 import Alert from '../modals/Alert';
 import { useToast } from '../toast/ToastContext';
@@ -20,13 +20,6 @@ export default function EditProfile({ profileData, openEditProfile, setOpenEditP
         const result = await updateProfile(editData);
 
         if (result.success) {
-            // setMessage(result.message);
-            // setSuccess(result.success);
-            // const timer = setTimeout(() => {
-            //     onClose();
-            //     window.location.reload();
-            // }, 3000)
-            // return () => clearTimeout(timer);
             showToast(result.message);
         } else {
             setMessage({ type: 'danger', text: result.message || 'Failed to update profile.'})

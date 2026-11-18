@@ -1,13 +1,8 @@
-import { useNavigate, Link } from 'react-router-dom';
-import { GoClock, GoHeart, GoHeartFill } from 'react-icons/go'
-import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
-import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
 import './homepage.css'
-import useLoginRedirect from '../../utils/useLoginRedirect';
 import LargeRecipeCard from '../../components/recipe-cards/LargeRecipeCard';
 
 
-export default function Trending({trendingRecipes, popularTags }) {
+export default function Trending({ trendingRecipes }) {
 
     return (
         <>

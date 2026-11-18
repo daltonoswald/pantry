@@ -4,13 +4,11 @@ import { useNavigate, useParams, Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { format } from 'date-fns';
 import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
-import { GoHeart, GoHeartFill, GoShareAndroid } from 'react-icons/go'
+import { GoShareAndroid } from 'react-icons/go'
 import { MdDelete, MdModeEdit } from 'react-icons/md';
-import { toggleFavoriteRecipe } from '../../utils/utility';
 import './recipe.styles.css';
 import RecipeFavorite from './RecipeFavorite';
 import ConfirmDelete from '../../components/modals/ConfirmDelete';
-import useLoginRedirect from '../../utils/useLoginRedirect';
 import { useToast } from '../../components/toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 import PageTitle from '../../components/PageTitle';
@@ -23,10 +21,8 @@ export default function Recipe() {
     const [message, setMessage] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isAuthor, setIsAuthor] = useState(false);
-    // const [isFavorited, setIsFavorited] = useState(false);
     const { showToast } = useToast();
     const { token } = useAuth();
-    const goToLogin = useLoginRedirect();
 
     useEffect(() => {
         const getRecipe = async () => {
@@ -48,15 +44,9 @@ export default function Recipe() {
                 if (!response.ok) {
                     setIsLoading(false);
                     console.error(`Error Data: `, data.error);
-                    // setMessage(errorData.error.message);
                     showToast(data.message || data.error, {type: 'error' })
                 } else {
                     console.log(data);
-                    // setRecipeData(data.recipeData);
-                    // if (data.currentUser) {
-                    //     setIsAuthor(data.isAuthor)
-                    //     setIsFavorited(data.isFavorited)
-                    // }
                     setRecipeData({ ...data.recipeData, isFavorited: !!data.isFavorited });
                     setIsAuthor(!!data.isAuthor);
                     setMessage(null);
@@ -72,8 +62,6 @@ export default function Recipe() {
     }, [params.recipe, navigate, params.recipeId, showToast, token])
 
     const handleIsDeleteModalOpen = () => {
-        console.log('working!');
-        console.log(isDeleteModalOpen)
         setIsDeleteModalOpen(!isDeleteModalOpen);
     }
 

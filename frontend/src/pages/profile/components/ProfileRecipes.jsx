@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { MdArrowRightAlt } from 'react-icons/md';
 import ProfileRecipeCard from './ProfileRecipeCard';
 
-export default function ProfileRecipes({ myData, profileData, isOwnProfile }) {
+export default function ProfileRecipes({ profileData, isOwnProfile }) {
     const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
 

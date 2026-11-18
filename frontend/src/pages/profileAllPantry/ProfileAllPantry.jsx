@@ -99,7 +99,7 @@ export default function ProfileAllPantry() {
                 </div>
             )}
 
-            {!isLoading && data && error.status !== 404 && (
+            {!isLoading && data && (
                 <div className='profile-pantry-page'>
                     <h2 className='profile-pantry-title'>
                         <Link to={`/user/${data.user.username}`}>{data.user.username}</Link>

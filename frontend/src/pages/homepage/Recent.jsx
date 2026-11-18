@@ -1,9 +1,5 @@
-import { useNavigate, Link } from 'react-router-dom';
-import { favoriteRecipe, unfavoriteRecipe, toggleFavoriteRecipe } from '../../utils/utility';
-import kitchenImg from '../../assets/temp-stock-photos/kitchen.jpg'
-import { GoHeartFill, GoHeart, GoClock } from 'react-icons/go';
+import { Link } from 'react-router-dom';
 import { MdArrowRightAlt } from 'react-icons/md'
-import useLoginRedirect from '../../utils/useLoginRedirect';
 import MediumRecipeCard from '../../components/recipe-cards/MediumRecipeCard';
 
 

@@ -52,7 +52,7 @@ export default function Header() {
         <>
         <div className='pantry-nav' ref={navbarRef}>
             <div className='navbar-left'>
-                <NavLink to='/' style={({ isActive }) => isActive ? { color: '#C0563E'} : { color: 'black'}} className='navbar-brand'>
+                <NavLink to='/' className='navbar-brand'>
                     Pantry
                 </NavLink>
                 <NavLink to='/' className={({ isActive, isPending }) => `navbar-link ${isPending ? "pending"  : isActive ? "active" : ""}` }>

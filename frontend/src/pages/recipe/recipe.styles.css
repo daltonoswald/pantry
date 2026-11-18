@@ -1,23 +1,5 @@
 @import url('https://googleapis.com');
 
-:root {
-    --primary: #C0563E;
-    --primary-opaque: rgb(192, 86, 62, .9);
-    --primary-subtle: #FFDAD2;
-    --secondary: #76885B;
-    --tetriary: #E8DED1;
-    --neutral: #4D463F;
-    --background: rgb(255 248 244 / 1);
-    --background-deeper: #fdf2e8;
-    --card: rgb(253 242 232 / 1);
-    /* --card: rgb(245 230 215); */
-    --on-surface: rgb(86 66 61 / 0.5);
-}
-
-.recipe-page-container {
-    padding-bottom: 4vh;
-}
-
 .recipe-image-container {
     position: relative;
     width: 100%;
@@ -31,7 +13,7 @@
 }
 
 .recipe-text-overlay {
-    font-family: Noto Serif !important;
+    font-family: Noto Serif;
     position: absolute;
     inset: 0px;
     width: 65%;
@@ -84,7 +66,7 @@
 }
 
 .recipe-info-data {
-    font-family: Noto Serif !important;
+    font-family: Noto Serif;
     font-size: 20px;
 }
 
@@ -134,9 +116,9 @@
 
 .recipe-ingredients-title,
 .recipe-directions-title {
-    font-family: Noto Serif !important;
+    font-family: Noto Serif;
     border-bottom: 1px solid rgb(221, 192, 186, 0.3);
-    margin-bottom: 1.25rem !important;
+    margin-bottom: 1.25rem;
 }
 
 .recipe-ingredient-list {
@@ -158,10 +140,6 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 250ms;
 }
-
-/* .recipe-ingredient > span > a {
-    color: var(--primary) !important;
-} */
 
 .recipe-ingredient:hover {
     border: 1px solid rgb(0, 0, 0, 0.5);
@@ -197,7 +175,7 @@
 }
 
 .step-completed {
-    color: var(--secondary) !important;
+    color: var(--secondary);
 }
 
 .recipe-step:hover .recipe-step-index {
@@ -268,7 +246,7 @@
     line-height: 1.125rem;
     padding: 1.125rem;
     border-radius: 9999px;
-    border: 0 !important;
+    border: 0;
     flex-grow: 1;
     transition-property: all;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

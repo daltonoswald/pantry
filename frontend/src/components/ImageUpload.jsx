@@ -22,7 +22,7 @@ export default function ImageUpload({ onUpload }) {
         try {
             console.log('trying')
             const url = `http://localhost:3000/recipe/upload-image`
-            const response = await fetch(`http://localhost:3000/recipe/upload-image`, {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`

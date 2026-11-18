@@ -16,23 +16,18 @@
 .login-column-left,
 .login-column-right {
     padding: 0;
+    width: 50%;
+    overflow: hidden;
 }
 
 .login-column-right,
 .signup-column-right {
-    width: 50%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
 }
 
-.login-column-left,
-.signup-column-left {
-    width: 50%;
-    /* height: 100%; */
-    overflow: hidden;
-}
 
 .login-column-right > form,
 .signup-column-right > form {
