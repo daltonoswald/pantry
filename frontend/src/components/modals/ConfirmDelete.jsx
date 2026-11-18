@@ -3,16 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '../toast/ToastContext';
 import { useAuth } from '../../context/AuthContext';
 
-export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose }) {
+export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen, onClose, recipe }) {
     const { showToast } = useToast();
     const { token, refreshUser } = useAuth();
     const navigate = useNavigate();
 
-    const handleDeleteRecipe = async (itemToDelete) => {
-        const url = `http://localhost:3000/recipe/delete/${itemToDelete.recipeId}`
-        const recipeToDelete = {
-            recipeToDelete: itemToDelete
-        }
+    const handleDeleteRecipe = async () => {
+        const url = `http://localhost:3000/recipe/delete/${recipe.id}`
         try {
             const response = await fetch(url, {
                 method: 'POST',
@@ -20,7 +17,7 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify(recipeToDelete),
+                body: JSON.stringify({ recipeToDelete: recipe.id }),
                 mode: 'cors',
             });
             const data = await response.json();
@@ -48,11 +45,11 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
             <div className='recipe-confirm-delete-modal-content' onClick={(e) => e.stopPropagation()}>
                 <MdDelete className='confirm-delete-icon' />
                 <h3>Delete this Recipe?</h3>
-                <p>This will permanently delete your recipe '{itemToDelete.title}' from your collection and from Pantry.</p>
+                <p>This will permanently delete your recipe '{recipe.title}' from your collection and from Pantry.</p>
                 <p>This action cannot be undone.</p>
                 <div className='confirm-delete-button-container'>
                     <button className='cancel-delete-button' onClick={handleCloseModal}>Cancel</button>
-                    <button className='confirm-delete-button' onClick={() => handleDeleteRecipe(itemToDelete.id)}>Confirm</button>
+                    <button className='confirm-delete-button' onClick={handleDeleteRecipe}>Confirm</button>
                 </div>
             </div>
         </div>

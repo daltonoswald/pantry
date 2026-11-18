@@ -209,7 +209,7 @@ export default function Recipe() {
                             <Link className='recipe-tag' key={tag.id} to={`/search?q=${tag.tag.name}&t=all`}>{tag.tag.name}</Link>
                         ))}
                     </div>
-                    <ConfirmDelete isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen} onClose={handleCloseDeleteModal} itemToDelete={recipeData} />
+                    <ConfirmDelete isDeleteModalOpen={isDeleteModalOpen} setIsDeleteModalOpen={setIsDeleteModalOpen} onClose={handleCloseDeleteModal} recipe={recipeData} />
                 </div>
             </div>
         )

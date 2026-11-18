@@ -1,9 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-
+const url = `http://localhost:3000/user/stats`;
 const AuthContext = createContext(null);
 const TOKEN_KEY = 'pantryAuthToken';
 const USERNAME_KEY = 'pantryUsername';
-const url = `http://localhost:3000/user/stats`;
+
 
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(() => localStorage.getItem(TOKEN_KEY));
@@ -63,7 +63,7 @@ export function AuthProvider({ children }) {
         } finally {
             setIsLoading(false);
         }
-    }, [logout, url]);
+    }, [logout]);
 
     useEffect(() => {
         refreshUser();
