@@ -298,9 +298,6 @@ exports.get_recipe = asyncHandler(async (req, res, next) => {
 })
 
 exports.delete_recipe = asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req);
-    const currentUser = req.user;
-    const tokenUserId = req.user.id;
     const recipeId = req.body.recipeToDelete
 
     try {
