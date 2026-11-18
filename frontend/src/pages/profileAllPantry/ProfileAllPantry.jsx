@@ -8,7 +8,7 @@ import PantryItemCard from './PantryItemCard';
 
 const PAGE_SIZE = 16;
 
-export default function ProfilePantry() {
+export default function ProfileAllPantry() {
     const { username } = useParams();
     const [searchParams, setSearchParams] = useSearchParams();
     const page = Math.max(parseInt(searchParams.get('page')) || 1, 1);
@@ -26,15 +26,9 @@ export default function ProfilePantry() {
     }, [data]);
 
     const handleRemoved = () => {
-        const nowRemoved = removedCount + 1;
         refreshInBackground.current = true;
-        setRemovedCount(nowRemoved);
+        setRemovedCount(count => count + 1);
         setReloadKey(key => key + 1)
-        // if nothing left on current page, pull in the next item(s)
-        // if (nowRemoved === data.items.length) {
-        //     if (page > 1) goToPage(page - 1);
-        //     else setReloadKey(key => key + 1);
-        // }
     }
 
     useEffect(() => {
@@ -77,7 +71,7 @@ export default function ProfilePantry() {
 
         getPantry();
         return () => controller.abort();
-    }, [username, page, token, reloadKey]);
+    }, [username, page, token, reloadKey, setSearchParams]);
 
     const goToPage = (n) => {
         setSearchParams({ page: n });
@@ -105,7 +99,7 @@ export default function ProfilePantry() {
                 </div>
             )}
 
-            {!isLoading && data && (
+            {!isLoading && data && error.status !== 404 && (
                 <div className='profile-pantry-page'>
                     <h2 className='profile-pantry-title'>
                         <Link to={`/user/${data.user.username}`}>{data.user.username}</Link>

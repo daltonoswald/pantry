@@ -79,9 +79,6 @@ exports.new_item = [
 ]
 
 exports.delete_from_pantry = asyncHandler(async (req, res, next) => {
-    const errors = validationResult(req);
-    const currentUser = req.user;
-    const tokenUserId = req.user.id;
     const { pantryUsersToDelete, item } = req.body;
 
     if (!pantryUsersToDelete && !item) {

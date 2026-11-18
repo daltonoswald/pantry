@@ -69,7 +69,7 @@ export default function Recipe() {
             }
         }
         getRecipe();
-    }, [params.recipe, navigate])
+    }, [params.recipe, navigate, params.recipeId, showToast, token])
 
     const handleIsDeleteModalOpen = () => {
         console.log('working!');

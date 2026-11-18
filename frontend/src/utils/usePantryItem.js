@@ -42,7 +42,7 @@ export default function usePantryItem(name, initialInPantry = false) {
 
             // "already in your pantry" comes back 200, and removing something that's
             // already gone comes back 404. Both leave the pantryh in the state wanted
-            if (response.ok || (!wantInPantry && response.status === 400)) {
+            if (response.ok || (!wantInPantry && response.status === 404)) {
                 showToast(data.message);
                 refreshUser();
                 return true;

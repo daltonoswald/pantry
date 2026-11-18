@@ -25,26 +25,12 @@ export default function PantryItemCard({ item, isOwnProfile, onRemoved }) {
                 <button
                     className='pantry-item-remove'
                     aria-label={`Remove ${name} from your pantry`}
-                    onClick={() => handleRemove(item)}
+                    onClick={handleRemove}
                     disabled={isPending}
                 >
                     <MdClose />
                 </button>
             ) : inPantry ? (
-                // <span className='pantry-item-in-pantry' title='In your pantry'>
-                //     <GoCheckCircle aria-label='In your pantry' />
-                // </span>
-
-                // <button
-                //     className='pantry-item-remove'
-                //     aria-label={`Remove ${name} from your pantry`}
-                //     title='In your pantry. Click to remove.'
-                //     onClick={remove}
-                //     disabled={isPending}
-                // >
-                //     <GoXCircle />
-                // </button>
-
                 <button className='pantry-item-toggle' onClick={remove} disabled={isPending} aria-label={`Remove ${name} from your pantry`}>
                     <GoCheckCircle className='icon-have' />
                     <GoXCircle className='icon-remove' />
