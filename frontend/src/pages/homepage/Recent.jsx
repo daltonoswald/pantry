@@ -4,9 +4,6 @@ import MediumRecipeCard from '../../components/recipe-cards/MediumRecipeCard';
 
 
 export default function Recent({ recentRecipes }) {
-
-    console.log('r', recentRecipes);
-
     return (
         <>
             {recentRecipes.length > 0 && (
@@ -21,7 +18,7 @@ export default function Recent({ recentRecipes }) {
                     </div>
                     <div className='recent-recipe-card-container'>
                         {recentRecipes.map(recipe => (
-                            <MediumRecipeCard recipe={recipe} />
+                            <MediumRecipeCard recipe={recipe} key={recipe.id} />
                         ))}
                     </div>
                 </section>

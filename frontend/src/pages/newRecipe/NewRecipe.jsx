@@ -96,11 +96,10 @@ export default function NewRecipe() {
             steps: steps,
             tags: tagList
         }
-        console.log(recipeData);
-        const url = `http://localhost:3000/recipe/new-recipe`;
+        // const url = `http://localhost:3000/recipe/new-recipe`;
         try {
-            console.log(recipeData.imageUrl);
-            const response = await fetch(url, {
+            // console.log(recipeData.imageUrl);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/new-recipe`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -29,7 +29,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry }) {
                     </div>
                     <div className='makeable-recipe-card-container'>
                         {makeableRecipes.map(recipe => (
-                            <SmallRecipeCard recipe={recipe} />
+                            <SmallRecipeCard recipe={recipe} key={recipe.id} />
                         ))}
                     </div>
                 </section>
@@ -46,7 +46,7 @@ export default function MakeableRecipes({ makeableRecipes, recipesByPantry }) {
                     </div>
                     <div className='makeable-recipe-card-container'>
                         {recipesByPantry.map(recipe => (
-                            <SmallRecipeCard recipe={recipe} />
+                            <SmallRecipeCard recipe={recipe} key={recipe.id} />
                         ))}
                     </div>
                 </section>

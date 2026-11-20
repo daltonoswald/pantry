@@ -10,13 +10,11 @@ export default function NewPantryItem({ isOpen, setIsModalOpen, onClose }) {
 
     async function handleSubmitPantryItem(e) {
         e.preventDefault()
-        console.log(e.target.item.value);
-        const url = `http://localhost:3000/pantry/new-item`
         const pantryData = {
             item: e.target.item.value
         }
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pantry/new-item`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

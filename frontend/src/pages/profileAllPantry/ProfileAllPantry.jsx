@@ -33,7 +33,6 @@ export default function ProfileAllPantry() {
 
     useEffect(() => {
         const controller = new AbortController();
-        const url = `http://localhost:3000/pantry/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`;
 
         const background = refreshInBackground.current;
         refreshInBackground.current = false;
@@ -48,7 +47,7 @@ export default function ProfileAllPantry() {
             }
 
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/pantry/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`, {
                     headers: token ? { Authorization: `Bearer ${token}` } : {},
                     signal: controller.signal,
                 });

@@ -20,14 +20,13 @@ export default function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const url = `http://localhost:3000/user/log-in`
+        // const url = `http://localhost:3000/user/log-in`
         const loginData = {
             username: event.target.username.value,
             password: event.target.password.value
         }
-        console.log('data:', loginData)
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/log-in`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -38,16 +37,13 @@ export default function Login() {
             const data = await response.json();
 
             if (response.ok) {
-                console.log(data);
                 login(data.token, data.user.username);
             } else {
                 console.error("Error requesting authentication:", data.message);
                 showToast(data.message || data.error, { type: 'error', duration: 5000 });
-                console.log(data.message);
             }
         } catch (error) {
-            console.error('Error requesting authentication:', error)
-            console.log(error)
+            console.error('Error requesting authentication:', error);
             showToast('Could not log in. Please try again.', { type: 'error' });
         }
     }

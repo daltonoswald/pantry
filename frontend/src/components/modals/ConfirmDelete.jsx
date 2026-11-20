@@ -9,9 +9,8 @@ export default function ConfirmDelete({ isDeleteModalOpen, setIsDeleteModalOpen,
     const navigate = useNavigate();
 
     const handleDeleteRecipe = async () => {
-        const url = `http://localhost:3000/recipe/delete/${recipe.id}`
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/delete/${recipe.id}`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",

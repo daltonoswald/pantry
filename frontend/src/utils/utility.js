@@ -3,14 +3,12 @@ const capFirst = (item) => {
 }
 
 const handleDeleteFromPantry = async (id) => {
-    console.log('id', id)
-    const url = `http://localhost:3000/pantry/delete-from-pantry`;
     const pantryItemToDelete = {
         pantryUsersToDelete: id
     }
     try {
         const token = localStorage.getItem('pantryAuthToken');
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/pantry/delete-from-pantry`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -30,14 +28,12 @@ const handleDeleteFromPantry = async (id) => {
 }
 
 const handleDeleteRecipe = async (id) => {
-    console.log('util-id', id);
-    const url = `http://localhost:3000/recipe/delete/${id}`
     const recipeToDelete = {
         recipeToDelete: id
     }
     try {
         const token = localStorage.getItem('pantryAuthToken');
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/delete/${id}`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -48,8 +44,6 @@ const handleDeleteRecipe = async (id) => {
         });
         const data = await response.json();
         if (response.ok) {
-            // console.log('deleted');
-            // console.log(data)
             return data;
         }
     } catch (error) {
@@ -59,11 +53,9 @@ const handleDeleteRecipe = async (id) => {
 
 const updateProfile = async (editData) => {
     const token = localStorage.getItem('pantryAuthToken');
-    const url = `http://localhost:3000/user/edit-profile`
-    console.log('util', editData)
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/user/edit-profile`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -90,11 +82,9 @@ const updateProfile = async (editData) => {
 
 const favoriteRecipe = async (recipeToFavorite) => {
     const token = localStorage.getItem('pantryAuthToken');
-    const url = `http://localhost:3000/recipe/favorite/${recipeToFavorite}`
-    console.log('util', token, recipeToFavorite)
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/favorite/${recipeToFavorite}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -120,11 +110,9 @@ const favoriteRecipe = async (recipeToFavorite) => {
 
 const unfavoriteRecipe = async (recipeToUnfavorite) => {
     const token = localStorage.getItem('pantryAuthToken');
-    const url = `http://localhost:3000/recipe/unfavorite/${recipeToUnfavorite}`
-    console.log('util', token, recipeToUnfavorite)
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/unfavorite/${recipeToUnfavorite}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -150,10 +138,9 @@ const unfavoriteRecipe = async (recipeToUnfavorite) => {
 
 const toggleFavoriteRecipe = async (recipeId) => {
     const token = localStorage.getItem('pantryAuthToken');
-    const url = `http://localhost:3000/recipe/toggle-favorite/${recipeId}`;
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/toggle-favorite/${recipeId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -181,9 +168,8 @@ const toggleFavoriteRecipe = async (recipeId) => {
 
 const getRecipesByPantry = async (limit = 5, minMatch = 0) => {
     const token = localStorage.getItem('pantryAuthToken');
-    const url = `http://localhost:3000/recipe/by-pantry?limit=${limit}&minMatch=${minMatch}`
     try {
-        const response = await fetch(url, {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/by-pantry?limit=${limit}&minMatch=${minMatch}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

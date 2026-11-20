@@ -3,8 +3,6 @@ import { useAuth } from '../context/AuthContext';
 import { useToast } from '../components/toast/ToastContext';
 import useLoginRedirect from './useLoginRedirect';
 
-const url = 'http://localhost:3000/pantry';
-
 export default function usePantryItem(name, initialInPantry = false) {
     const { token, isLoggedIn, refreshUser } = useAuth();
     const { showToast } = useToast();
@@ -30,7 +28,7 @@ export default function usePantryItem(name, initialInPantry = false) {
         setIsPending(true);
 
         try {
-            const response = await fetch(`${url}/${endpoint}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/pantry/${endpoint}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

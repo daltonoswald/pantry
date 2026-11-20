@@ -7,7 +7,7 @@
 }
 
 .profile-pantry-title > a {
-    color: #201b15 !important;
+    color: var(--text-strong);
 }
 
 .profile-pantry-grid {
@@ -53,7 +53,7 @@
 }
 
 .pantry-item-remove:hover {
-    color: #7D2E1C;
+    color: var(--primary-dark);
 }
 
 .pantry-item-add,
@@ -71,7 +71,7 @@
 }
 
 .pantry-item-add:hover {
-    color: #43522E;
+    color: var(--secondary-dark);
 }
 
 .pantry-item-add:disabled {
@@ -83,7 +83,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #43522E;
+    color: var(--secondary-dark);
 }
 
 .pantry-item-toggle .icon-remove {
@@ -98,5 +98,5 @@
 .pantry-item-toggle:hover .icon-remove,
 .pantry-item-toggle:focus-visible .icon-remove {
     display: inline;
-    color: #7D2E1C;
+    color: var(--primary-dark);
 }

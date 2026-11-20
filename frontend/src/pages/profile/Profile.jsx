@@ -28,12 +28,11 @@ export default function Profile() {
 
     useEffect(() => {
         const getProfile = async () => {
-            const url = `http://localhost:3000/user/profile/${params.username}`;
             const userToFind = {
                 userToFind: params.username
             }
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/user/profile/${params.username}`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -73,12 +72,11 @@ export default function Profile() {
 
     const handleFollow = async (e) => {
         e.preventDefault();
-        const url = `http://localhost:3000/user/follow-user`
         const userToFollow = {
             userToFollow: profileData.username
         }
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/follow-user`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
@@ -97,19 +95,17 @@ export default function Profile() {
             }
         } catch (error) {
             console.error(`Error Requesting authentication:`, error);
-            console.log(error)
         }
     }
 
 
     const handleUnfollow = async (e) => {
         e.preventDefault();
-        const url = `http://localhost:3000/user/unfollow-user`
         const userToUnfollow = {
             userToFollow: profileData.username
         }
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/unfollow-user`, {
                 method: 'DELETE',
                 headers: {
                     "Content-Type": "application/json",

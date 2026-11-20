@@ -11,7 +11,7 @@ export default function ErrorModal({ error }) {
 
     // return (
     //     <Container>
-    //         <Alert className='w-25 mx-auto my-auto' variant={'danger'}>
+    //         <Alert className='' variant={'danger'}>
     //             {/* <p>Error Status {formattedError.error.status}: {formattedError.error.message}</p> */}
     //             <p>Error Message: {error.text}</p>
     //             <p>If this error persists and looks incorrect please contact the site owner</p>

@@ -25,34 +25,38 @@ export default function Search() {
         navigate(`/search?q=${encodeURIComponent(e.target.query.value)}&t=${e.target.type.value}`);
     }
 
-    const runSearch = async () => {
-        const url = `http://localhost:3000/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                mode: "cors"
-            });
-            const data = await response.json()
-            if (response.ok) {
-                console.log(data);
-                setSearchResults(data)
-            }
-        } catch (error) {
-            console.error(`Error Requesting authentication:`, error);
-            console.log(error)
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
     useEffect(() => {
-        if (searchQuery && searchType) runSearch();
-        else setIsLoading(false)
-    }, [searchParams])
+        if (!searchQuery || !searchType) {
+            setIsLoading(false);
+            return;
+        }
+        const controller = new AbortController();
+
+        const runSearch = async () => {
+            try {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/search?query=${encodeURIComponent(searchQuery)}&type=${searchType}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    mode: "cors",
+                    signal: controller.signal,
+                });
+                const data = await response.json()
+                if (response.ok) {
+                    setSearchResults(data)
+                }
+            } catch (error) {
+                if (error.name !== 'AbortError') console.error(`Search failed:`, error);
+            } finally {
+                if (!controller.signal.aborted) setIsLoading(false);
+            }
+        };
+
+        runSearch();
+        return () => controller.abort();
+    }, [searchQuery, searchType, token])
 
     if (!isLoading) return (
         <div className='app'>

@@ -29,7 +29,7 @@
     font-family: 'Plus Jakarta Sans', sans-serif;
     -webkit-backdrop-filter: 12px;
     backdrop-filter: 12px;
-    box-shadow: 0 12px 40px rgba(86, 66, 61, 0.08);
+    box-shadow: var(--shadow-card);
 }
 
 .search-form-group-input {

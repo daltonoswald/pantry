@@ -7,7 +7,7 @@
 }
 
 .all-recipes-title > a {
-    color: #201b15 !important;
+    color: var(--text-strong);
 }
 
 .recipe-grid {

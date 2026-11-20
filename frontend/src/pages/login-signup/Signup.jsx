@@ -20,7 +20,7 @@ export default function Signup() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const url = `http://localhost:3000/user/sign-up`;
+        // const url = `http://localhost:3000/user/sign-up`;
         const signupData = {
             name: event.target.name.value,
             username: event.target.username.value,
@@ -30,7 +30,7 @@ export default function Signup() {
             bio: event.target.bio.value,
         }
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/sign-up`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

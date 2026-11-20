@@ -20,9 +20,7 @@ export default function ImageUpload({ onUpload }) {
         console.log(Object.fromEntries(formData));
 
         try {
-            console.log('trying')
-            const url = `http://localhost:3000/recipe/upload-image`
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/upload-image`, {
                 method: 'POST',
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -37,15 +35,12 @@ export default function ImageUpload({ onUpload }) {
 
             const data = await response.json();
             if (response.ok) {
-                console.log('data', data)
-                console.log('Image URL from cloudinary:', data.imageUrl);
                 onUpload(data.imageUrl);
             } else {
                 console.error('Upload failed:', data.error);
             }
         } catch (error) {
             console.error('Error uploading image:', error)
-            console.log(error)
         } finally {
             setIsUploading(false);
         }

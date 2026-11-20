@@ -26,12 +26,11 @@ export default function Recipe() {
 
     useEffect(() => {
         const getRecipe = async () => {
-            const url = `http://localhost:3000/recipe/${params.recipeId}`
             const recipeToFind = {
                 recipeToFind: params.recipeId,
             }
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/${params.recipeId}`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

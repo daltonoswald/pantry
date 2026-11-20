@@ -22,6 +22,8 @@
     --primary-dark: #7d2e1c;
     --secondary-dark: #43522e;
     --shadow-subtle: rgba(86, 66, 61, 0.08);
+    --border-shadow: #4d463f3f;
+    --shadow-card: 0 12px 40px var(--shadow-subtle);
 
     --page-padding: 4vh 10vw;
 }
@@ -260,7 +262,7 @@ textarea {
     line-height: 2rem;
     font-family: 'Noto Serif';
     padding-bottom: 0.5rem;
-    border-bottom: 1px solid #4d463f3f;
+    border-bottom: 1px solid var(--border-subtle);
     flex-grow: 1;
 }
 

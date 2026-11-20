@@ -1,7 +1,7 @@
 .signup-container,
 .login-container {
     border-radius: 1.5rem;
-    box-shadow: 0 0 0 1px rgba(86, 66, 61, 0.08);
+    box-shadow: 0 0 0 1px var(--shadow-subtle);
     overflow: hidden;
     min-height: 80vh;
     margin-top: 4vh;

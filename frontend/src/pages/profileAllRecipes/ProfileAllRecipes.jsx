@@ -21,7 +21,6 @@ export default function ProfileAllRecipes() {
 
     useEffect(() => {
         const controller = new AbortController();
-        const url = `http://localhost:3000/recipe/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`;
 
         const getRecipes = async () => {
             setIsLoading(true);
@@ -29,7 +28,7 @@ export default function ProfileAllRecipes() {
             setData(null);
 
             try {
-                const response = await fetch(url, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/recipe/by-user/${encodeURIComponent(username)}?page=${page}&limit=${PAGE_SIZE}`, {
                     headers: token ? { Authorization: `Bearer ${token}` } : {},
                     signal: controller.signal,
                 });

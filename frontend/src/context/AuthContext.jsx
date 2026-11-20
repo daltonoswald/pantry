@@ -1,5 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-const url = `http://localhost:3000/user/stats`;
 const AuthContext = createContext(null);
 const TOKEN_KEY = 'pantryAuthToken';
 const USERNAME_KEY = 'pantryUsername';
@@ -34,7 +33,7 @@ export function AuthProvider({ children }) {
             return;
         }
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/user/stats`, {
                 headers: {
                     Authorization: `Bearer ${activeToken}`
                 },

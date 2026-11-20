@@ -12,12 +12,12 @@ export default function SearchTags({ recipe }) {
         //     {/* <Card.Img variant='top' src={recipe.image || defaultImage } /> */}
         //     <Card.Body>
         //         <Card.Title>{recipe.title}</Card.Title>
-        //         <Card.Subtitle className='mb-2'>
+        //         <Card.Subtitle className=''>
         //             <Link to={`/user/${recipe.user.username}`}>
         //                 By {recipe.user.name}
         //             </Link>
         //             </Card.Subtitle>
-        //         <Card.Text className='text-muted small'>{recipe.description}</Card.Text>
+        //         <Card.Text className=''>{recipe.description}</Card.Text>
         //     </Card.Body>
         // </Card>
     // )

@@ -14,7 +14,7 @@ export default function Trending({ trendingRecipes }) {
                     </div>
                     <div className='trending-recipe-card-container'>
                         {trendingRecipes.map(recipe => (
-                            <LargeRecipeCard recipe={recipe} />
+                            <LargeRecipeCard recipe={recipe} key={recipe.id} />
                         ))}
                     </div>
                 </section>
